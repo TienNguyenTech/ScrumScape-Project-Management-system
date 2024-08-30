@@ -3,17 +3,17 @@ global $dbh;
 require_once("../authentication.php");
 require_once("../connection.php");
 
-// Fetch students
-$studentsQuery = "SELECT * FROM students";
-$studentsStmt = $dbh->query($studentsQuery);
-$students = $studentsStmt->fetchAll(PDO::FETCH_ASSOC);
+// Fetch sprints
+$sprintsQuery = "SELECT * FROM sprints";
+$sprintsStmt = $dbh->query($sprintsQuery);
+$sprints = $sprintsStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Students</title>
+    <title>Sprints</title>
     <style>
         table {
             width: 100%;
@@ -29,25 +29,29 @@ $students = $studentsStmt->fetchAll(PDO::FETCH_ASSOC);
     </style>
 </head>
 <body>
-<h1>Students</h1>
+<h1>Sprints</h1>
 <table>
     <thead>
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th>Duration</th>
             <th>Created At</th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($students as $student): ?>
+        <?php foreach ($sprints as $sprint): ?>
             <tr>
-                <td><?= $student['id'] ?></td>
-                <td><?= $student['name'] ?></td>
-                <td><?= $student['email'] ?></td>
-                <td><?= $student['role'] ?></td>
-                <td><?= $student['created_at'] ?></td>
+                <td><?= $sprint['id'] ?></td>
+                <td><?= $sprint['name'] ?></td>
+                <td><?= $sprint['start_date'] ?></td>
+                <td><?= $sprint['end_date'] ?></td>
+                <td><?= $sprint['status'] ?></td>
+                <td><?= $sprint['duration'] ?></td>
+                <td><?= $sprint['created_at'] ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

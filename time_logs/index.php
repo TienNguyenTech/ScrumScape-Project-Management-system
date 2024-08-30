@@ -3,17 +3,17 @@ global $dbh;
 require_once("../authentication.php");
 require_once("../connection.php");
 
-// Fetch students
-$studentsQuery = "SELECT * FROM students";
-$studentsStmt = $dbh->query($studentsQuery);
-$students = $studentsStmt->fetchAll(PDO::FETCH_ASSOC);
+// Fetch time logs
+$timeLogsQuery = "SELECT * FROM time_logs";
+$timeLogsStmt = $dbh->query($timeLogsQuery);
+$timeLogs = $timeLogsStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Students</title>
+    <title>Time Logs</title>
     <style>
         table {
             width: 100%;
@@ -29,25 +29,27 @@ $students = $studentsStmt->fetchAll(PDO::FETCH_ASSOC);
     </style>
 </head>
 <body>
-<h1>Students</h1>
+<h1>Time Logs</h1>
 <table>
     <thead>
         <tr>
             <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
+            <th>Task ID</th>
+            <th>User ID</th>
+            <th>Hours Spent</th>
+            <th>Log Date</th>
             <th>Created At</th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($students as $student): ?>
+        <?php foreach ($timeLogs as $timeLog): ?>
             <tr>
-                <td><?= $student['id'] ?></td>
-                <td><?= $student['name'] ?></td>
-                <td><?= $student['email'] ?></td>
-                <td><?= $student['role'] ?></td>
-                <td><?= $student['created_at'] ?></td>
+                <td><?= $timeLog['id'] ?></td>
+                <td><?= $timeLog['task_id'] ?></td>
+                <td><?= $timeLog['user_id'] ?></td>
+                <td><?= $timeLog['hours_spent'] ?></td>
+                <td><?= $timeLog['log_date'] ?></td>
+                <td><?= $timeLog['created_at'] ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
