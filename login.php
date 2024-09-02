@@ -74,8 +74,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         .input {
             background-color: #f1f1f1; font-weight: bolder; border: none; height: 50px; border-radius: 8px;
-            width: 300px;
+            width: 70%;
         }
+        .forgot-pass {
+            height: 20px;
+            font-family: "Montserrat", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+            color: var(--color-p);
+            font-size: 14px;
+            text-decoration: none;
+        }
+        a:hover{
+            color: var(--color-s);
+            text-decoration:none;
+            cursor:pointer;
+        }
+
     </style>
     <title>Login</title>
 </head>
@@ -85,44 +101,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div  style=" margin-top: 40px; margin-left: 50px; z-index: 1; width: 100%">
             <img src="assets/logo.png" style="width: 200px;"/>
             <div style="margin-left: 50px; margin-top: 140px">
-                <h1 class="heading">Welcome back!</h1>
-                <p class="sub-heading">Ready to Scrum?</p>
-                <label for="username"></label>
-                <input type="text" class="form-control input" id="username" name="username" required placeholder="Username">
-                <label for="password"></label>
-                <input type="password" class="form-control input" id="password" name="password" required placeholder="Password">
+                <form method="POST">
+                    <h1 class="heading">Welcome back!</h1>
+                    <p class="sub-heading">Ready to Scrum?</p>
+                    <label for="username"></label>
+                    <input type="text" class="form-control input" id="username" name="username" required placeholder="Username">
+                    <label for="password"></label>
+                    <input type="password" class="form-control input" id="password" name="password" required placeholder="Password">
+                    <div style="width: 70%;" class="mt-3 d-flex justify-content-between">
+                        <button type="submit" value="Login" class="mt-4 btn btn-primary" style="width: 80px; border: none; border-radius: 15px; background-color: var(--color-s)">Login</button>
+                        <a href="" class="forgot-pass">Forgot Password?</a>
+                    </div>
+                </form>
             </div>
 
         </div>
     </div>
 
-<!--    <div class="container mt-5 mb-5 custom-form">-->
-<!--        <div class="card glass-form">-->
-<!--            <div class="card-header">-->
-<!--                <h4 class="card-title">User Login</h4>-->
-<!--            </div>-->
-<!--            <div class="card-body">-->
-<!--                --><?php //if (isset($alert_message)): ?>
-<!--                    <div class="alert alert---><?php //= $alert_type ?><!--" role="alert">-->
-<!--                        --><?php //= $alert_message ?>
-<!--                    </div>-->
-<!--                --><?php //endif; ?>
-<!--                <form id="userLoginForm" method="POST">-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="username">Username</label>-->
-<!--                        <input type="text" class="form-control" id="username" name="username" required>-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="password">Password</label>-->
-<!--                        <input type="password" class="form-control" id="password" name="password" required>-->
-<!--                    </div>-->
-<!--                    <div class="mt-3 d-flex justify-content-between">-->
-<!--                        <button type="submit" value="Login" class="btn btn-primary">Login</button>-->
-<!--                    </div>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
