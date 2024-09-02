@@ -1,6 +1,6 @@
 <?php
 global $dbh;
-require_once("../authentication.php");
+//require_once("../authentication.php");
 require_once("../connection.php");
 
 // Fetch time logs
