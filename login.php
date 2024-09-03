@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="password" class="form-control input" id="password" name="password" required placeholder="Password">
                     <div style="width: 70%;" class="mt-3 d-flex justify-content-between">
                         <button type="submit" value="Login" class="mt-4 btn btn-primary" style="width: 80px; border: none; border-radius: 15px; background-color: var(--color-s)">Login</button>
-                        <a href="" class="forgot-pass">Forgot Password?</a>
+                        <a href="password_reset.php" class="forgot-pass">Forgot Password?</a>
                     </div>
                 </form>
             </div>
