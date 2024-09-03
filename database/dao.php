@@ -47,12 +47,37 @@ class dao
         }
     }
 
+    public function resetPassword($username, $password) {
+        try {
+            $this->_query = "UPDATE `USER` SET `user_password` = ? WHERE 'user_name' = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$password, $username]);
+            return true;
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return false;
+        }
+    }
+
     // Retrieve a user based on email and password
     public function getUserByCredentials($username, $password) {
         try {
             $this->_query = "SELECT * FROM `USER` WHERE `user_name` = ? AND `user_password` = SHA2(?, 256)";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$username, $password]);
+            return $this->_stmt->fetch(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
+
+    
+    public function getUserByUsername($username) {
+        try {
+            $this->_query = "SELECT * FROM `USER` WHERE `user_name` = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$username]);
             return $this->_stmt->fetch(PDO::FETCH_OBJ);
         } catch (Exception $e) {
             $this->_error = $e->getMessage();
