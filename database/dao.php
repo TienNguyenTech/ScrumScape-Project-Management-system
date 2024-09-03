@@ -49,7 +49,7 @@ class dao
 
     public function resetPassword($username, $password) {
         try {
-            $this->_query = "UPDATE `USER` SET `user_password` = ? WHERE 'user_name' = ?";
+            $this->_query = "UPDATE `USER` SET `user_password` = SHA2(?, 256) WHERE 'user_name' = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$password, $username]);
             return true;
