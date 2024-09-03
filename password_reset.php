@@ -18,9 +18,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         else {
             $worked = $dao->resetPassword($_POST['username'],$_POST['newPassword']);
+
             if (!$worked) {
                 $alert_message = "Username not found"; // create alert var to display later on
                 $alert_type = "danger";
+            }
+            else {
+            header("Location: login.php"); // go the login if password reset was successful
+            exit();
             }
         }
     }
