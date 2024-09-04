@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="shadow" style="background: white; height: 100%; width: 38%; z-index: 0; display: flex"">
         <div  style=" margin-top: 40px; margin-left: 50px; z-index: 1; width: 100%">
             <img src="assets/logo.png" style="width: 200px;"/>
-            <div style="margin-left: 50px; margin-top: 140px">
+            <div style="margin-left: 50px; margin-top: 70px">
                 <form method="POST">
                     <h1 class="heading">Welcome back!</h1>
                     <p class="sub-heading">Ready to Scrum?</p>
