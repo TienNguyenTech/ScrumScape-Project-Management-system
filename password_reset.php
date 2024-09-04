@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $alert_type = "danger";
         }
         else {
-            $worked = $dao->resetPassword($_POST['username'],$_POST['newPassword']);
+            $worked = $dao->resetPassword($_POST['newPassword'], $_POST['username']);
 
             if (!$worked) {
                 $alert_message = "Username not found"; // create alert var to display later on
