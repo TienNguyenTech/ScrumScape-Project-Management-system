@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Burndown! Chart</title>
+  <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+
+  <!-- Import pure.css -->
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+  integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Google font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  
+  <!-- CSS file -->
+  <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
+
+
+</head>
+<body>
+  <div class = "page">
+
+
+    <!-- pure grid group -->
+    <div class="pure-g">
+      <div class="pure-u-1-1"> <!-- 24-24 (full width)-->
+        <h1>Burndown Chart</h1> 
+        <div id="vis1" class = "vis-container"></div>
+      </div>
+    </div>
+    <!-- end pure grid group -->
+
+  </div>
+
+  <script type="text/javascript">
+    var spec2 = "js/burndown.vg.json";
+    vegaEmbed('#vis1', spec2).then(function(result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+
+    </script>
+  
+
+</body>
+</html>
+
+
+    <!-- "url": "https://raw.githubusercontent.com/osir0002/3179/main/data/ship_count.csv"
+      "aggregate":"mean", 
+            "transform": [
+        {
+          "filter": "datum.Ships > 1"
+        }
+      ],-->
+
+

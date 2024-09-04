@@ -1,0 +1,123 @@
+
+  
+"type": "topojson", "feature": "ne_110m_admin_0_countries"
+
+  ne_110m_graticules_30
+    
+, {"calculate": "datum.Age", "as": "Age"}
+    
+
+{"field": "Height", "type": "quantitative"},
+{"field": "Height", "type": "quantitative", "format": ".2f"}
+
+{"data": {
+  "url": "https://raw.githubusercontent.com/osir0002/3179/main/data/ne_110m.json",
+  "format": {"type": "topojson", "feature": "ne_110m_graticules_30"}
+}
+},
+
+
+
+
+
+
+"transform": [
+  {"filter": "datum.['Active Personnel'] > 1"}
+],
+
+
+"color": {
+  "field": "Population",
+  "type": "nominal",
+  "scale": {"type": "linear"
+  }
+ }, 
+
+
+
+
+ "transform": [
+  {
+    "window": [{
+      "op": "rank",
+      "as": "rank"
+    }],
+    "sort":[{"field": "Total Population", "order": "descending"}]
+  },
+  {
+    "filter": "datum.rank <=30"
+  }
+],
+
+
+,
+        "sort": "-y"
+,
+        "sort": "-y"
+
+
+        ,
+        "sort": "-y"
+
+        {
+          "name": "center_to",
+          "value": [145, -37.95],
+          "bind": {
+          "input": "select",
+          "options": [
+          [145, -37.95],
+          [144.3, -38.1],
+          [144.9, -36.7],
+          [147.1, -38.1]
+          ],
+          "labels": ["Melbourne CBD", "Geelong", "Bendigo", "Sale"],
+          "name": "Map Centre: "
+          }}        
+
+
+
+
+
+
+          ,
+    {"calculate": "100000*(datum.Available_Manpower/datum.Total_Population)", "as": "Available Manpower per 100,000 population"},
+    {"calculate": "100000*(datum.Fit-for-Service/datum.Total_Population)", "as": "Fit-for-Service per 100,000 population"},
+    {"calculate": "100000*(datum.Paramilitary/datum.Total_Population)", "as": "Paramilitary per 100,000 population"},
+    {"calculate": "100000*(datum.Reserve_Personnel/datum.Total_Population)", "as": "Reserve Personnel per 100,000 population"}
+
+
+
+
+
+
+
+    "params": [{
+      "name": "category",
+      "value": "datum.Active_Personnel",
+      "bind": {
+      "input": "select",
+      "options": [
+        "Active_Personnel", "Available_Manpower", "Fit-for-Service", "Paramilitary", "Reserve_Personnel"
+      ],
+      "name": "Category: "
+      }}],
+
+
+
+
+
+    "field": "Active Personnel per 100,000 population",
+
+
+
+    , "sort": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+
+
+
+
+    "transform": [
+      {
+        "filter": "datum.Rank > 0"
+      }
+    ],
+
