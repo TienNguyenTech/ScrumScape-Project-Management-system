@@ -7,27 +7,52 @@ require_once('./database/dao.php');
 $dao = new DAO();
 
 
+
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // If the username, new password, and confirm password fields aren't empty
     if (!empty($_POST['username']) && !empty($_POST['newPassword']) && !empty($_POST['confirmPassword'])) {
 
         var_dump($_POST['username'],$_POST['newPassword'],$_POST['confirmPassword'] );
 
+
+        // if the new password and confirm password don't match
         if($_POST['newPassword'] != $_POST['confirmPassword']) {
-            $alert_message = "New password does not match confirm password"; // create alert var to display later on
+            $alert_message = "New password does not match confirm password"; 
             $alert_type = "danger";
+
+            echo '<script type="text/javascript">
+            window.onload = function () { alert("New password and confirm password do not match"); } 
+            </script>'; 
+
         }
         else {
             $worked = $dao->resetPassword($_POST['newPassword'], $_POST['username']);
 
+            // if the password was not able to be reset
             if (!$worked) {
-                $alert_message = "Username not found"; // create alert var to display later on
+                $alert_message = "Username not found"; 
                 $alert_type = "danger";
+
+                echo '<script type="text/javascript">
+                window.onload = function () { alert("User not found"); } 
+                </script>'; 
             }
+
+            // Return to login if successful
             else {
-            header("Location: login.php"); // go the login if password reset was successful
-            exit();
+ 
+                header("Location: login.php"); 
+                exit();
             }
         }
+    }
+    else {
+        echo '<script type="text/javascript">
+        window.onload = function () { alert("One of the fields is empty"); } 
+        </script>'; 
     }
 }
 
@@ -45,6 +70,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <link rel="icon" href="../assets/logo-sm.png">
     <link rel="stylesheet" href="./styles.css">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <style>
         body, html {
             height: 100%;
@@ -80,6 +110,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: #f1f1f1; font-weight: bolder; border: none; height: 50px; border-radius: 8px;
             width: 70%;
         }
+        .passwordToggle {
+            font-family: "Montserrat", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+            color: var(--color-p);
+            font-size: 14px;
+            text-align:center;
+        }
 
         a:hover{
             color: var(--color-s);
@@ -105,19 +144,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="username"></label>
                         <input type="text" class="form-control input" id="username" name="username" required placeholder="Username">
                         <label for="new password"></label>
-                        <input type="password" class="form-control input" id="newPassword" name="newPassword" required placeholder="New password">
+                        <input id="newPassword" type="password" class="form-control input" id="newPassword" name="newPassword" required placeholder="New password">
                         <label for="confirm new password"></label>
-                        <input type="password" class="form-control input" id="confirmPassword" name="confirmPassword" required placeholder="Confirm new password">
+                        <input id="confirmPassword" type="password" class="form-control input" id="confirmPassword" name="confirmPassword" required placeholder="Confirm new password">
+                        
+                        <div style="margin-top: 10px">
+                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="password-toggle">
+                        <input type="checkbox" id="password-toggle" class="mdl-switch__input" onclick="togglePassword()" >
+                        <span class="mdl-switch__label passwordToggle">Show password</span>
+                        <script>
+                            function togglePassword() {
+                                var x = document.getElementById("newPassword");
+                                var y = document.getElementById("confirmPassword");
+                                if (x.type === "password") {
+                                    x.type = "text";
+                                    y.type = "text";
+                                } else {
+                                    x.type = "password";
+                                    y.type = "password";
+                                }
+                            }
+                        </script>
+                        </label>
+                        </div>
+
                         
                         <div style="width: 100%; margin-left: 130px" class="mt-3 d-flex justify-content-between">
                             <button type="submit" value="Reset Password" class="mt-4 btn btn-primary" style="width: 200px; border: none; border-radius: 15px; background-color: var(--color-s)">Reset Password</button>
                         </div>
                         </form>
+
                
                     </div>
             </div>
 
         </div>
+
+
     </div>
 
 </div>
