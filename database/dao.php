@@ -52,6 +52,12 @@ class dao
             $this->_query = "UPDATE `USER` SET `user_password` = SHA2(?, 256) WHERE `user_name`  = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$password, $username]);
+            $rowsAffected = $this->_stmt->rowCount();
+
+            if ($rowsAffected === 0) {
+                echo "No rows were updated.";
+                return false;
+            }
             return true;
         } catch (Exception $e) {
             $this->_error = $e->getMessage();
