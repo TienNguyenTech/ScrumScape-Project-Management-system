@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <style>
+        body {
+            background-color: #F3EFEF;
+        }
         .drop-shadow {
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
@@ -19,6 +22,30 @@
 
         .navbar-toggler {
             border-width: 0px
+        }
+
+        .admin-card *{
+            color: black;
+            font-family: "Montserrat", sans-serif;
+            margin: 8px;
+        }
+
+        .sublinks {
+            font-size: 13px;
+        }
+
+        .admin-card a:hover {
+            color: grey
+        }
+
+        .admin-card {
+            border-radius: 20px;
+            margin: 80px;
+        }
+
+        .sublinks img {
+            width: 15px;
+            height: 15px;
         }
     </style>
 </head>
@@ -45,6 +72,24 @@
             <img src="assets/dropdown.svg">
         </button>
     </nav>
+
+    <!-- Admin Card -->
+    <div class="admin-card card drop-shadow" style="width: 20rem;">
+        <div class="card-body">
+            <h5 class="card-title"> Welcome, FirstName! </h5>
+            <img src="/user_icon.svg"/ style="width:40px">
+            <h6> You are a Admin.</h6>
+            <a href="#" class="btn btn-link sublinks"> 
+                <img src="/reset_pass.svg"/> Reset Password
+            </a>
+            <a href="#" class="btn btn-link sublinks"> 
+                <img src="/view_team.svg"/> View My Team
+            </a>
+            <a href="#" class="btn btn-link sublinks"> 
+                <img src="/add_teammem.svg"/> Add a Team Member
+            </a>
+        </div>
+    </div>
 
     <!-- Bootstrap optional javascript-->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
