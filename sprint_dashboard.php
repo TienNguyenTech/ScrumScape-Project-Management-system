@@ -38,7 +38,6 @@
     
     <!-- Navigation bar -->
     <nav class="navbar navbar-light bg-white drop-shadow container-fluid-m3">
-        <!-- Add link to homepage-->
         <a class="navbar-brand" href="sprint_dashboard.php">
             <img src="assets/logo.png" style="width: 130px;" class="d-inline-block align-top" alt="logo">
         </a>
