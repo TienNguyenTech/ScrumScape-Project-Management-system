@@ -39,11 +39,11 @@
     <!-- Navigation bar -->
     <nav class="navbar navbar-light bg-white drop-shadow container-fluid-m3">
         <!-- Add link to homepage-->
-        <a class="navbar-brand href="#">
-            <img src="/logo.png" style="width: 130px;" class="d-inline-block align-top" alt="logo">
+        <a class="navbar-brand href="/sprint_dashboard.php">
+            <img src="assets/logo.png" style="width: 130px;" class="d-inline-block align-top" alt="logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-            <img src="/circle-chevron-down-solid.svg">
+            <img src="assets/dropdown.svg">
         </button>
     </nav>
 
