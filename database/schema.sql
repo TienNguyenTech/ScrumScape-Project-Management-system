@@ -20,11 +20,11 @@ CREATE TABLE `USER`
 -- Creating SPRINT table
 CREATE TABLE `SPRINT`
 (
-    `Sprint_No`   INTEGER      NOT NULL AUTO_INCREMENT,
-    `Status`      VARCHAR(50)  NOT NULL,
-    `Start_Date`  DATE         NOT NULL,
-    `End_Date`    DATE         NOT NULL,
-    PRIMARY KEY (`Sprint_No`)
+    `sprint_no`   INTEGER      NOT NULL AUTO_INCREMENT,
+    `status`      VARCHAR(50)  NOT NULL,
+    `start_date`  DATE         NOT NULL,
+    `end_date`    DATE         NOT NULL,
+    PRIMARY KEY (`sprint_no`)
 );
 
 -- Inserting sample users
@@ -35,7 +35,7 @@ VALUES
     ('alex.smith@example.com', 'alex_s', SHA2('alexpass', 0), 'Alex', 'Smith', FALSE);
 
 -- Inserting sample sprints
-INSERT INTO `SPRINT` (`Status`, `Start_Date`, `End_Date`)
+INSERT INTO `SPRINT` (`status`, `start_date`, `end_date`)
 VALUES
     ('Not Started', '2024-09-01', '2024-09-15'),
     ('In Progress', '2024-09-16', '2024-09-30'),

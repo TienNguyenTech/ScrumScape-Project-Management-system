@@ -155,12 +155,12 @@ $sprints = $dao->getAllSprints();
         <?php if ($sprints): ?>
             <?php foreach ($sprints as $sprint): ?>
                 <tr>
-                    <td class="sprint-card-left"><?= htmlspecialchars($sprint->Sprint_No) ?></td>
-                    <td class="sprint-card-middle"><?= htmlspecialchars($sprint->Status) ?></td>
-                    <td class="sprint-card-middle"><?= htmlspecialchars($sprint->Start_Date) ?></td>
-                    <td class="sprint-card-middle"><?= htmlspecialchars($sprint->End_Date) ?></td>
+                    <td class="sprint-card-left"><?= htmlspecialchars($sprint->sprint_no) ?></td>
+                    <td class="sprint-card-middle"><?= htmlspecialchars($sprint->status) ?></td>
+                    <td class="sprint-card-middle"><?= htmlspecialchars($sprint->start_date) ?></td>
+                    <td class="sprint-card-middle"><?= htmlspecialchars($sprint->end_date) ?></td>
                     <td class="sprint-card-right icon">
-                        <a href="edit_sprint.php?sprint_no=<?= htmlspecialchars($sprint->Sprint_No) ?>">
+                        <a href="edit_sprint.php?sprint_no=<?= htmlspecialchars($sprint->sprint_no) ?>">
                             <img src="https://cdn-icons-png.freepik.com/256/8256/8256321.png" alt="Edit Icon">
                         </a>
                     </td>
