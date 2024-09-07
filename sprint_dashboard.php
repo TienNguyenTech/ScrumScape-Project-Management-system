@@ -6,7 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap link-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    
+    <!-- Fonts links -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <style>
         body {
             background-color: #F3EFEF;
@@ -74,19 +79,20 @@
     </nav>
 
     <!-- Admin Card -->
+    <!-- NOTE: Button links have not been added yet -->
     <div class="admin-card card drop-shadow" style="width: 20rem;">
         <div class="card-body">
             <h5 class="card-title"> Welcome, FirstName! </h5>
-            <img src="/user_icon.svg"/ style="width:40px">
+            <img src="assets/user_icon.svg"/ style="width:40px">
             <h6> You are a Admin.</h6>
             <a href="#" class="btn btn-link sublinks"> 
-                <img src="/reset_pass.svg"/> Reset Password
+                <img src="assets/reset_pass.svg"/> Reset Password
             </a>
             <a href="#" class="btn btn-link sublinks"> 
-                <img src="/view_team.svg"/> View My Team
+                <img src="assets/view_team.svg"/> View My Team
             </a>
             <a href="#" class="btn btn-link sublinks"> 
-                <img src="/add_teammem.svg"/> Add a Team Member
+                <img src="assets/add_teammem.svg"/> Add a Team Member
             </a>
         </div>
     </div>
