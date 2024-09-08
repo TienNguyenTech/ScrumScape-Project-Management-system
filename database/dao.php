@@ -72,13 +72,27 @@ class dao
         }
     }
 
-    
     public function getUserByUsername($username) {
         try {
             $this->_query = "SELECT * FROM `USER` WHERE `user_name` = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$username]);
             return $this->_stmt->fetch(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
+
+    // ================================================ SPRINT METHODS ==================================================
+
+    // View all sprints from the SPRINT table
+    public function getAllSprints() {
+        try {
+            $this->_query = "SELECT * FROM `SPRINT`";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute();
+            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);  // Returns an array of sprint objects
         } catch (Exception $e) {
             $this->_error = $e->getMessage();
             return null;

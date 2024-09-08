@@ -1,61 +1,178 @@
 <?php
-global $dbh;
-//require_once("../authentication.php");
-require_once("../connection.php");
+ob_start();
 
-// Fetch sprints
-$sprintsQuery = "SELECT * FROM sprints";
-$sprintsStmt = $dbh->query($sprintsQuery);
-$sprints = $sprintsStmt->fetchAll(PDO::FETCH_ASSOC);
+// Activate the session
+session_start();
+require_once('../database/dao.php');
+$dao = new DAO();
+
+$sprints = $dao->getAllSprints();
+
 ?>
 
+<!DOCTYPE html>
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Sprints</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"-->
+<!--          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link rel="icon" href="../assets/logo-sm.png">
+    <link rel="stylesheet" href="./styles.css">
+    <title>My Sprints</title>
     <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .header {
+            color: white;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            height: 70px;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9js-JOlLed4a0hLYt-YkdopyN3EVPRzBTRaERMwu3P6emcrSx');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .container {
+            background-color: white;
+            width: 750px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+        }
+
+
         table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0 10px;
         }
+
         th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            padding: 12px;
+            text-align: center;
         }
+
         th {
-            background-color: #f2f2f2;
+            font-weight: bold;
         }
+
+        td {
+            border: none;
+        }
+
+        .view-more {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+
+        .view-more button {
+            background-color: #1fafed;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .view-more button:hover {
+            background-color: #1a56d1;
+        }
+
+        .sprint-card-middle {
+            background-color: #A1E8F8;
+            padding: 10px 5px;
+            height:20px;
+            margin: 15px 0;
+        }
+
+        .sprint-card-left {
+            background-color: #A1E8F8;
+            border-radius: 15px 0 0 15px;
+            padding: 10px 5px;
+            height:20px;
+            margin: 15px 0;
+        }
+
+        .sprint-card-right {
+            background-color: #A1E8F8;
+            border-radius: 0 15px 15px 0;
+            padding: 10px 5px;
+            height:20px;
+            margin: 15px 0;
+        }
+
+        .icon img {
+            width: 20px;
+            cursor: pointer;
+        }
+
+
     </style>
 </head>
 <body>
-<h1>Sprints</h1>
-<table>
-    <thead>
+
+<div class="container">
+    <div class="header">
+        MY SPRINTS
+    </div>
+
+    <table>
+        <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
+            <th>Sprint No.</th>
+            <th>Status</th>
             <th>Start Date</th>
             <th>End Date</th>
-            <th>Status</th>
-            <th>Duration</th>
-            <th>Created At</th>
+            <th>Edit/View</th>
         </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($sprints as $sprint): ?>
+        </thead>
+        <tbody>
+        <?php if ($sprints): ?>
+            <?php foreach ($sprints as $sprint): ?>
+                <tr>
+                    <td class="sprint-card-left"><?= htmlspecialchars($sprint->sprint_no) ?></td>
+                    <td class="sprint-card-middle"><?= htmlspecialchars($sprint->status) ?></td>
+                    <td class="sprint-card-middle"><?= htmlspecialchars($sprint->start_date) ?></td>
+                    <td class="sprint-card-middle"><?= htmlspecialchars($sprint->end_date) ?></td>
+                    <td class="sprint-card-right icon">
+                        <a href="edit_sprint.php?sprint_no=<?= htmlspecialchars($sprint->sprint_no) ?>">
+                            <img src="https://cdn-icons-png.freepik.com/256/8256/8256321.png" alt="Edit Icon">
+                        </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
             <tr>
-                <td><?= $sprint['id'] ?></td>
-                <td><?= $sprint['name'] ?></td>
-                <td><?= $sprint['start_date'] ?></td>
-                <td><?= $sprint['end_date'] ?></td>
-                <td><?= $sprint['status'] ?></td>
-                <td><?= $sprint['duration'] ?></td>
-                <td><?= $sprint['created_at'] ?></td>
+                <td colspan="5">No sprints found.</td>
             </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
-<p><a href="../logout.php">Logout</a></p>
+        <?php endif; ?>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
