@@ -90,7 +90,7 @@
 <body>
 <!-- Navigation bar -->
 <nav class="navbar navbar-light bg-white drop-shadow d-flex justify-content-between align-items-center">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="/dashboard">
         <img src="../assets/logo.png" style="width: 150px;" class="d-inline-block align-top" alt="logo">
     </a>
     <!-- Hamburger button -->
@@ -106,7 +106,7 @@
 
     <a href="/dashboard">Dashboard</a>
     <br>
-    <a href="#">All Sprints</a>
+    <a href="/sprints">All Sprints</a>
     <a href="#">Add Sprints</a>
     <br>
     <a href="#">All Team Members</a>
