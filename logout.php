@@ -7,5 +7,5 @@ session_unset(); // Unset all session variables
 session_destroy();
 
 //redirect user back to home page once logged out
-header("Location: index.php");
+header("Location: login.php");
 exit();

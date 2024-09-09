@@ -5,9 +5,9 @@
 // $db_name = "fit2104_23s2_lab07";
 
 $db_hostname = "localhost";
-$db_username = "fit2101";
+$db_username = "fit2101_project";
 $db_password = "fit2101";
-$db_name = "fit2101";
+$db_name = "fit2101_project";
 
 $dsn = "mysql:host=$db_hostname;dbname=$db_name";
 $dbh = new PDO($dsn, "$db_username", "$db_password");
