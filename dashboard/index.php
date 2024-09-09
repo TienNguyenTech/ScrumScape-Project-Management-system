@@ -32,9 +32,8 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 50px;
+            gap: 45px;
             margin-left: 100px;
-            /*width: 100px;*/
         }
 
         .user-info {
@@ -184,7 +183,7 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
     require_once("./navbar.php");
     ?>
 
-<div style="display: flex;" class="mt-5">
+<div style="display: flex;" class="mt-5 ml-5">
 <div class="maincard">
     <div class="tasks">
         <div class="user-info">
@@ -265,15 +264,12 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
     </div>
 </div>
 
-
+<div class="m-5">
         <?php
             require_once("../sprints/table.php");
         ?>
+</div>
 
-<!--        <view more button>-->
-<!--            <div class="view-more">-->
-<!--                <button>View More</button>-->
-<!--            </div>-->
 </div>
 </main>
 </body>
