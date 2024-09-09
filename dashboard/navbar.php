@@ -107,10 +107,10 @@
     <a href="/dashboard">Dashboard</a>
     <br>
     <a href="/sprints">All Sprints</a>
-    <a href="#">Add Sprints</a>
+    <a href="/sprints/add.php">Add Sprints</a>
     <br>
-    <a href="#">All Team Members</a>
-    <a href="#">Add Team Members</a>
+    <a href="/user/">All Team Members</a>
+    <a  href="/user/add.php">Add Team Members</a>
     <br>
 
 

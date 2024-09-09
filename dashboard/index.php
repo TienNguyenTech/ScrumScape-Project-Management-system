@@ -190,12 +190,12 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
             <table class="team-table">
                 <tr>
 
-                    <td style="width: 60px; padding-bottom: 30px">
+                    <td style="width: 60px; padding-bottom: 20px">
                         <img class="user-icon" src="https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png" alt="user icon">
                     </td>
                     <td>
                         <div class="user-details">
-                            <h2>Welcome, FirstName!</h2>
+                            <h2>Welcome, <?=$user->user_fname?>!</h2>
                             <?php
                             if ($user->admin == 0) {
 
@@ -221,13 +221,13 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
                             if ($user->admin == 1) {
                                 ?>
                                 <div class="link-item">
-                                    <a href="">
+                                    <a href="/user/add.php">
                                         <img style="padding-right: 5px" src="../assets/add_team.svg" alt="Add Team Icon" height="18">
                                         Add Team Members
                                     </a>
                                 </div>
                                 <div class="link-item">
-                                    <a href="">
+                                    <a href="/user/">
                                         <img style="padding-right: 3px" src="../assets/view_team.svg" alt="View Team Icon" height="18">
                                         View Team Members
                                     </a>
