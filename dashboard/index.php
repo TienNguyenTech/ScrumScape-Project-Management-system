@@ -1,3 +1,13 @@
+<?php
+ob_start();
+session_start();
+require('../auth.php');
+
+require_once('../database/dao.php');
+$dao = new DAO();
+$user = $dao->getUserByUsername($_SESSION['user_id']);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -127,32 +137,6 @@
             word-wrap: break-word;
         }
 
-        /*sprint table*/
-        .container {
-            background-color: white;
-            width: 750px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 50px;
-        }
-
-        .header {
-            color: white;
-            padding: 15px;
-            font-size: 20px;
-            font-weight: bold;
-            height: 70px;
-            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9js-JOlLed4a0hLYt-YkdopyN3EVPRzBTRaERMwu3P6emcrSx');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
         table {
             width: 100%;
             border-collapse: separate;
@@ -213,7 +197,19 @@
                     <td>
                         <div class="user-details">
                             <h2>Welcome, FirstName!</h2>
-                            <p>You are a Team Member.</p>
+                            <?php
+                            if ($user->admin == 0) {
+
+                            ?>
+                                <p>Team Member Dashboard</p>
+                            <?php
+                            }
+                             else {
+                            ?>
+                                <p>Admin Dashboard</p>
+                            <?php
+                            }
+                            ?>
                         </div>
                     </td>
 
@@ -222,19 +218,37 @@
                     <td></td>
                     <td>
                         <div class="links">
+                            <?php
+                            if ($user->admin == 1) {
+                                ?>
+                                <div class="link-item">
+                                    <a href="">
+                                        <img style="padding-right: 5px" src="../assets/add_team.svg" alt="Add Team Icon" height="18">
+                                        Add Team Members
+                                    </a>
+                                </div>
+                                <div class="link-item">
+                                    <a href="">
+                                        <img style="padding-right: 3px" src="../assets/view_team.svg" alt="View Team Icon" height="18">
+                                        View Team Members
+                                    </a>
+                                </div>
+                                <?php
+                            }
+                            ?>
+
                             <div class="link-item">
                                 <a href="../password_reset.php">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Settings-icon-symbol-vector.png/480px-Settings-icon-symbol-vector.png" alt="Settings Icon" height="20">
+                                    <img style="padding-right: 5px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Settings-icon-symbol-vector.png/480px-Settings-icon-symbol-vector.png" alt="Settings Icon" height="20">
                                     Reset Password
                                 </a>
                             </div>
                             <div class="link-item">
                                 <a href="../logout.php">
-                                    <img src="https://static-00.iconduck.com/assets.00/log-out-icon-2048x2048-cru8zabe.png" alt="Logout Icon" height="20">
+                                    <img style="padding-right: 5px" src="https://static-00.iconduck.com/assets.00/log-out-icon-2048x2048-cru8zabe.png" alt="Logout Icon" height="20">
                                     Logout
                                 </a>
                             </div>
-
                         </div>
                     </td>
                 </tr>
@@ -244,7 +258,7 @@
 
     <div class="tasks">
         <h3>MY TASKS TODAY</h3>
-        <p>07 Sep 2024</p>
+        <p><?php echo date('d M Y'); ?></p>
         <div class="task-item"></div>
         <div class="task-item"></div>
         <div class="task-item"></div>

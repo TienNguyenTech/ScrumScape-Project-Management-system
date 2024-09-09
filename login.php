@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['username']) && !empty($_POST['password'])) {
         $user = $dao->getUserByCredentials($_POST['username'], $_POST['password']); // hash the password, when getting a user
         if ($user) {
-            $_SESSION['user_id'] = $user->user_email;
+            $_SESSION['user_id'] = $user->user_name;
             header("Location:dashboard/");
             exit();
 
