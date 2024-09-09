@@ -1,3 +1,7 @@
+<?php
+require('../database/authentication.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

@@ -1,5 +1,6 @@
 <?php
 ob_start();
+require('../database/authentication.php');
 
 // Activate the session
 //session_start();

@@ -16,5 +16,5 @@ if (isset($_SESSION['user_id'])) {
     }
 } else {
     // If the user is not logged in (session doesn't have user id), send the user to log in page
-    header('Location: ' . substr(__DIR__, strlen($_SERVER['DOCUMENT_ROOT'])) . DIRECTORY_SEPARATOR . 'login.php');
+    header('Location: /login.php');
 }
