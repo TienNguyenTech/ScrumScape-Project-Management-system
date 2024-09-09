@@ -70,11 +70,11 @@
     
     <!-- Navigation bar -->
     <nav class="navbar navbar-light bg-white drop-shadow container-fluid-m3">
-        <a class="navbar-brand" href="sprint_dashboard.php">
-            <img src="assets/logo.png" style="width: 130px;" class="d-inline-block align-top" alt="logo">
+        <a class="navbar-brand" href="#">
+            <img src="../assets/logo.png" style="width: 130px;" class="d-inline-block align-top" alt="logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-            <img src="assets/dropdown.svg">
+            <img src="../assets/dropdown.svg">
         </button>
     </nav>
 

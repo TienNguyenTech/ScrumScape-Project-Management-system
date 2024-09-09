@@ -8,7 +8,7 @@ $dao = new DAO();
 
 // Test if the user already logged in. If yes, send the user back to dashboard
 if (isset($_SESSION['user_id']))
-    header("Location: index.php");
+    header("Location: dashboard/");
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $dao->getUserByCredentials($_POST['username'], $_POST['password']); // hash the password, when getting a user
         if ($user) {
             $_SESSION['user_id'] = $user->user_email;
-            header("Location: home.php"); // go the index if user is logged in
+            header("Location:dashboard/");
             exit();
 
         } else {

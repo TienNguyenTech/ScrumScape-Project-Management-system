@@ -16,7 +16,7 @@
 <p><a href="./schools/index.php">Schools</a></p>
 <p><a href="./courses/index.php">Courses</a></p>
 <p><a href="./students/index.php">Students</a></p>
-<p><a href="./sprints/index.php">Sprints</a></p>
+<p><a href="sprints/table.php">Sprints</a></p>
 <p><a href="./tasks/index.php">Tasks</a></p>
 <p><a href="./time_logs/index.php">Time Logs</a></p>
 <h1>Hello This is the homepage</h1>
