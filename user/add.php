@@ -1,5 +1,5 @@
 <?php
-require('../database/authentication.php');
+//require('../database/authentication.php');
 ?>
 
 <!DOCTYPE html>

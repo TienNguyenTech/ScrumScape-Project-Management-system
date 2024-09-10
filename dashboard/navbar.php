@@ -1,5 +1,8 @@
 <?php
-require('../database/authentication.php');
+//require('../database/authentication.php');
+require_once('../database/dao.php');
+$dao = new DAO();
+$user = $dao->getUserByUsername($_SESSION['user_id']);
 ?>
 
 <!DOCTYPE html>
@@ -112,11 +115,16 @@ require('../database/authentication.php');
     <br>
     <a href="/sprints">All Sprints</a>
     <a href="/sprints/add.php">Add Sprints</a>
+    <?php
+    if ($user->admin == 1) {
+    ?>
     <br>
     <a href="/user/">All Team Members</a>
     <a  href="/user/add.php">Add Team Members</a>
     <br>
-
+        <?php
+    }
+    ?>
 
 </div>
 
