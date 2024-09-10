@@ -1,8 +1,16 @@
 <?php
+ob_start();
+
 //require('../database/authentication.php');
 require_once('../database/dao.php');
 $dao = new DAO();
-$user = $dao->getUserByUsername($_SESSION['user_id']);
+
+$user = null;
+if(session_id() == ''){
+    session_start();
+    $user = $dao->getUserByUsername($_SESSION['user_id']);
+
+}
 ?>
 
 <!DOCTYPE html>
@@ -116,7 +124,7 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
     <a href="/sprints">All Sprints</a>
     <a href="/sprints/add.php">Add Sprints</a>
     <?php
-    if ($user->admin == 1) {
+    if (($user!==null)&&($user->admin == 1)) {
     ?>
     <br>
     <a href="/user/">All Team Members</a>
