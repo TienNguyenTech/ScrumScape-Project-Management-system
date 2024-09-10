@@ -1,15 +1,18 @@
 <?php
-ob_start();
-//require('../database/authentication.php');
+// Start the session at the very top of your script
+session_start();
 
-// Activate the session
-//session_start();
-require_once('../database/dao.php');
-$dao = new DAO();
-
-$sprints = $dao->getAllSprints();
+// Check if the session variable 'user_id' is set
+if (isset($_SESSION['user_id'])) {
+    require_once('../database/dao.php');
+    $dao = new DAO();
+    $user = $dao->getUserByUsername($_SESSION['user_id']);
+} else {
+    // Redirect to login if the user is not logged in
+    header("Location: /root/login.php");
+    exit();
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
