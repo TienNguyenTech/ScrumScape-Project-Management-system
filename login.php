@@ -8,22 +8,19 @@ $dao = new DAO();
 
 // Test if the user already logged in. If yes, send the user back to dashboard
 if (isset($_SESSION['user_id']))
-    header("Location: index.php");
+    header("Location: dashboard/");
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['username']) && !empty($_POST['password'])) {
-        var_dump($_POST['username'],$_POST['password'] );
         $user = $dao->getUserByCredentials($_POST['username'], $_POST['password']); // hash the password, when getting a user
-        var_dump($user);
         if ($user) {
-            $_SESSION['user_id'] = $user->user_email;
-            header("Location: home.php"); // go the index if user is logged in
+            $_SESSION['user_id'] = $user->user_name;
+            header("Location:dashboard/");
             exit();
 
         } else {
             $alert_message = "Email or Password is incorrect"; // create alert var to display later on
-            $alert_type = "danger";
         }
 
     }
@@ -113,8 +110,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <a href="password_reset.php" class="forgot-pass">Forgot Password?</a>
                     </div>
                 </form>
-            </div>
+                <?php
+                if (isset($alert_message)){
 
+                    ?>
+                    <div class="mt-3 alert alert-danger" style="width: 70%" role="alert">
+                        Incorrect Password or Username!
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
         </div>
     </div>
 

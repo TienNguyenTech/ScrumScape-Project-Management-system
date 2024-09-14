@@ -1,61 +1,45 @@
 <?php
-global $dbh;
-//require_once("../authentication.php");
-require_once("../connection.php");
+// Start the session at the very top of your script
+session_start();
 
-// Fetch sprints
-$sprintsQuery = "SELECT * FROM sprints";
-$sprintsStmt = $dbh->query($sprintsQuery);
-$sprints = $sprintsStmt->fetchAll(PDO::FETCH_ASSOC);
+// Check if the session variable 'user_id' is set
+if (isset($_SESSION['user_id'])) {
+    require_once('../database/dao.php');
+    $dao = new DAO();
+    $user = $dao->getUserByUsername($_SESSION['user_id']);
+} else {
+    // Redirect to login if the user is not logged in
+    header("Location: /root/login.php");
+    exit();
+}
 ?>
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Sprints</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" href="../assets/logo-sm.png">
+
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
+
     </style>
 </head>
 <body>
-<h1>Sprints</h1>
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Status</th>
-            <th>Duration</th>
-            <th>Created At</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($sprints as $sprint): ?>
-            <tr>
-                <td><?= $sprint['id'] ?></td>
-                <td><?= $sprint['name'] ?></td>
-                <td><?= $sprint['start_date'] ?></td>
-                <td><?= $sprint['end_date'] ?></td>
-                <td><?= $sprint['status'] ?></td>
-                <td><?= $sprint['duration'] ?></td>
-                <td><?= $sprint['created_at'] ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
-<p><a href="../logout.php">Logout</a></p>
+<?php
+require_once('../dashboard/navbar.php');
+?>
+
+<div class="mt-5">
+    <?php
+    require_once('../sprints/table.php');
+    ?>
+</div>
+
+</div>
 </body>
 </html>
