@@ -17,9 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // If the username, new password, and confirm password fields aren't empty
     if (!empty($_POST['username']) && !empty($_POST['newPassword']) && !empty($_POST['confirmPassword'])) {
 
-    // Validate required fields
-    if (!empty($username) && !empty($newPassword) && !empty($confirmPassword)) {
-
 
         // if the new password and confirm password don't match
         if($_POST['newPassword'] != $_POST['confirmPassword']) {
@@ -46,14 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Return to login if successful
             else {
- 
+
                 header("Location: login.php"); 
                 exit();
             }
         }
-    } else {
-        $alert_message = "All fields are required"; // send alert if no value has been input
-        $alert_type = "danger";
+         
     }
     else {
         echo '<script type="text/javascript">
@@ -182,15 +177,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <h1 class="heading">Reset Password</h1>
                         <p class="sub-heading">Enter username and new password</p>
                         <div style="margin-left: 250px; margin-top: 5px">
-                            <label for="username"></label>
-                            <input type="text" class="form-control input" id="username" name="username" required
-                                placeholder="Username">
-                            <label for="newPassword"></label>
-                            <input type="password" class="form-control input" id="newPassword" name="newPassword"
-                                required placeholder="New password">
-                            <label for="confirmPassword"></label>
-                            <input type="password" class="form-control input" id="confirmPassword"
-                                name="confirmPassword" required placeholder="Confirm new password">
 
                         <label for="username"></label>
                         <input type="text" class="form-control input" id="username" name="username" required placeholder="Username">
