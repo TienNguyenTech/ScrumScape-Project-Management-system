@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .passwordToggle {
             font-family: "Montserrat", sans-serif;
             font-optical-sizing: auto;
-            font-weight: 400;
+            font-weight: 500;
             font-style: normal;
             color: var(--color-p);
             font-size: 14px;
@@ -170,13 +170,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="login-bg">
         <div class="box"
             style="width: 1000px; height: 550px; background-color: white; border-radius: 15px; position: absolute; top: 75px; left: 250px;">
-            <div style="margin-top: 5px; margin-left: 5px; z-index: 1; width: 100%">
+            <div style="margin-top: 0px; margin-left: 5px; z-index: 1; width: 100%">
                 <img src="assets/logo.png" style="width: 200px;" />
                 <div style="margin-left: 0px; margin-top: 0px">
                     <form method="POST">
                         <h1 class="heading">Reset Password</h1>
                         <p class="sub-heading">Enter username and new password</p>
-                        <div style="margin-left: 250px; margin-top: 5px">
+                        <div style="margin-left: 250px; margin-top: 0px">
 
                         <label for="username"></label>
                         <input type="text" class="form-control input" id="username" name="username" required placeholder="Username">
@@ -205,8 +205,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </label>
                         </div>
 
-                        
-                        <div style="width: 100%; margin-left: 130px" class="mt-3 d-flex justify-content-between">
+
+                        <div style="width: 46%; margin-left: 0px" class="mt-3 d-flex justify-content-between">
+                            <button onclick="window.location.href='login.php'" class="mt-4 btn btn-primary" style="width: 70px; border: none; border-radius: 15px; background-color: var(--color-s)">Back</button>
                             <button type="submit" value="Reset Password" class="mt-4 btn btn-primary" style="width: 200px; border: none; border-radius: 15px; background-color: var(--color-s)">Reset Password</button>
                         </div>
                         </form>
