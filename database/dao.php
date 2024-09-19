@@ -110,25 +110,26 @@ class dao
         public function createSprint($no, $name, $start_date, $end_date, $duration) {
             try {
                 $this->_query = "INSERT INTO sprints 
-                ('sprint no', 'sprint name', 'start date', 'end date', 'status', 'created at', 'duration') 
-                VALUES (?, ?, ?, ?, 'Not Started', CURDATE(), ?);";
+                (sprint_no, sprint_name, start_date, end_date, status, created_at, duration) 
+                VALUES (?, ?, ?, ?, 'Not Started', CURDATE(), ?)";
                 $this->_stmt = $this->_db_handle->prepare($this->_query);
                 $this->_stmt->execute([$no, $name, $start_date, $end_date, $duration]);
-                return true;
+                $sprintId = $this->_db_handle->lastInsertId();
+                return $sprintId;
             } catch (Exception $e) {
                 $this->_error = $e->getMessage();
-                return false;
+                return null;
             }
         }
     
     
         // delete sprint
-        public function deleteSprint($no, $name, $start_date, $end_date, $duration) {
+        public function deleteSprint($id) { //, $no, $name, $start_date, $end_date, $duration) {
             try {
-                $this->_query = "DELETE FROM sprints 
-                WHERE 'sprint no' = ? and 'sprint name' = ? and 'start date' = ? and 'end date' = ? and 'duration' = ?";
+                $this->_query = "DELETE FROM sprints WHERE sprint_id = ?";
+                // WHERE sprint_no = ? AND sprint_name = ? AND start_date = ? AND end_date = ? AND duration = ?            
                 $this->_stmt = $this->_db_handle->prepare($this->_query);
-                $this->_stmt->execute([$no, $name, $start_date, $end_date, $duration]);
+                $this->_stmt->execute([$id]); // $no, $name, $start_date, $end_date, $duration]);
                 $rowsAffected = $this->_stmt->rowCount();
                 if ($rowsAffected === 0) {
                     echo "No rows were deleted.";
@@ -142,13 +143,12 @@ class dao
         }
         
         // select sprint
-        public function selectSprint($no, $name, $start_date, $end_date, $duration) {
+        public function getSprint($id) { //, $no, $name, $start_date, $end_date, $duration) {
             try {
-                $this->_query = "Select * from sprints
-                WHERE 'sprint no' = ? and 'sprint name' = ? and 'start date' = ? and 'end date' = ? and 'duration' = ?
-                ";
+                $this->_query = "SELECT * FROM sprints WHERE sprint_id = ?";
+                // WHERE sprint_no = ? AND sprint_name = ? AND start_date = ? AND end_date = ? AND duration = ?";
                 $this->_stmt = $this->_db_handle->prepare($this->_query);
-                $this->_stmt->execute([$no, $name, $start_date, $end_date, $duration]);
+                $this->_stmt->execute([$id]); // $no, $name, $start_date, $end_date, $duration]);
                 $rowsAffected = $this->_stmt->rowCount();
                 if ($rowsAffected === 0) {
                     echo "No rows were selected.";
@@ -167,14 +167,12 @@ class dao
         
         
         // update sprint
-        public function updateSprint($col, $val, $no, $name, $start_date, $end_date, $duration) {
+        public function updateSprint($col, $val, $id) { // $no, $name, $start_date, $end_date, $duration) {
             try {
-                $this->_query = "update sprint
-                set ? = ?
-                WHERE 'sprint no' = ? and 'sprint name' = ? and 'start date' = ? and 'end date' = ? and 'duration' = ?
-                ";
+                $this->_query = "update sprint set ? = ? WHERE sprint_id = ?";
+                //WHERE 'sprint no' = ? and 'sprint name' = ? and 'start date' = ? and 'end date' = ? and 'duration' = ?
                 $this->_stmt = $this->_db_handle->prepare($this->_query);
-                $this->_stmt->execute([$col, $val, $no, $name, $start_date, $end_date, $duration]);
+                $this->_stmt->execute([$col, $val, $id,]); // $no, $name, $start_date, $end_date, $duration]);
                 $rowsAffected = $this->_stmt->rowCount();
                 if ($rowsAffected === 0) {
                     echo "No rows were updated.";
