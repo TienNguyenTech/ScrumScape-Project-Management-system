@@ -92,13 +92,12 @@ class dao
 
     // ================================================ SPRINT METHODS ==================================================
 
-    // View all sprints from the SPRINT table
     public function getAllSprints() {
         try {
             $this->_query = "SELECT * FROM SPRINT";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute();
-            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);  // Returns an array of sprint objects
+            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);  
         } catch (Exception $e) {
             $this->_error = $e->getMessage();
             return null;
@@ -106,111 +105,101 @@ class dao
     }
 
 
-        // create sprint
-        public function createSprint($no, $name, $start_date, $end_date, $duration) {
-            try {
-                $this->_query = "INSERT INTO sprint
-                (sprint_no, sprint_name, start_date, end_date, status, created_at, duration) 
-                VALUES (?, ?, ?, ?, 'Not Started', CURDATE(), ?)";
-                $this->_stmt = $this->_db_handle->prepare($this->_query);
-                $this->_stmt->execute([$no, $name, $start_date, $end_date, $duration]);
-                $sprintId = $this->_db_handle->lastInsertId();
-                return $sprintId;
-            } catch (Exception $e) {
-                $this->_error = $e->getMessage();
-                return null;
-            }
+    public function createSprint($no, $name, $start_date, $end_date, $duration) {
+        try {
+            $this->_query = "INSERT INTO sprint
+            (sprint_no, sprint_name, start_date, end_date, status, created_at, duration) 
+            VALUES (?, ?, ?, ?, 'Not Started', CURDATE(), ?)";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$no, $name, $start_date, $end_date, $duration]);
+            $sprintId = $this->_db_handle->lastInsertId();
+            return $sprintId;
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
         }
+    }
     
     
-        // delete sprint
-        public function deleteSprint($id) { //, $no, $name, $start_date, $end_date, $duration) {
-            try {
-                $this->_query = "DELETE FROM sprint WHERE sprint_id = ?";
-                // WHERE sprint_no = ? AND sprint_name = ? AND start_date = ? AND end_date = ? AND duration = ?            
-                $this->_stmt = $this->_db_handle->prepare($this->_query);
-                $this->_stmt->execute([$id]); // $no, $name, $start_date, $end_date, $duration]);
-                $rowsAffected = $this->_stmt->rowCount();
-                if ($rowsAffected === 0) {
-                    echo "No rows were deleted.";
-                    return false;
-                }
-                return true;
-            } catch (Exception $e) {
-                $this->_error = $e->getMessage();
+    public function deleteSprint($id) { 
+        try {
+            $this->_query = "DELETE FROM sprint WHERE sprint_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$id]); 
+            $rowsAffected = $this->_stmt->rowCount();
+            if ($rowsAffected === 0) {
+                echo "No rows were deleted.";
                 return false;
             }
+            return true;
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return false;
         }
+    }
         
-        // select sprint
-        public function getSprint($id) { //, $no, $name, $start_date, $end_date, $duration) {
-            try {
-                $this->_query = "SELECT * FROM sprint WHERE sprint_id = ?";
-                // WHERE sprint_no = ? AND sprint_name = ? AND start_date = ? AND end_date = ? AND duration = ?";
-                $this->_stmt = $this->_db_handle->prepare($this->_query);
-                $this->_stmt->execute([$id]); // $no, $name, $start_date, $end_date, $duration]);
-                $rowsAffected = $this->_stmt->rowCount();
-                if ($rowsAffected === 0) {
-                    echo "No rows were selected.";
-                    return null;
-                }
-                if ($rowsAffected > 1) {
-                    echo "More than one row was returned.";
-                    return null;
-                }
-                return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
-            } catch (Exception $e) {
-                $this->_error = $e->getMessage();
+    public function getSprint($id) { 
+        try {
+            $this->_query = "SELECT * FROM sprint WHERE sprint_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$id]); 
+            $rowsAffected = $this->_stmt->rowCount();
+            if ($rowsAffected === 0) {
+                echo "No rows were selected.";
                 return null;
             }
+            if ($rowsAffected > 1) {
+                echo "More than one row was returned.";
+                return null;
+            }
+            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
         }
+    }
         
         
-        // update sprint
-        public function updateSprint($col, $val, $id) { // $no, $name, $start_date, $end_date, $duration) {
-            try {
-                $this->_query = "update sprint set ? = ? WHERE sprint_id = ?";
-                //WHERE 'sprint no' = ? and 'sprint name' = ? and 'start date' = ? and 'end date' = ? and 'duration' = ?
-                $this->_stmt = $this->_db_handle->prepare($this->_query);
-                $this->_stmt->execute([$col, $val, $id,]); // $no, $name, $start_date, $end_date, $duration]);
-                $rowsAffected = $this->_stmt->rowCount();
-                if ($rowsAffected === 0) {
-                    echo "No rows were updated.";
-                    return false;
-                }
-                if ($rowsAffected > 1) {
-                    echo "More than one row was returned.";
-                    return false;
-                }
-                return true;
-            } catch (Exception $e) {
-                $this->_error = $e->getMessage();
+    public function updateSprint($col, $val, $id) { 
+        try {
+            $this->_query = "update sprint set ? = ? WHERE sprint_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$col, $val, $id,]); 
+            $rowsAffected = $this->_stmt->rowCount();
+            if ($rowsAffected === 0) {
+                echo "No rows were updated.";
                 return false;
             }
+            if ($rowsAffected > 1) {
+                echo "More than one row was returned.";
+                return false;
+            }
+            return true;
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return false;
         }
+    }
 
 
-        // inspect sprint
-        public function inspectSprint($id) { 
-            try {
-                $this->_query = "SELECT * FROM task WHERE sprint_id = ?";
-                $this->_stmt = $this->_db_handle->prepare($this->_query);
-                $this->_stmt->execute([$id]); 
-                $rowsAffected = $this->_stmt->rowCount();
-                if ($rowsAffected === 0) {
-                    echo "No rows were selected.";
-                    return null;
-                }
-                return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
-            } catch (Exception $e) {
-                $this->_error = $e->getMessage();
+    public function inspectSprint($id) { 
+        try {
+            $this->_query = "SELECT * FROM task WHERE sprint_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$id]); 
+            $rowsAffected = $this->_stmt->rowCount();
+            if ($rowsAffected === 0) {
+                echo "No rows were selected.";
                 return null;
             }
+            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
         }
+    }
 
     
-
-
 
 }
 
