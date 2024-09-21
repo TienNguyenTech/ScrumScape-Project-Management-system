@@ -199,7 +199,21 @@ class dao
         }
     }
 
-    
+    // ================================================ TASK METHODS ==================================================
+
+    public function createTask($taskNo, $taskName, $storyPoints, $priority, $status, $sprintId) {
+        try {
+            $this->_query = "INSERT INTO task (task_no, task_name, story_points, priority, status, created_at, sprint_id) VALUES (?, ?, ?, ?, ?, CURDATE(), ?)";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$taskNo, $taskName, $storyPoints, $priority, $status, $sprintId]);
+            return $this->_db_handle->lastInsertId();
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
+
+
 
 }
 
