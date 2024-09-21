@@ -189,6 +189,25 @@ class dao
             }
         }
 
+
+        // inspect sprint
+        public function inspectSprint($id) { 
+            try {
+                $this->_query = "SELECT * FROM task WHERE sprint_id = ?";
+                $this->_stmt = $this->_db_handle->prepare($this->_query);
+                $this->_stmt->execute([$id]); 
+                $rowsAffected = $this->_stmt->rowCount();
+                if ($rowsAffected === 0) {
+                    echo "No rows were selected.";
+                    return null;
+                }
+                return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+            } catch (Exception $e) {
+                $this->_error = $e->getMessage();
+                return null;
+            }
+        }
+
     
 
 
