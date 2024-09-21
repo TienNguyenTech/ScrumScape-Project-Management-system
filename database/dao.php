@@ -199,7 +199,77 @@ class dao
         }
     }
 
-    
+    // ================================================ TASK METHODS ==================================================
+
+    public function createTask($taskNo, $taskName, $storyPoints, $priority, $status, $sprintId) {
+        try {
+            $this->_query = "INSERT INTO task (task_no, task_name, story_points, priority, status, created_at, sprint_id) VALUES (?, ?, ?, ?, ?, CURDATE(), ?)";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$taskNo, $taskName, $storyPoints, $priority, $status, $sprintId]);
+            return $this->_db_handle->lastInsertId();
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
+
+    public function viewAllTasks() {
+        try {
+            $this->_query = "SELECT * FROM task";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute();
+            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
+
+
+    public function deleteTask($taskId) {
+        try {
+            $this->_query = "DELETE FROM task WHERE task_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$taskId]);
+            $rowsAffected = $this->_stmt->rowCount();
+
+            if ($rowsAffected === 0) {
+                echo "No rows were deleted.";
+                return false;
+            }
+            return true;
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return false;
+        }
+    }
+
+
+    public function updateTask($taskId, $taskNo, $taskName, $storyPoints, $priority, $status, $sprintId) {
+        try {
+            $this->_query = "UPDATE task 
+                         SET task_no = ?, 
+                             task_name = ?, 
+                             story_points = ?, 
+                             priority = ?, 
+                             status = ?, 
+                             sprint_id = ? 
+                         WHERE task_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$taskNo, $taskName, $storyPoints, $priority, $status, $sprintId, $taskId]);
+            $rowsAffected = $this->_stmt->rowCount();
+
+            if ($rowsAffected === 0) {
+                echo "No rows were updated.";
+                return false;
+            }
+            return true;
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return false;
+        }
+    }
+
 
 }
 
