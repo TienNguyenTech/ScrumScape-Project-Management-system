@@ -18,26 +18,32 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     
     <style>
+
         .container {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            padding: 20px;
+            gap: 10px;
+            height: 100vh;
+            width: 100%;
         }
-
 
         .content-container {
             display: flex;
+            gap: 30px;
+            width: 100%;
+            height: 50vh;
+            
         }
 
         .column {
             flex: 1;
+            margin-top: 40px;
         }
 
         .column * {
             font-family: "IBM Plex Sans";
             font-weight: light;
-            font-size: 20px;
+            font-size: 18px;
             color: #6F7482;
             font-style: regular;
             margin: 20px;
@@ -47,7 +53,7 @@
         .column h1 {
             font-family: "Montserrat";
             font-weight: bold;
-            font-size: 50px;
+            font-size: 40px;
             color: #242731;
         }
 
@@ -60,6 +66,17 @@
             background-color: #0A6C9C;
             color:white;
         }
+        
+        .form-control {
+            background-color: #F8FAFC;
+            border:none
+        }
+
+        .footer {
+            display: flex;
+            margin-top: 50px;
+            justify-content: flex-end;
+        }
 
 
     </style>
@@ -67,11 +84,10 @@
 </head>
 
 <body>
-
 <div class="container">
 
     <!-- Header with logo-->
-    <div class="header">  
+    <div class="header" style="margin-left: -120px; margin-top: 70px;">  
         <img src="/assets/logo.png" width="180px"/>
     </div>
 
@@ -82,6 +98,7 @@
             <h1> Create Task </h1>
             <p> Add a new task to the product backlog. </p>
         </div>
+        
         <div class="column">
             <h4> Task Name </h4>
             <input class="form-control form-control-sm" type="text" placeholder="Text">
@@ -94,6 +111,7 @@
                 <option> Low </option>
             </select>
         </div>
+
         <div class="column">
             <h4> Assign To</h4>
             <select class="form-control">
@@ -108,6 +126,5 @@
         <button type="button" class="btn custom-btn">Create Task</button>
     </div>
 </div>
-
 </body>
 </html>
