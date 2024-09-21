@@ -213,6 +213,17 @@ class dao
         }
     }
 
+    public function viewAllTasks() {
+        try {
+            $this->_query = "SELECT * FROM task";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute();
+            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
 
 
 }
