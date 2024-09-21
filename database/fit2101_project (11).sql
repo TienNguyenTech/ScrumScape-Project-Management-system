@@ -7,6 +7,18 @@
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
+
+DROP TABLE IF EXISTS
+    `sprint_assignment`;
+DROP TABLE IF EXISTS
+    `task_assignment`;
+DROP TABLE IF EXISTS
+    `USER`;
+DROP TABLE IF EXISTS
+    `TASK`;
+DROP TABLE IF EXISTS
+    `SPRINT`;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -86,32 +98,10 @@ CREATE TABLE `task` (
   `story_points` decimal(5,2) NOT NULL,
   `priority` enum('Low','Medium','High') NOT NULL,
   `status` enum('Not Started','In Progress','Completed') DEFAULT 'Not Started',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `sprint_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `task`
---
-
-INSERT INTO `task` (`task_id`, `task_no`, `task_name`, `story_points`, `priority`, `status`, `created_at`) VALUES
-(1, 1, 'Create Task: Backend DAO function', 5.00, 'Medium', 'Completed', '2024-09-17 17:23:07'),
-(2, 2, 'Create Task: UI task registration form', 3.00, 'Medium', 'Completed', '2024-09-17 17:23:07'),
-(3, 3, 'Update Task: Backend DAO function', 4.00, 'Medium', 'In Progress', '2024-09-17 17:23:07'),
-(4, 4, 'Update Task: UI task update form', 2.00, 'Low', 'Not Started', '2024-09-17 17:23:07'),
-(5, 5, 'Delete Task: Backend DAO function', 1.00, 'Low', 'Completed', '2024-09-17 17:23:07'),
-(6, 6, 'View Product Backlog tasks: Backend DAO function', 3.00, 'Medium', 'Completed', '2024-09-17 17:23:07'),
-(7, 7, 'View Product Backlog tasks: UI view table', 2.00, 'Low', 'In Progress', '2024-09-17 17:23:07'),
-(8, 8, 'Create Sprint: Backend DAO function', 4.00, 'High', 'Not Started', '2024-09-17 17:23:07'),
-(9, 9, 'Create Sprint: UI sprint registration form', 3.00, 'Medium', 'Not Started', '2024-09-17 17:23:07'),
-(10, 10, 'Delete Sprint: Backend DAO function', 1.00, 'Low', 'Completed', '2024-09-17 17:23:07'),
-(11, 11, 'Inspect Sprint: Backend DAO function', 5.00, 'High', 'Completed', '2024-09-17 17:23:07'),
-(12, 12, 'Inspect Sprint: UI sprint inspect page', 4.00, 'Medium', 'In Progress', '2024-09-17 17:23:07'),
-(13, 13, 'Update Sprint: Backend DAO function', 4.00, 'High', 'Completed', '2024-09-17 17:23:07'),
-(14, 14, 'Update Sprint: UI update sprint form', 3.00, 'Medium', 'In Progress', '2024-09-17 17:23:07'),
-(15, 15, 'View all Sprints: Backend DAO function', 3.00, 'Medium', 'Completed', '2024-09-17 17:23:07'),
-(16, 16, 'View all Sprints: UI view table', 2.00, 'Low', 'Not Started', '2024-09-17 17:23:07'),
-(17, 17, 'Kanban Board: Backend update DAO function for status', 5.00, 'High', 'In Progress', '2024-09-17 17:23:07'),
-(18, 18, 'Kanban Board: UI board', 4.00, 'Medium', 'Not Started', '2024-09-17 17:23:07');
 
 -- --------------------------------------------------------
 
@@ -124,30 +114,6 @@ CREATE TABLE `task_assignment` (
   `user_id` int(11) NOT NULL,
   `logged_hours` decimal(5,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `task_assignment`
---
-
-INSERT INTO `task_assignment` (`task_id`, `user_id`, `logged_hours`) VALUES
-(1, 3, 5.00),
-(2, 4, 4.50),
-(3, 5, 3.25),
-(4, 6, 2.00),
-(5, 7, 1.75),
-(6, 8, 4.00),
-(7, 9, 3.50),
-(8, 3, 6.00),
-(9, 4, 5.50),
-(10, 5, 2.00),
-(11, 6, 7.00),
-(12, 7, 3.00),
-(13, 8, 6.50),
-(14, 9, 4.75),
-(15, 3, 5.00),
-(16, 4, 3.75),
-(17, 5, 4.50),
-(18, 6, 2.25);
 
 -- --------------------------------------------------------
 
@@ -232,7 +198,8 @@ ALTER TABLE `sprint`
 -- AUTO_INCREMENT for table `task`
 --
 ALTER TABLE `task`
-  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19,
+  ADD CONSTRAINT `task_ibfk_1`  FOREIGN KEY (`sprint_id`) REFERENCES `sprint`(`sprint_id`) ON DELETE SET NULL;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -262,3 +229,56 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
+
+--
+-- Dumping data for table `task`
+--
+
+INSERT INTO `task` (`task_id`, `task_no`, `task_name`, `story_points`, `priority`, `status`, `created_at`, `sprint_id`) VALUES
+   (1, 1, 'Create Task: Backend DAO function', 5.00, 'Medium', 'Completed', '2024-09-17 17:23:07',1),
+   (2, 2, 'Create Task: UI task registration form', 3.00, 'Medium', 'Completed', '2024-09-17 17:23:07',1),
+   (3, 3, 'Update Task: Backend DAO function', 4.00, 'Medium', 'In Progress', '2024-09-17 17:23:07',1),
+   (4, 4, 'Update Task: UI task update form', 2.00, 'Low', 'Not Started', '2024-09-17 17:23:07',2),
+   (5, 5, 'Delete Task: Backend DAO function', 1.00, 'Low', 'Completed', '2024-09-17 17:23:07',2),
+   (6, 6, 'View Product Backlog tasks: Backend DAO function', 3.00, 'Medium', 'Completed', '2024-09-17 17:23:07',2),
+   (7, 7, 'View Product Backlog tasks: UI view table', 2.00, 'Low', 'In Progress', '2024-09-17 17:23:07',2),
+   (8, 8, 'Create Sprint: Backend DAO function', 4.00, 'High', 'Not Started', '2024-09-17 17:23:07',2),
+   (9, 9, 'Create Sprint: UI sprint registration form', 3.00, 'Medium', 'Not Started', '2024-09-17 17:23:07',2),
+   (10, 10, 'Delete Sprint: Backend DAO function', 1.00, 'Low', 'Completed', '2024-09-17 17:23:07',3),
+   (11, 11, 'Inspect Sprint: Backend DAO function', 5.00, 'High', 'Completed', '2024-09-17 17:23:07',3),
+   (12, 12, 'Inspect Sprint: UI sprint inspect page', 4.00, 'Medium', 'In Progress', '2024-09-17 17:23:07',NULL),
+   (13, 13, 'Update Sprint: Backend DAO function', 4.00, 'High', 'Completed', '2024-09-17 17:23:07',NULL),
+   (14, 14, 'Update Sprint: UI update sprint form', 3.00, 'Medium', 'In Progress', '2024-09-17 17:23:07',NULL),
+   (15, 15, 'View all Sprints: Backend DAO function', 3.00, 'Medium', 'Completed', '2024-09-17 17:23:07',NULL),
+   (16, 16, 'View all Sprints: UI view table', 2.00, 'Low', 'Not Started', '2024-09-17 17:23:07',NULL),
+   (17, 17, 'Kanban Board: Backend update DAO function for status', 5.00, 'High', 'In Progress', '2024-09-17 17:23:07',NULL),
+   (18, 18, 'Kanban Board: UI board', 4.00, 'Medium', 'Not Started', '2024-09-17 17:23:07',NULL);
+
+
+
+--
+-- Dumping data for table `task_assignment`
+--
+
+INSERT INTO `task_assignment` (`task_id`, `user_id`, `logged_hours`) VALUES
+ (1, 3, 5.00),
+ (2, 4, 4.50),
+ (3, 5, 3.25),
+ (4, 6, 2.00),
+ (5, 7, 1.75),
+ (6, 8, 4.00),
+ (7, 9, 3.50),
+ (8, 3, 6.00),
+ (9, 4, 5.50),
+ (10, 5, 2.00),
+ (11, 6, 7.00),
+ (12, 7, 3.00),
+ (13, 8, 6.50),
+ (14, 9, 4.75),
+ (15, 3, 5.00),
+ (16, 4, 3.75),
+ (17, 5, 4.50),
+ (18, 6, 2.25);
