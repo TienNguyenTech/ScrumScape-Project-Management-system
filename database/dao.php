@@ -95,7 +95,7 @@ class dao
     // View all sprints from the SPRINT table
     public function getAllSprints() {
         try {
-            $this->_query = "SELECT * FROM `SPRINT`";
+            $this->_query = "SELECT * FROM SPRINT";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute();
             return $this->_stmt->fetchAll(PDO::FETCH_OBJ);  // Returns an array of sprint objects
@@ -109,7 +109,7 @@ class dao
         // create sprint
         public function createSprint($no, $name, $start_date, $end_date, $duration) {
             try {
-                $this->_query = "INSERT INTO sprints 
+                $this->_query = "INSERT INTO sprint
                 (sprint_no, sprint_name, start_date, end_date, status, created_at, duration) 
                 VALUES (?, ?, ?, ?, 'Not Started', CURDATE(), ?)";
                 $this->_stmt = $this->_db_handle->prepare($this->_query);
@@ -126,7 +126,7 @@ class dao
         // delete sprint
         public function deleteSprint($id) { //, $no, $name, $start_date, $end_date, $duration) {
             try {
-                $this->_query = "DELETE FROM sprints WHERE sprint_id = ?";
+                $this->_query = "DELETE FROM sprint WHERE sprint_id = ?";
                 // WHERE sprint_no = ? AND sprint_name = ? AND start_date = ? AND end_date = ? AND duration = ?            
                 $this->_stmt = $this->_db_handle->prepare($this->_query);
                 $this->_stmt->execute([$id]); // $no, $name, $start_date, $end_date, $duration]);
@@ -145,7 +145,7 @@ class dao
         // select sprint
         public function getSprint($id) { //, $no, $name, $start_date, $end_date, $duration) {
             try {
-                $this->_query = "SELECT * FROM sprints WHERE sprint_id = ?";
+                $this->_query = "SELECT * FROM sprint WHERE sprint_id = ?";
                 // WHERE sprint_no = ? AND sprint_name = ? AND start_date = ? AND end_date = ? AND duration = ?";
                 $this->_stmt = $this->_db_handle->prepare($this->_query);
                 $this->_stmt->execute([$id]); // $no, $name, $start_date, $end_date, $duration]);
