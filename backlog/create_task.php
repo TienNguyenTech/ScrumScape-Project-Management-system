@@ -40,6 +40,7 @@
             font-size: 20px;
             color: #6F7482;
             font-style: regular;
+            margin: 20px;
             
         }
 
@@ -48,6 +49,16 @@
             font-weight: bold;
             font-size: 50px;
             color: #242731;
+        }
+
+        .custom-btn {
+            background-color:#0888C7;
+            color:white; 
+        }
+
+        .custom-btn:hover {
+            background-color: #0A6C9C;
+            color:white;
         }
 
 
@@ -73,16 +84,29 @@
         </div>
         <div class="column">
             <h4> Task Name </h4>
+            <input class="form-control form-control-sm" type="text" placeholder="Text">
             <h4> Story Points </h4>
+            <input class="form-control form-control-sm" type="text" placeholder="Text">
             <h4> Priority </h4>
+            <select class="form-control">
+                <option> High </option>
+                <option> Medium </option>
+                <option> Low </option>
+            </select>
         </div>
         <div class="column">
             <h4> Assign To</h4>
+            <select class="form-control">
+                <option> Jane Doe </option>
+                <option> John Smith </option>
+            </select>
         </div>
     </div>
 
     <!-- Footer with button-->
-    <div class="footer"> </div>
+    <div class="footer"> 
+        <button type="button" class="btn custom-btn">Create Task</button>
+    </div>
 </div>
 
 </body>
