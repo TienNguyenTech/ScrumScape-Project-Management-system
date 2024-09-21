@@ -245,6 +245,32 @@ class dao
     }
 
 
+    public function updateTask($taskId, $taskNo, $taskName, $storyPoints, $priority, $status, $sprintId) {
+        try {
+            $this->_query = "UPDATE task 
+                         SET task_no = ?, 
+                             task_name = ?, 
+                             story_points = ?, 
+                             priority = ?, 
+                             status = ?, 
+                             sprint_id = ? 
+                         WHERE task_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$taskNo, $taskName, $storyPoints, $priority, $status, $sprintId, $taskId]);
+            $rowsAffected = $this->_stmt->rowCount();
+
+            if ($rowsAffected === 0) {
+                echo "No rows were updated.";
+                return false;
+            }
+            return true;
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return false;
+        }
+    }
+
+
 }
 
 
