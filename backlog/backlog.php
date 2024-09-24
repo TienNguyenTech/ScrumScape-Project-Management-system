@@ -24,7 +24,7 @@
             display: flex; 
             align-items: center;
             gap:10px; 
-            padding-top: 15%;
+            padding-top: 5%;
         }
 
         .header-search h1 {
@@ -117,6 +117,10 @@
 </head>
 
 <body>
+    
+    <?php
+    require_once("../dashboard/navbar.php");
+        ?>
 
     <div class="container">
 
