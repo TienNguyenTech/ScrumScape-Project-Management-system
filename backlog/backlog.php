@@ -120,12 +120,14 @@
 
     <div class="container">
 
+    <!-- Product Backlog Title, Searchbar and Button-->
         <div class="header-search">
             <h1>Product Backlog</h1>
             <input class="form-control search-bar col-sm-3" type="text" placeholder="Search Task">
             <button type="button" class="btn custom-btn">+ Add Task</button>
         </div>
         
+            <!--Task table header-->
             <div class="table-header">
                 <div><h4><img src="/assets/task_icon.svg" style="width: 18px; margin-right: 10px; margin-bottom: 3px;"/>Task Name </h4></div>
                 <div style="padding-left: 20px;"><h4> <img src="/assets/assignee_icon.svg" style="width: 18px; margin-right: 10px; margin-bottom: 3px;"/> Assignees </h4></div>
@@ -150,6 +152,7 @@
                 <div style="width:100px"></div>
             </div>
 
+            <!--Single task row-->
             <div class="table-row">
                 <div style="padding-left: 30px; padding-bottom: 15px;">
                     <button type="button" class="btn btn-outline-success">
@@ -171,7 +174,7 @@
                 <div style="padding-left: 200px;"><p>3</p></div>
                 <div style="padding-left: 190px;"><p>High</p></div>
                 
-                <!--Buttons for task-->
+                <!--Buttons for log hours/edit/delete task-->
                 <div class="task-buttons" style="padding-left: 100px;">
                     <button type="button" class="btn btn-outline-warning" style="padding:5px;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
@@ -196,11 +199,8 @@
                         <span class="visually-hidden"></span>
                     </button>
                 </div>
-
             </div>
-
         </div>
-
     </div>
     
 </body>
