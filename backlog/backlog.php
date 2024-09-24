@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
-    <style> /* TODO: fix to be less redundant */
+    <style> /* TODO: fix alignment of table header */
         body {
             background-color: #F5F5F5;
         }
@@ -30,11 +30,10 @@
         .header-search h1 {
             font-family: "Montserrat";
             color: #1F6190;
-            margin: 0; 
             width: 60%;
         }
 
-        .search-bar {
+        .search-bar { /* fix*/
             border-radius: 25px;
             background-color: #E8E8E8;
             border: 0px;
@@ -52,13 +51,11 @@
 
         .table-header {
             background-color: #0888C7;
-            margin-top: 60px;
+            margin-top: 40px;
             border-radius: 7px;
-            display: inline-flex;
-            width: 100%;
+            display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 50px;
             padding-left:30px;
             padding-top: 10px;
         }
@@ -74,7 +71,7 @@
             border-radius: 7px;
             display: inline-flex;
             width: 100%;
-            gap:20px;
+            gap: 20px;
             align-items: center;
             padding-top: 15px;
             border: 1px solid #E8E8E8;
@@ -124,7 +121,7 @@
 
     <div class="container">
 
-    <!-- Product Backlog Title, Searchbar and Button-->
+        <!-- Product Backlog Title, Searchbar and Button-->
         <div class="header-search">
             <h1>Product Backlog</h1>
             <input class="form-control search-bar col-sm-3" type="text" placeholder="Search Task">
@@ -137,7 +134,7 @@
                 <div style="padding-left: 20px;"><h4> <img src="/assets/assignee_icon.svg" style="width: 18px; margin-right: 10px; margin-bottom: 3px;"/> Assignees </h4></div>
 
                 <div style="display: flex; align-items: center; padding-left: 50px;">
-                    <h4> <img src="/assets/storypt_icon.svg" style="width: 20px; margin-bottom: 3px;"/> Story Points</h4>
+                    <h4> <img src="/assets/storypt_icon.svg" style="width: 20px; margin-bottom: 3px; margin-right:5px;"/> Story Points</h4>
                     <button type="button" class="btn btn-filter" style="padding-bottom: 20px;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-sort-down-alt" viewBox="0 0 16 16">
                             <path d="M3.5 3.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 12.293zm4 .5a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1zm0 3a.5.5 0 0 1 0-1h3a.5.5 0 0 1 0 1zm0 3a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1zM7 12.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5"/>
@@ -145,15 +142,15 @@
                     </button>
                 </div>
 
-                <div style="display: flex; align-items: center; padding-left: 50px;">
-                    <h4> <img src="/assets/priority_icon.svg" style="width: 17px; margin-right: 10px;"/> Priority</h4>
+                <div style="display: flex; align-items: center; padding-right: 50px;">
+                    <h4> <img src="/assets/priority_icon.svg" style="width: 17px; margin-right: 5px;"/> Priority</h4>
                     <button type="button" class="btn btn-filter" style="padding-bottom: 20px;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="currentColor" class="bi bi-sort-down-alt" viewBox="0 0 16 16">
                             <path d="M3.5 3.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 12.293zm4 .5a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1zm0 3a.5.5 0 0 1 0-1h3a.5.5 0 0 1 0 1zm0 3a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1zM7 12.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5"/>
                         </svg>
                     </button>
                 </div>
-                <div style="width:100px"></div>
+                <div style="width:20px"></div>
             </div>
 
             <!--Single task row-->
@@ -170,9 +167,9 @@
                 
                 <div><p>Talk to client</p></div>
 
-                <div style="display: flex; gap:10px; padding-left: 100px;">
+                <div style="display: flex; gap:10px; padding-left: 90px;">
                     <img src="/assets/user_icon.svg" style="width:20px; padding-bottom: 15px;"/>
-                    <p> Initials</p>
+                    <p>Initials</p>
                 </div>
 
                 <div style="padding-left: 200px;"><p>3</p></div>
