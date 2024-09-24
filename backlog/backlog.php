@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
-    <style>
+    <style> /* TODO: fix to be less redundant */
         body {
             background-color: #F5F5F5;
         }
@@ -77,7 +77,7 @@
             gap:20px;
             align-items: center;
             padding-top: 15px;
-            border: 1px solid #E8E8E8; /* Add this line */
+            border: 1px solid #E8E8E8;
         }
 
         .table-row p{
@@ -128,7 +128,7 @@
         <div class="header-search">
             <h1>Product Backlog</h1>
             <input class="form-control search-bar col-sm-3" type="text" placeholder="Search Task">
-            <button type="button" class="btn custom-btn">+ Add Task</button>
+            <a href="create_task.php"> <button type="button" class="btn custom-btn">+ Add Task</button></a>
         </div>
         
             <!--Task table header-->
