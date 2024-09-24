@@ -131,7 +131,7 @@
             <!--Task table header-->
             <div class="table-header">
                 <div><h4><img src="/assets/task_icon.svg" style="width: 18px; margin-right: 10px; margin-bottom: 3px;"/>Task Name </h4></div>
-                <div style="padding-left: 20px;"><h4> <img src="/assets/assignee_icon.svg" style="width: 18px; margin-right: 10px; margin-bottom: 3px;"/> Assignees </h4></div>
+                <div style="padding-left: 30px;"><h4> <img src="/assets/assignee_icon.svg" style="width: 18px; margin-right: 10px; margin-bottom: 3px;"/> Assignees </h4></div>
 
                 <div style="display: flex; align-items: center; padding-left: 50px;">
                     <h4> <img src="/assets/storypt_icon.svg" style="width: 20px; margin-bottom: 3px; margin-right:5px;"/> Story Points</h4>
@@ -150,7 +150,7 @@
                         </svg>
                     </button>
                 </div>
-                <div style="width:20px"></div>
+                <div style="width:50px"></div>
             </div>
 
             <!--Single task row-->
