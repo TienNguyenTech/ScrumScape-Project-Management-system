@@ -1,5 +1,9 @@
 <?php
-//require('../database/authentication.php');
+require('../auth.php');
+if (session_status() === PHP_SESSION_NONE) {
+    ob_start();
+    session_start();
+}
 require_once('../database/dao.php');
 $dao = new DAO();
 $user = $dao->getUserByUsername($_SESSION['user_id']);
