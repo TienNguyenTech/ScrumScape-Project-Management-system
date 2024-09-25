@@ -84,6 +84,9 @@
 </head>
 
 <body>
+<?php
+    require_once("../dashboard/navbar.php");
+        ?>
 <div class="container">
 
     <!-- Header with logo-->
