@@ -4,9 +4,6 @@ if (session_status() === PHP_SESSION_NONE) {
     ob_start();
     session_start();
 }
-
-//var_dump($_SESSION['user_id']);
-//require('../database/authentication.php');
 require_once('../database/dao.php');
 $dao = new DAO();
 $user = $dao->getUserByUsername($_SESSION['user_id']);
