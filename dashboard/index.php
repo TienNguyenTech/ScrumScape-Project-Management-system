@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-//require('../database/authentication.php');
+require('../auth.php');
 
 require_once('../database/dao.php');
 $dao = new DAO();
