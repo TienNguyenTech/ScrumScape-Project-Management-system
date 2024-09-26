@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -173,30 +174,26 @@
 
 
             </div>
+            
 
             <div class="column">
-                <h4> Tasks </h4>
-                <div class="scrollable-box">
-                    <div class="task-card">
-                        <h3 class="task-title">Task Title 1</h3>
-                    </div>
-                    <div class="task-card">
-                        <h3 class="task-title">Task Title 2</h3>
-                    </div>
-                    <div class="task-card">
-                        <h3 class="task-title">Task Title 3</h3>
-                    </div>
-                    <div class="task-card">
-                        <h3 class="task-title">Task Title 3</h3>
-                    </div>
-                    <div class="task-card">
-                        <h3 class="task-title">Task Title 3</h3>
-                    </div>
-                    <div class="task-card">
-                        <h3 class="task-title">Task Title 3</h3>
-                    </div>
-            </div>
-        </div>
+    <h4>Tasks</h4>
+    <div class="scrollable-box">
+        <?php if (!empty($tasks) && is_array($tasks)): ?>
+            <?php foreach ($tasks as $task): ?>
+                <div class="task-card">
+                    <p class="task-title"><?= htmlspecialchars($task->task_name) ?></p>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>No tasks available.</p>
+        <?php endif; ?>
+    </div>
+</div>
+
+        
+            
+        
 
         <!-- Footer with button-->
         <div class="footer">
