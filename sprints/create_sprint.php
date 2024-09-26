@@ -131,6 +131,16 @@
                     <div class="task-card">
                         <h3 class="task-title">Task Title 3</h3>
                     </div>
+                    <div class="task-card">
+                        <h3 class="task-title">Task Title 3</h3>
+                    </div>
+                    <div class="task-card">
+                        <h3 class="task-title">Task Title 3</h3>
+                    </div>
+                    <div class="task-card">
+                        <h3 class="task-title">Task Title 3</h3>
+                    </div>
+                    
                 </div>
 
                 <style>
