@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +18,8 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
 
         .container {
@@ -42,10 +45,10 @@
 
         .column * {
             font-family: "IBM Plex Sans";
-            font-weight: light;
+            /*font-weight: light;*/
             font-size: 18px;
             color: #6F7482;
-            font-style: regular;
+            /*font-style: regular;*/
             margin: 20px;
             
         }
@@ -87,37 +90,38 @@
 <?php
     require_once("../dashboard/navbar.php");
         ?>
-<div class="container">
-
-    <!-- Header with logo-->
-    <div class="header" style="margin-left: -120px; margin-top: 70px;">  
-        <img src="/assets/logo.png" width="180px"/>
-    </div>
+<form class="container mt-5" method = 'post'>
 
     <!-- Main body -->
-    <div class="content-container"> 
+    <div class="content-container mt-5">
         
         <div class="column">
             <h1> Create Task </h1>
             <p> Add a new task to the product backlog. </p>
         </div>
-        
+
         <div class="column">
             <h4> Task Name </h4>
-            <input class="form-control form-control-sm" type="text" placeholder="Text">
+            <textarea name="taskName" id="taskName" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="Create a XXX" required></textarea>
             <h4> Story Points </h4>
-            <input class="form-control form-control-sm" type="text" placeholder="Text">
+            <select name="storyPoints" id="storyPoints" class="form-control" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
             <h4> Priority </h4>
-            <select class="form-control">
-                <option> High </option>
-                <option> Medium </option>
-                <option> Low </option>
+            <select name="priority" id="priority" class="form-control font-weight-bold bg-success" onchange="changeBg()" required>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
             </select>
         </div>
 
         <div class="column">
             <h4> Assign To</h4>
-            <select class="form-control">
+            <select class="form-control " required>
                 <option> Jane Doe </option>
                 <option> John Smith </option>
             </select>
@@ -126,8 +130,28 @@
 
     <!-- Footer with button-->
     <div class="footer"> 
-        <button type="button" class="btn custom-btn">Create Task</button>
+        <button type="submit" class="btn custom-btn">Create</button>
     </div>
+    </form>
 </div>
+<script>
+    function changeBg() {
+        const select = document.getElementById("priority");
+        const val = select.value;
+        select.classList.remove("bg-danger", "bg-warning", "bg-success");
+        if (val === 'High') {
+            select.classList.add('bg-danger');
+        } else if (val === 'Medium') {
+            select.classList.add('bg-warning');
+
+        } else if (val === 'Low') {
+            select.classList.add('bg-success');
+        }
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6jJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 </html>
