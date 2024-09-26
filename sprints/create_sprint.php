@@ -116,31 +116,26 @@
                 <h4> Sprint Name </h4>
                 <input class="form-control form-control-sm" type="text" placeholder="My first sprint">
                 <h4> Assign to </h4>
-                <select class="form-control">
-                    <option> Aditya Patel </option>
-                    <option> Danna Pabayo </option>
-                    <option> Tien Nguyen </option>
-                </select>
                 <div class="scrollable-box">
                     <div class="task-card">
-                        <h3 class="task-title">Task Title 1</h3>
+                        <h3 class="task-title">Person 1</h3>
                     </div>
                     <div class="task-card">
-                        <h3 class="task-title">Task Title 2</h3>
+                        <h3 class="task-title">Person 2</h3>
                     </div>
                     <div class="task-card">
-                        <h3 class="task-title">Task Title 3</h3>
+                        <h3 class="task-title">Person 3</h3>
                     </div>
                     <div class="task-card">
-                        <h3 class="task-title">Task Title 3</h3>
+                        <h3 class="task-title">Person 4</h3>
                     </div>
                     <div class="task-card">
-                        <h3 class="task-title">Task Title 3</h3>
+                        <h3 class="task-title">Person 5</h3>
                     </div>
                     <div class="task-card">
-                        <h3 class="task-title">Task Title 3</h3>
+                        <h3 class="task-title">Person 6</h3>
                     </div>
-                    
+
                 </div>
 
                 <style>
@@ -181,11 +176,25 @@
 
             <div class="column">
                 <h4> Tasks </h4>
-                <select class="form-control">
-                    <option> Create Task: Backend DAO function </option>
-                    <option> Update Task: UI task update form </option>
-                    <option> Create Sprint: Backend DAO function </option>
-                </select>
+                <div class="scrollable-box">
+                    <div class="task-card">
+                        <h3 class="task-title">Task Title 1</h3>
+                    </div>
+                    <div class="task-card">
+                        <h3 class="task-title">Task Title 2</h3>
+                    </div>
+                    <div class="task-card">
+                        <h3 class="task-title">Task Title 3</h3>
+                    </div>
+                    <div class="task-card">
+                        <h3 class="task-title">Task Title 3</h3>
+                    </div>
+                    <div class="task-card">
+                        <h3 class="task-title">Task Title 3</h3>
+                    </div>
+                    <div class="task-card">
+                        <h3 class="task-title">Task Title 3</h3>
+                    </div>
             </div>
         </div>
 
