@@ -1,4 +1,25 @@
+<?php
+ob_start();
+session_start();
+require('../auth.php');
 
+require_once('../database/dao.php');
+$dao = new DAO();
+//var_dump($_SERVER['REQUEST_METHOD']);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $taskName = $_POST['taskName'];
+    $storyPoints = (int)$_POST['storyPoints'];
+    $priority = $_POST['priority'];
+    $status = "Not Started";
+    $sprintId = NULL;
+    $taskNo = 1;
+    var_dump($taskNo, $taskName, $storyPoints, $priority, $status, $sprintId);
+    $dao->createTask($taskNo, $taskName, $storyPoints, $priority, $status, $sprintId);
+
+    header("Location: /backlog/backlog.php");
+    exit();
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
