@@ -282,6 +282,20 @@ $tasks = $dao->getAlLTasks();
         </table>
 
     </div>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const timeButtons = document.querySelectorAll('.btn-outline-warning');
+            timeButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const timeIndicator = e.target.closest('tr').querySelector('.time-indicator');
+                    if (timeIndicator.style.display === 'none' || timeIndicator.style.display === '') {
+                        timeIndicator.style.display = 'block';
+                    } else {
+                        timeIndicator.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
