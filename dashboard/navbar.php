@@ -117,7 +117,7 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
 
     <a href="/dashboard">Dashboard</a>
     <br>
-    <a href="/backlog/backlog.php">Backlog</a>
+    <a href="/backlog/index.php">Backlog</a>
     <a href="/backlog/create_task.php">Create Tasks</a>
     <a href="/backlog/update_task.php">Update Tasks</a>
     <a href="/sprints/add.php">Create Sprints</a>

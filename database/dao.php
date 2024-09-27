@@ -213,7 +213,7 @@ class dao
         }
     }
 
-    public function viewAllTasks() {
+    public function getAllTasks() {
         try {
             $this->_query = "SELECT * FROM task";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
