@@ -1,3 +1,13 @@
+<?php
+ob_start();
+session_start();
+require('../auth.php');
+
+require_once('../database/dao.php');
+$dao = new DAO();
+$tasks = $dao->getAlLTasks();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,7 +67,7 @@
             justify-content: space-between;
             align-items: center;
             height: 50px;
-            padding-right: 2.5%;
+            padding-right: 5%;
             padding-left: 2.5%;
         }
 
@@ -126,8 +136,8 @@
             justify-content: space-between;
             align-items: center;
             height: 50px;
-            padding-right: 2.5%;
             padding-left: 2.5%;
+            margin-top: 2px;
         }
         .custom-row td:first-child {
             border-top-left-radius: 7px;
@@ -136,6 +146,25 @@
         .custom-row td:last-child {
             border-top-right-radius: 7px;
             border-bottom-right-radius: 7px;
+        }
+        .truncate {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            margin-right: 2%;
+        }
+        .table-cell {
+            flex: 1;
+        }
+        .time-indicator {
+            position: absolute;
+            background-color: #ffcb3b;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin-right: 270px;
+            width: 150px;
+            transition: opacity 0.3s ease;
         }
     </style>
 </head>
@@ -158,7 +187,7 @@
         <table class="table" style="margin-bottom: 0">
             <thead>
             <tr class="table-header">
-                <th class="d-flex align-items-center" style="border: none">
+                <th class="d-flex align-items-center " style="border: none">
                     <h4 class="mb-0"><img src="/assets/task_icon.svg" class="header-icons"/>Task Name</h4>
                 </th>
                 <th class="d-flex align-items-center" style="border: none">
@@ -176,22 +205,43 @@
             </tr>
             </thead>
             <tbody>
+            <?php foreach ($tasks as $task): ?>
             <tr class="custom-row">
-                <td class="d-flex align-items-center" style="border: none;">
-                    asd
+                <td class="d-flex align-items-center truncate table-cell" style="border: none;">
+                    <?= htmlspecialchars($task->task_name); ?>
                 </td>
-                <td class="d-flex align-items-center" style="border: none">
-                    asd
+                <td class="d-flex align-items-center table-cell" style="border: none">
+                    <div style="display: flex;  gap: 10px">
+                        <img src="/assets/asgn1.svg" style="width: 35px"/>
+                        <img src="/assets/asgn2.svg" style="width: 35px"/>
+                        <img src="/assets/asgn3.svg" style="width: 35px"/>
+                        <img src="/assets/etc.svg" style="width: 20px"/>
+                    </div>
+
                 </td>
-                <td class="d-flex align-items-center" style="border: none">
-                    asd
+                <td class="d-flex align-items-center table-cell" style="border: none">
+                    <div style="margin-left: 70px;">
+                    <?= htmlspecialchars((int)$task->story_points); ?>
+                    </div>
                 </td>
-                <td class="d-flex align-items-center" style="border: none">
-                    asd
-                </td>
-                <td class="d-flex align-items-center" style="border: none">
-                    <a href="update_task.php" class="mr-1">
-                        <button type="button" class="btn btn-outline-primary" style="padding:7px; border: none">
+
+                <td class="d-flex align-items-center table-cell justify-content-center" style="border: none; gap: 4px">
+                    <button type="button" class="btn btn-outline-warning" style="padding:5px;border: none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+                        </svg>
+                        <span class="visually-hidden"></span>
+                    </button>
+                    <div id="timeIndicator" class="time-indicator" style="display: none;">
+                        <?php
+                            $date = new DateTime($task->created_at);
+                            echo "Created on:" . '<br>';
+                            echo $date->format('d/m/y') . ' | ';
+                            echo $date->format('H:i');
+                        ?>
+                    </div>
+                    <a href="update_task.php">
+                        <button type="button" class="btn btn-outline-primary" style="padding:7px; border: none;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
@@ -207,61 +257,25 @@
                     </button>
                 </td>
             </tr>
+            <?php endforeach; ?>
             </tbody>
         </table>
 
-
-<!--                <div style="padding-left: 30px; padding-bottom: 15px;">-->
-<!--                    <button type="button" class="btn btn-outline-success">-->
-<!--                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-square" viewBox="0 0 16 16">-->
-<!--                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"></path>-->
-<!--                            <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"></path>-->
-<!--                        </svg>-->
-<!--                        <span class="visually-hidden"></span>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!---->
-<!--                <div><p>Talk to client</p></div>-->
-<!---->
-<!--                <div style="display: flex; gap:10px; padding-left: 90px;">-->
-<!--                    <img src="/assets/user_icon.svg" style="width:20px; padding-bottom: 15px;"/>-->
-<!--                    <p>Initials</p>-->
-<!--                </div>-->
-<!---->
-<!--                <div style="padding-left: 200px;"><p>3</p></div>-->
-<!--                <div style="padding-left: 190px;"><p>High</p></div>-->
-<!---->
-<!--                Buttons for log hours/edit/delete task-->-->
-<!--                <div class="task-buttons" style="padding-left: 100px;">-->
-<!--                    <button type="button" class="btn btn-outline-warning" style="padding:5px;">-->
-<!--                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">-->
-<!--                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>-->
-<!--                        </svg>-->
-<!--                        <span class="visually-hidden"></span>-->
-<!--                    </button>-->
-<!---->
-<!--                    <a href="update_task.php">-->
-<!--                        <button type="button" class="btn btn-outline-primary" style="padding:5px;">-->
-<!--                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">-->
-<!--                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>-->
-<!--                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>-->
-<!--                            </svg>-->
-<!--                            <span class="visually-hidden"></span>-->
-<!--                        </button>-->
-<!--                    </a>-->
-<!---->
-<!--                    <button type="button" class="btn btn-outline-danger" style="padding:5px;">-->
-<!--                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">-->
-<!--                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>-->
-<!--                        </svg>-->
-<!--                        <span class="visually-hidden"></span>-->
-<!--                    </button>-->
-<!---->
-<!---->
-<!--                </div>-->
-
-
     </div>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const timeButtons = document.querySelectorAll('.btn-outline-warning');
+            timeButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const timeIndicator = e.target.closest('tr').querySelector('.time-indicator');
+                    if (timeIndicator.style.display === 'none' || timeIndicator.style.display === '') {
+                        timeIndicator.style.display = 'block';
+                    } else {
+                        timeIndicator.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
