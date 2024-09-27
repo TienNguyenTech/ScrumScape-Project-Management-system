@@ -224,7 +224,27 @@ $tasks = $dao->getAlLTasks();
                     <?= htmlspecialchars((int)$task->story_points); ?>
                     </div>
                 </td>
-
+                <td class="d-flex align-items-center table-cell " style="border: none;">
+                    <div style="margin-left: 52px;">
+                        <span style="margin-right: 5px">
+                        <?php
+                            if($task->priority == "High") {
+                        ?>      <img src="/assets/red-f.svg"/>
+                        <?php
+                            }
+                        if($task->priority == "Medium") {
+                            ?>      <img src="/assets/yell-f.svg"/>
+                            <?php
+                        }
+                        if($task->priority == "Low") {
+                            ?>      <img src="/assets/green-f.svg"/>
+                            <?php
+                        }
+                        ?>
+                        </span>
+                        <?=htmlspecialchars($task->priority); ?>
+                    </div>
+                </td>
                 <td class="d-flex align-items-center table-cell justify-content-center" style="border: none; gap: 4px">
                     <button type="button" class="btn btn-outline-warning" style="padding:5px;border: none">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
@@ -262,20 +282,6 @@ $tasks = $dao->getAlLTasks();
         </table>
 
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const timeButtons = document.querySelectorAll('.btn-outline-warning');
-            timeButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const timeIndicator = e.target.closest('tr').querySelector('.time-indicator');
-                    if (timeIndicator.style.display === 'none' || timeIndicator.style.display === '') {
-                        timeIndicator.style.display = 'block';
-                    } else {
-                        timeIndicator.style.display = 'none';
-                    }
-                });
-            });
-        });
-    </script>
+
 </body>
 </html>
