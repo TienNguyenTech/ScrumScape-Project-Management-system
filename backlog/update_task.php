@@ -5,7 +5,22 @@ require('../auth.php');
 
 require_once('../database/dao.php');
 $dao = new DAO();
-//var_dump($_SERVER['REQUEST_METHOD']);
+
+if (isset($_GET['id'])) {
+    $task_id = $_GET['id'];
+    $task = $dao->getTask($task_id);
+}
+if ($task) {
+    $taskObj = $task[0];
+    $taskId = $taskObj->task_id;
+    $taskNo = $taskObj->task_no;
+    $taskName = $taskObj->task_name;
+    $currentStoryPoints = $taskObj->story_points;
+    $currentPriority = $taskObj->priority;
+    $status = $taskObj->status;
+    $createdAt = $taskObj->created_at;
+    $sprintId = $taskObj->sprint_id;
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $taskName = $_POST['taskName'];
     $storyPoints = (int)$_POST['storyPoints'];
@@ -15,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sprintId = NULL;
     $taskNo = 1;
     var_dump($taskNo, $taskName, $storyPoints, $priority, $status, $sprintId);
-    $dao->createTask($taskNo, $taskName, $storyPoints, $priority, $status, $sprintId);
+    $dao->updateTask($taskId, $taskId, $taskName, $storyPoints, $priority, $status, $sprintId);
 
     header("Location: /backlog/index.php");
     exit();
@@ -124,21 +139,23 @@ require_once("../dashboard/navbar.php");
 
         <div class="column">
             <h4> Task Name </h4>
-            <textarea name="taskName" id="taskName" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="Create a XXX" required></textarea>
+            <textarea name="taskName" id="taskName" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" required><?php echo htmlspecialchars($taskName); ?></textarea>
+
             <h4> Story Points </h4>
             <select name="storyPoints" id="storyPoints" class="form-control">
-                <option value="NULL">-</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
+                <option value="NULL" <?php echo $currentStoryPoints === null ? 'selected' : ''; ?>>-</option>
+                <option value="1" <?php echo $currentStoryPoints == 1 ? 'selected' : ''; ?>>1</option>
+                <option value="2" <?php echo $currentStoryPoints == 2 ? 'selected' : ''; ?>>2</option>
+                <option value="3" <?php echo $currentStoryPoints == 3 ? 'selected' : ''; ?>>3</option>
+                <option value="4" <?php echo $currentStoryPoints == 4 ? 'selected' : ''; ?>>4</option>
+                <option value="5" <?php echo $currentStoryPoints == 5 ? 'selected' : ''; ?>>5</option>
             </select>
+
             <h4> Priority </h4>
-            <select name="priority" id="priority" class="form-control font-weight-bold bg-success" onchange="changeBg()" required>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
+            <select name="priority" id="priority" class="form-control font-weight-bold <?php echo $currentPriority === 'Low' ? 'bg-success' : ($currentPriority === 'Medium' ? 'bg-warning' : 'bg-danger'); ?>"" onchange="changeBg()" required>
+                <option value="Low" <?php echo $currentPriority === 'Low' ? 'selected' : ''; ?>>Low</option>
+                <option value="Medium" <?php echo $currentPriority === 'Medium' ? 'selected' : ''; ?>>Medium</option>
+                <option value="High" <?php echo $currentPriority === 'High' ? 'selected' : ''; ?>>High</option>
             </select>
         </div>
 
@@ -153,7 +170,7 @@ require_once("../dashboard/navbar.php");
 
     <!-- Footer with button-->
     <div class="footer">
-        <button type="submit" class="btn custom-btn">Create</button>
+        <button type="submit" class="btn custom-btn">Update</button>
     </div>
 </form>
 </div>
@@ -178,3 +195,6 @@ require_once("../dashboard/navbar.php");
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 </html>
+<?php
+}
+?>
