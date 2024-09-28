@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $status = "Not Started";
     $sprintId = NULL;
     $taskNo = 1;
-    var_dump($taskNo, $taskName, $storyPoints, $priority, $status, $sprintId);
+//    var_dump($taskNo, $taskName, $storyPoints, $priority, $status, $sprintId);
     $dao->createTask($taskNo, $taskName, $storyPoints, $priority, $status, $sprintId);
 
     header("Location: /backlog/index.php");
