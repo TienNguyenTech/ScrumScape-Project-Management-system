@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="column">
             <h4> Task Name </h4>
-            <textarea name="taskName" id="taskName" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="Create a XXX" required></textarea>
+            <textarea name="taskName" id="taskName" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="Implement Feature XXX" required></textarea>
             <h4> Story Points </h4>
             <select name="storyPoints" id="storyPoints" class="form-control">
                 <option value="NULL">-</option>
