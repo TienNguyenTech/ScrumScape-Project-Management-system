@@ -225,6 +225,18 @@ class dao
         }
     }
 
+    public function getTask($taskId) {
+        try {
+            $this->_query = "SELECT * FROM task WHERE task_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$taskId]);
+            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
+
 
     public function deleteTask($taskId) {
         try {
