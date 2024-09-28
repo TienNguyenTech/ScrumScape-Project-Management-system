@@ -116,12 +116,10 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
     <br>
 
     <a href="/dashboard">Dashboard</a>
-    <br>
     <a href="/backlog/index.php">Backlog</a>
     <a href="/backlog/create_task.php">Create Tasks</a>
-    <br>
-<!--    <a href="/backlog/update_task.php">Update Tasks</a>-->
-    <a href="/sprints/add.php">Create Sprints</a>
+    <a href="/backlog/update_task.php">Update Tasks</a>
+    <a href="/sprints/create_sprint.php">Create Sprints</a>
     <a href="/sprints">All Sprints</a>
     <a href="/sprints/add.php">Add Sprints</a>
     <?php
