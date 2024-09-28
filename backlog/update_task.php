@@ -1,10 +1,34 @@
+<?php
+ob_start();
+session_start();
+require('../auth.php');
+
+require_once('../database/dao.php');
+$dao = new DAO();
+//var_dump($_SERVER['REQUEST_METHOD']);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $taskName = $_POST['taskName'];
+    $storyPoints = (int)$_POST['storyPoints'];
+    if ($storyPoints == 0) { $storyPoints = NULL; }
+    $priority = $_POST['priority'];
+    $status = "Not Started";
+    $sprintId = NULL;
+    $taskNo = 1;
+    var_dump($taskNo, $taskName, $storyPoints, $priority, $status, $sprintId);
+    $dao->createTask($taskNo, $taskName, $storyPoints, $priority, $status, $sprintId);
+
+    header("Location: /backlog/index.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Update Task Page </title>
+    <title> Create Task Page </title>
 
     <!-- Boostrap link -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
@@ -13,10 +37,11 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
 
         .container {
@@ -32,7 +57,7 @@
             gap: 30px;
             width: 100%;
             height: 50vh;
-            
+
         }
 
         .column {
@@ -42,12 +67,12 @@
 
         .column * {
             font-family: "IBM Plex Sans";
-            font-weight: light;
+            /*font-weight: light;*/
             font-size: 18px;
             color: #6F7482;
-            font-style: regular;
+            /*font-style: regular;*/
             margin: 20px;
-            
+
         }
 
         .column h1 {
@@ -59,14 +84,14 @@
 
         .custom-btn {
             background-color:#0888C7;
-            color:white; 
+            color:white;
         }
 
         .custom-btn:hover {
             background-color: #0A6C9C;
             color:white;
         }
-        
+
         .form-control {
             background-color: #F8FAFC;
             border:none
@@ -85,39 +110,41 @@
 
 <body>
 <?php
-    require_once("../dashboard/navbar.php");
-        ?>
-<div class="container">
-
-    <!-- Header with logo-->
-    <div class="header" style="margin-left: -120px; margin-top: 70px;">  
-        <img src="/assets/logo.png" width="180px"/>
-    </div>
+require_once("../dashboard/navbar.php");
+?>
+<form class="container mt-5" method = 'post'>
 
     <!-- Main body -->
-    <div class="content-container"> 
-        
+    <div class="content-container mt-5">
+
         <div class="column">
             <h1> Update Task </h1>
             <p> Update a task in the product backlog. </p>
         </div>
-        
+
         <div class="column">
             <h4> Task Name </h4>
-            <input class="form-control form-control-sm" type="text" placeholder="Talk to client">
+            <textarea name="taskName" id="taskName" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="Create a XXX" required></textarea>
             <h4> Story Points </h4>
-            <input class="form-control form-control-sm" type="text" placeholder="3">
+            <select name="storyPoints" id="storyPoints" class="form-control">
+                <option value="NULL">-</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
             <h4> Priority </h4>
-            <select class="form-control">
-                <option> High </option>
-                <option> Medium </option>
-                <option> Low </option>
+            <select name="priority" id="priority" class="form-control font-weight-bold bg-success" onchange="changeBg()" required>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
             </select>
         </div>
 
         <div class="column">
             <h4> Assign To</h4>
-            <select class="form-control">
+            <select class="form-control " required>
                 <option> Jane Doe </option>
                 <option> John Smith </option>
             </select>
@@ -125,9 +152,29 @@
     </div>
 
     <!-- Footer with button-->
-    <div class="footer"> 
-        <button type="button" class="btn custom-btn">Update Task</button>
+    <div class="footer">
+        <button type="submit" class="btn custom-btn">Create</button>
     </div>
+</form>
 </div>
+<script>
+    function changeBg() {
+        const select = document.getElementById("priority");
+        const val = select.value;
+        select.classList.remove("bg-danger", "bg-warning", "bg-success");
+        if (val === 'High') {
+            select.classList.add('bg-danger');
+        } else if (val === 'Medium') {
+            select.classList.add('bg-warning');
+
+        } else if (val === 'Low') {
+            select.classList.add('bg-success');
+        }
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6jJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 </html>

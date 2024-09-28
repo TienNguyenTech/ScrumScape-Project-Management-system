@@ -9,6 +9,7 @@ $dao = new DAO();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $taskName = $_POST['taskName'];
     $storyPoints = (int)$_POST['storyPoints'];
+    if ($storyPoints == 0) { $storyPoints = NULL; }
     $priority = $_POST['priority'];
     $status = "Not Started";
     $sprintId = NULL;
@@ -125,7 +126,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <h4> Task Name </h4>
             <textarea name="taskName" id="taskName" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="Create a XXX" required></textarea>
             <h4> Story Points </h4>
-            <select name="storyPoints" id="storyPoints" class="form-control" required>
+            <select name="storyPoints" id="storyPoints" class="form-control">
+                <option value="NULL">-</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
