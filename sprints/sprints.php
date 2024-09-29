@@ -19,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sprint_id'])) {
         window.onload = function () { alert("Delete unsuccessful."); } 
         </script>'; 
     } else {
-
         // Refresh the page after a successful deletion
         header('Location: ' . $_SERVER['PHP_SELF']);  // Reload the current page
 
@@ -329,6 +328,7 @@ function formatDate($date) {
             <?php endforeach; ?>
             </tbody>
         </table>
+
 
     </div>
     <script>
