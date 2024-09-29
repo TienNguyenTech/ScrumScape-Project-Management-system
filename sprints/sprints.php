@@ -9,13 +9,30 @@ $sprints = $dao->getAllSprints();
 
 
 
-
-if (isset($_POST['delete']) && $_POST['delete'] === 'true') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sprint_id'])) {
     $sprintId = (int)$_POST['sprint_id']; // Get sprint_id from the form submission
-    $dao->deleteSprint($sprintId);        // Call the delete function
-    header("Location: sprints_page.php"); // Redirect to avoid form resubmission issues
-    exit();
+    
+    $worked = $dao->deleteSprint($sprintId);        // Call the delete function
+
+    if (!$worked) {
+        echo '<script type="text/javascript">
+        window.onload = function () { alert("Delete unsuccessful."); } 
+        </script>'; 
+    } else {
+
+        // Refresh the page after a successful deletion
+        header('Location: ' . $_SERVER['PHP_SELF']);  // Reload the current page
+
+        exit();  // Make sure no further code is executed
+    }
+
+    // Unset sprint_id from POST data
+    unset($_POST['sprint_id']);
 }
+
+
+
+
 
 
 
@@ -248,7 +265,7 @@ function formatDate($date) {
             </thead>
             <tbody>
             <?php foreach ($sprints as $sprint): ?>
-            <tr class="custom-row" onclick="window.location='kanban.html';">
+            <tr class="custom-row" onclick="if (!event.target.closest('button')) window.location='kanban.html';"">
                 <td class="d-flex align-items-center truncate table-cell" style="border: none;">
                     <?= htmlspecialchars($sprint->sprint_id); ?>
                 </td>
@@ -298,9 +315,9 @@ function formatDate($date) {
                     </a>
 
                     <!-- Delete button -->
-                    <form method="POST" action="sprints_page.php" onsubmit="return confirmDelete();" onclick="event.stopPropagation();">
+                    <form method="POST" action="">
                         <input type="hidden" name="sprint_id" value="<?= $sprint->sprint_id ?>">
-                        <button type="submit" name="delete" value="true" class="btn btn-outline-danger" style="padding:7px; border: none;">
+                        <button type="submit" class="btn btn-outline-danger" style="padding:7px; border: none;" onclick="return confirm('Are you sure you want to delete this sprint?'); event.stopPropagation();">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                 <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0"/>
                             </svg>
@@ -334,11 +351,7 @@ function formatDate($date) {
 
                 }
     </script>
-    <script>
-        function confirmDelete(sprintId) {
-            return confirm("Are you sure you want to delete this sprint?");
-        }
-    </script>
+
 
 
 </body>
