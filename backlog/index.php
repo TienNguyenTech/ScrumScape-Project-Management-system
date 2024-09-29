@@ -5,7 +5,17 @@ require('../auth.php');
 
 require_once('../database/dao.php');
 $dao = new DAO();
-$tasks = $dao->getAlLTasks();
+$tasks = $dao->getAllTasks();
+
+if (isset($_GET['id'])) {
+    $task_id = $_GET['id'];
+
+    if ($dao->deleteTask($task_id)) {
+        header("Location: index.php");
+        exit();
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -175,11 +185,11 @@ $tasks = $dao->getAlLTasks();
     require_once("../dashboard/navbar.php");
         ?>
 
-    <div class="container">
+    <div class="container mb-5">
         <!-- Product Backlog Title, Searchbar and Button-->
         <div class="header-search">
             <h1>Product Backlog</h1>
-            <input class="form-control search-bar col-sm-3" type="text" placeholder="Search Task">
+            <input class="form-control search-bar col-sm-3" id="taskSearchInput" type="text" placeholder="Search Task" onkeyup="searchTasks()">
             <a href="create_task.php"> <button type="button" class="btn custom-btn">+ Add Task</button></a>
         </div>
 
@@ -207,7 +217,7 @@ $tasks = $dao->getAlLTasks();
             <tbody>
             <?php foreach ($tasks as $task): ?>
             <tr class="custom-row">
-                <td class="d-flex align-items-center truncate table-cell" style="border: none;">
+                <td class="d-flex align-items-center truncate table-cell task-name" style="border: none;">
                     <?= htmlspecialchars($task->task_name); ?>
                 </td>
                 <td class="d-flex align-items-center table-cell" style="border: none">
@@ -221,7 +231,14 @@ $tasks = $dao->getAlLTasks();
                 </td>
                 <td class="d-flex align-items-center table-cell" style="border: none">
                     <div style="margin-left: 70px;">
-                    <?= htmlspecialchars((int)$task->story_points); ?>
+                        <?php
+                        if ($task->story_points == NULL) {
+                            echo '-';
+                        }
+                        else {
+                            echo htmlspecialchars((int)$task->story_points);
+                        }
+                        ?>
                     </div>
                 </td>
                 <td class="d-flex align-items-center table-cell " style="border: none;">
@@ -260,7 +277,7 @@ $tasks = $dao->getAlLTasks();
                             echo $date->format('H:i');
                         ?>
                     </div>
-                    <a href="update_task.php">
+                    <a href="update_task.php?id=<?= htmlspecialchars($task->task_id); ?>"">
                         <button type="button" class="btn btn-outline-primary" style="padding:7px; border: none;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -269,12 +286,14 @@ $tasks = $dao->getAlLTasks();
                             <span class="visually-hidden"></span>
                         </button>
                     </a>
+                    <a href="index.php?id=<?= htmlspecialchars($task->task_id); ?>" onclick="return confirm('Are you sure you want to delete this task?');">
                     <button type="button" class="btn btn-outline-danger" style="padding:7px; border: none">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
                         </svg>
                         <span class="visually-hidden"></span>
                     </button>
+                    </a>
                 </td>
             </tr>
             <?php endforeach; ?>
@@ -296,6 +315,24 @@ $tasks = $dao->getAlLTasks();
                 });
             });
         });
+        function searchTasks() {
+            let input = document.getElementById('taskSearchInput');
+            let filter = input.value.toLowerCase();
+            let rows = document.querySelectorAll('.custom-row');
+
+            rows.forEach(row => {
+                const taskName = row.querySelector('.task-name').textContent.toLowerCase();
+                // console.log(taskName)
+                if (taskName.includes(filter)) {
+                    // console.log("found")
+                    row.style.display = "";
+                } else {
+                    // console.log("found")
+                    row.style.display = "none";
+                }
+            });
+
+        }
     </script>
 </body>
 </html>
