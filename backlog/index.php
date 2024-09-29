@@ -197,7 +197,7 @@ if (isset($_GET['id'])) {
         <table class="table" style="margin-bottom: 0">
             <thead>
             <tr class="table-header">
-                <th class="d-flex align-items-center " style="border: none">
+                <th class="d-flex align-items-center" style="border: none">
                     <h4 class="mb-0"><img src="/assets/task_icon.svg" class="header-icons"/>Task Name</h4>
                 </th>
                 <th class="d-flex align-items-center" style="border: none">
