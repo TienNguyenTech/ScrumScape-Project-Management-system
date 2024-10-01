@@ -215,7 +215,7 @@ class dao
 
     public function getAllTasks() {
         try {
-            $this->_query = "SELECT * FROM task";
+            $this->_query = "SELECT * FROM task  WHERE sprint_id IS NULL";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute();
             return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
