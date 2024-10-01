@@ -264,7 +264,7 @@ function formatDate($date) {
             </thead>
             <tbody>
             <?php foreach ($sprints as $sprint): ?>
-            <tr class="custom-row" onclick="if (!event.target.closest('button')) window.location='kanban.html';"">
+            <tr class="custom-row" onclick="if (!event.target.closest('button')) window.location='/backlog/kanban.php';"">
                 <td class="d-flex align-items-center truncate table-cell" style="border: none;">
                     <?= htmlspecialchars($sprint->sprint_id); ?>
                 </td>
