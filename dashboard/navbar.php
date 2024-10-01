@@ -114,14 +114,14 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
 <!-- Sidebar -->
 <div id="mySidebar" class="sidebar">
     <br>
-
     <a href="/dashboard">Dashboard</a>
+    <br>
     <a href="/backlog/index.php">Backlog</a>
     <a href="/backlog/create_task.php">Create Tasks</a>
-    <a href="/backlog/update_task.php">Update Tasks</a>
-    <a href="/sprints/add.php">Create Sprints</a>
+    <br>
     <a href="/sprints/sprints.php">All Sprints</a>
-    <a href="/sprints/add.php">Add Sprints</a>
+    <a href="/sprints/add.php">Create Sprints</a>
+
     <?php
     if ($user->admin == 1) {
     ?>
