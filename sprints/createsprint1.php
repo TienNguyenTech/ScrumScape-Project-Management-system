@@ -1,3 +1,38 @@
+<?php
+ob_start();
+session_start();
+require('../auth.php');
+
+require_once('../database/dao.php');
+$dao = new DAO();
+$Sprints = $dao->getAllSprints();
+$users = $dao->getAllUsers();
+
+if (isset($_GET['id'])) {
+    $Sprint_id = $_GET['id'];
+
+    if ($dao->deleteSprint($Sprint_id)) {
+        header("Location: index.php");
+        exit();
+    }
+}
+//var_dump($_SERVER['REQUEST_METHOD']);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $SprintName = $_POST['SprintName'];
+    $storyPoints = (int)$_POST['storyPoints'];
+    if ($storyPoints == 0) { $storyPoints = NULL; }
+    $priority = $_POST['priority'];
+    $status = "Not Started";
+    $sprintId = NULL;
+    $SprintNo = 1;
+//    var_dump($SprintNo, $SprintName, $storyPoints, $priority, $status, $sprintId);
+    $dao->createSprint($SprintNo, $SprintName, $storyPoints, $priority, $status, $sprintId);
+
+    header("Location: /backlog/index.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
