@@ -124,7 +124,7 @@ class dao
     public function deleteSprint($id) { 
 
         try {
-            $this->_query = "UPDATE TASK SET sprint_id = null WHERE sprint_id = ?";
+            $this->_query = "UPDATE TASK SET sprint_id = null and status = 'Not Started' WHERE sprint_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$id]); 
 
