@@ -223,7 +223,7 @@ function formatDate($date) {
         <div class="header-search">
             <h1>Sprints</h1>
             <input class="form-control search-bar col-sm-3" id="sprintSearchInput" type="text" placeholder="Search Sprint" onkeyup="searchSprints()">
-            <a href="createsprint1.php"> <button type="button" class="btn custom-btn">Create sprint +</button></a>
+            <a href="createsprint1.php"> <button type="button" class="btn custom-btn">+ Create Sprint</button></a>
         </div>
 
             <!--Task table header-->
