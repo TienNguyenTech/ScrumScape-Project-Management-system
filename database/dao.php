@@ -122,33 +122,41 @@ class dao
     
     
     public function deleteSprint($id) { 
-
         try {
-            $this->_query = "UPDATE TASK SET sprint_id = null and status = 'Not Started' WHERE sprint_id = ?";
+            // Begin transaction to ensure atomicity
+            $this->_db_handle->beginTransaction();
+    
+            // Update tasks to reset sprint_id and status
+            $this->_query = "UPDATE TASK SET sprint_id = NULL, status = 'Not Started' WHERE sprint_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
-            $this->_stmt->execute([$id]); 
-
-        } catch (Exception $e) {
-            $this->_error = $e->getMessage();
-            return false;
-        }
-
-        try {
+            $this->_stmt->execute([$id]);
+    
+            // Delete the sprint record
             $this->_query = "DELETE FROM sprint WHERE sprint_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
-            $this->_stmt->execute([$id]); 
-            $rowsAffected = $this->_stmt->rowCount();
-            if ($rowsAffected === 0) {
+            $this->_stmt->execute([$id]);
+    
+            // Check if any rows were affected in the DELETE query
+            if ($this->_stmt->rowCount() === 0) {
                 echo "No rows were deleted.";
+                // Rollback transaction if no sprint was deleted
+                $this->_db_handle->rollBack();
                 return false;
             }
+    
+            // Commit the transaction if both queries succeed
+            $this->_db_handle->commit();
             return true;
+    
         } catch (Exception $e) {
+            // Rollback the transaction in case of any error
+            $this->_db_handle->rollBack();
             $this->_error = $e->getMessage();
+            error_log("Error deleting sprint: " . $e->getMessage()); // Log the error for debugging
             return false;
         }
-
     }
+    
         
     public function getSprint($id) { 
         try {
