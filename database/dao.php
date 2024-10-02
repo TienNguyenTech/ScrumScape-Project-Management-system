@@ -122,6 +122,17 @@ class dao
     
     
     public function deleteSprint($id) { 
+
+        try {
+            $this->_query = "UPDATE TASK SET sprint_id = null WHERE sprint_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$id]); 
+
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return false;
+        }
+
         try {
             $this->_query = "DELETE FROM sprint WHERE sprint_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
@@ -136,6 +147,7 @@ class dao
             $this->_error = $e->getMessage();
             return false;
         }
+
     }
         
     public function getSprint($id) { 
