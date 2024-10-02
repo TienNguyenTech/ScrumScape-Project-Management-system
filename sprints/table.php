@@ -153,7 +153,7 @@ $sprints = $dao->getAllSprints();
                     <td class="sprint-card-middle"><?= htmlspecialchars($sprint->start_date) ?></td>
                     <td class="sprint-card-middle"><?= htmlspecialchars($sprint->end_date) ?></td>
                     <td class="sprint-card-right icon">
-                        <a href="/sprints/kanban.html">
+                        <a href="/backlog/updatesprint.html">
 <!--                        <a href="edit_sprint.php?sprint_no=--><?php //= htmlspecialchars($sprint->sprint_no) ?><!--">-->
                             <img src="https://cdn-icons-png.freepik.com/256/8256/8256321.png" alt="Edit Icon">
                         </a>
