@@ -301,9 +301,26 @@ class dao
             return false;
         }
     }
+    
+    // ================================================ TASK ASSIGNMENT METHODS ==================================================
+
+    public function getAllUsers()
+    {
+        try {
+            $this->_query = "SELECT * FROM user";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute();
+            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
 
 
 }
+
+
 
 
 
