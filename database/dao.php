@@ -90,6 +90,33 @@ class dao
         }
     }
 
+    public function getAllUsers() {
+        try {
+            $this->_query = "SELECT * FROM user";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute();
+            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
+
+
+    public function getTeamMembers() {
+        try {
+            $this->_query = "SELECT * FROM user where admin = 0";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute();
+            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+
+
+    }
+
     // ================================================ SPRINT METHODS ==================================================
 
     public function getAllSprints() {
@@ -301,22 +328,103 @@ class dao
             return false;
         }
     }
+
+
+
+
+
     
     // ================================================ TASK ASSIGNMENT METHODS ==================================================
 
-    public function getAllUsers()
-    {
+
+    public function assignTask($userID, $taskID) {
         try {
-            $this->_query = "SELECT * FROM user";
+            // Begin transaction to ensure atomicity
+            $this->_db_handle->beginTransaction();
+    
+            $this->_query = "UPDATE task_assignment SET user_id = ?, assigned_on = CURDATE() WHERE task_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
-            $this->_stmt->execute();
-            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+            $this->_stmt->execute([$userID, $taskID]);
+            $rowsAffected = $this->_stmt->rowCount();
+
+            if ($rowsAffected === 0) {
+                $this->_query = "INSERT INTO task_assignment (user_id, task_id, assigned_on) VALUES (?, ?, CURDATE())";
+                $this->_stmt = $this->_db_handle->prepare($this->_query);
+                $this->_stmt->execute([$userID, $taskID]);                
+            }
+
+            // Commit the transaction if both queries succeed
+            $this->_db_handle->commit();
+            return true;
+        } catch (Exception $e) {
+            // Rollback the transaction in case of any error
+            $this->_db_handle->rollBack();
+            $this->_error = $e->getMessage();
+            error_log("Error assigning task: " . $e->getMessage()); // Log the error for debugging
+            return false;
+        }
+    }
+
+
+
+    public function logHours($taskID, $userID, $hours) {
+        try {
+            $this->_query = "INSERT into hours_log (task_id, user_id, hours, logged_on) VALUES (?, ?, ?, CURDATE());";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$taskID, $userID, $hours]);
+
+            return true;
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return false;
+        }
+    }
+
+
+    public function getTaskHours($taskID) {
+        try {
+            $this->_query = "SELECT sum(hours) as total_hours FROM hours_log WHERE task_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$taskID]);
+    
+            $result = $this->_stmt->fetch(PDO::FETCH_OBJ);  // Fetch single row as object
+            return $result->total_hours ?? 0;  // Return total_hours or 0 if no result
         } catch (Exception $e) {
             $this->_error = $e->getMessage();
             return null;
         }
     }
+    
 
+    public function getUserHours($userID) {
+        try {
+            $this->_query = "SELECT sum(hours) as total_hours FROM hours_log WHERE user_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$userID]);
+    
+            $result = $this->_stmt->fetch(PDO::FETCH_OBJ);
+            return $result->total_hours ?? 0;  // Return total_hours or 0 if no result
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
+    
+
+    public function getSprintHours($sprintID) {
+        try {
+            $this->_query = "SELECT sum(hours) as total_hours FROM hours_log h JOIN task t ON h.task_id = t.task_id WHERE t.sprint_ID = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$sprintID]);
+    
+            $result = $this->_stmt->fetch(PDO::FETCH_OBJ);
+            return $result->total_hours ?? 0;  // Return total_hours or 0 if no result
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
+    
 
 }
 
