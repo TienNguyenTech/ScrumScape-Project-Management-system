@@ -7,10 +7,168 @@
 
     <!-- Boostrap link -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        
+        .body1 {
+            display:flex;
+            width: 100%;
+            height:100vh;
+        }
+
+        .main-field {
+            background-color: #E5E5E5;
+            width: 80%;
+            border: none;
+            margin-bottom: 30px;
+        }
+
+        .main-field:focus {
+            background-color: #E5E5E5;
+            box-shadow: 0 0 0 0.2rem rgba(111, 116, 130, 0.25); 
+        }
+
+        .main-header {
+            font-size: 15px;
+            color: #6F7482;
+            font-family: "Montserrat"
+            margin-bottom: 100px;
+            font-weight: bold;
+        }
+
+        .custom-btn {
+            background-color:#1F6190;
+            color:white; 
+            font-size: 12px;
+            font-family: "Montserrat"
+        }
+
+        .custom-btn:hover {
+            background-color: #0A6C9C;
+            color:white;
+        }
+
+        .sub-header {
+            display:flex;
+            gap: 15px;
+            padding: 30px 0px 10px 50px;
+        }
+
+        .sub-header h4 {
+            font-family: "Montserrat";
+            color: #6F7482;
+            font-weight: light;
+            font-size: 13px;
+        }
+        
+        .sub-field {
+            width: 45%;
+            margin-left: 100px;
+
+        }
+
+        .info-section {
+            height:20%;
+        }
+
+        
+    </style>
+
 </head>
 
 <body>
-    
+
+    <div> 
+
+        <div class="body1"> 
+            
+            <div style="width:75%;">
+                <!-- Logo -->
+                <div>
+                    <img src="../assets/logo.png" style="width: 250px; padding: 80px 0px 0px 100px; "/>
+                </div>
+
+                <!-- Fields -->
+                <div style="padding: 50px 0px 0px 200px;">
+                    <h2 class="main-header"> Task Name </h2>
+                    <input class="form-control main-field" type="text" placeholder="Insert task name...">
+
+                    <h2 class="main-header"> Task Description </h2>
+                    <textarea class="form-control main-field" rows="8" style="resize: none;" placeholder="Insert description..."></textarea>
+                </div>
+
+                <!-- Button -->
+                <div style="padding: 50px 0px 0px 75%">
+                    <button type="button" class="btn custom-btn">Create Task</button>
+                </div>
+            </div>
+
+            <div style="background-color: #F4F3F3; width: 25%;">
+
+                <div class="info-section">
+                    <div class="sub-header">
+                        <img src="../assets/task_icon.svg" style="width:15px; color: #6F7482;"/>    
+                        <h4> Task Type </h4>
+                    </div>
+                    <select class="form-control form-control-sm sub-field main-field">
+                        <option>Story</option>
+                        <option> Bug </option>
+                    </select>
+                    <hr style="border: 1px solid #AEA8A8; width: 50%; margin: 20px auto;">
+                </div>
+
+                <div class="info-section">
+                    <div class="sub-header">
+                        <img src="../assets/task_icon.svg" style="width:15px; color: #6F7482;"/>    
+                        <h4> Story Points </h4>
+                    </div>
+                    <select class="form-control form-control-sm sub-field main-field">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                    </select>
+                    <hr style="border: 1px solid #AEA8A8; width: 50%; margin: 20px auto;">
+                </div>
+
+                <div class="info-section">
+                    <div class="sub-header">
+                        <img src="../assets/task_icon.svg" style="width:15px; color: #6F7482;"/>    
+                        <h4> Priority </h4>
+                    </div>
+                    <select class="form-control form-control-sm sub-field main-field">
+                        <option>Low</option>
+                        <option>Medium</option>
+                        <option>Important</option>
+                        <option>Urgent</option>
+                    </select>
+                    <hr style="border: 1px solid #AEA8A8; width: 50%; margin: 20px auto;">
+                </div>
+
+                <div class="info-section-tags" style="background-color: red; ">
+                </div>
+            
+            </div>
+
+        </div>
+
+        <div class="body2">
+        </div>
+
+    </div>
+
 </body>
+
 </html>
