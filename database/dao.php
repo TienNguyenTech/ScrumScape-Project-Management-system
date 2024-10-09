@@ -511,14 +511,15 @@ class dao
 
 
 
-    public function getCompletedSprintPoints($sprintID) {
+    public function getCompletedSprintPoints($sprintID, $start_date, $end_date) {
         try {
             $this->_query = "SELECT completion_date, sum(story_points) as tot_story_points
             FROM task
             WHERE sprint_ID = ? and status = 'Completed' and completion_date is not null
+            and completion_date between ? and ?
             GROUP BY completion_date";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
-            $this->_stmt->execute([$sprintID]);
+            $this->_stmt->execute([$sprintID, $start_date, $end_date]);
     
             // Fetch all rows
             $result = $this->_stmt->fetchAll(PDO::FETCH_OBJ);
