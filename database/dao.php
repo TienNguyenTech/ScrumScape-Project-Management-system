@@ -395,11 +395,12 @@ class dao
         }
     }
 
-    public function getTaskHours($taskID) {
+    public function getTaskHours($taskID, $start_date, $end_date) {
         try {
-            $this->_query = "SELECT DATE_FORMAT(logged_on, '%d/%m/%Y') as date, hours FROM hours_log WHERE task_id = ?";
+            $this->_query = "SELECT DATE_FORMAT(logged_on, '%d/%m/%Y') as date, hours FROM hours_log WHERE task_id = ?
+            and logged_on between ? and ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
-            $this->_stmt->execute([$taskID]);
+            $this->_stmt->execute([$taskID, $start_date, $end_date]);
     
             // Fetch all rows
             $result = $this->_stmt->fetchAll(PDO::FETCH_OBJ);
@@ -434,12 +435,13 @@ class dao
         }
     }
 
-    public function getUserHours($userID) {
+    public function getUserHours($userID, $start_date, $end_date) {
         try {
             // Corrected DATE_FORMAT string
-            $this->_query = "SELECT DATE_FORMAT(logged_on, '%d/%m/%Y') as date, hours FROM hours_log WHERE user_id = ?";
+            $this->_query = "SELECT DATE_FORMAT(logged_on, '%d/%m/%Y') as date, hours FROM hours_log WHERE user_id = ?
+            and logged_on between ? and ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
-            $this->_stmt->execute([$userID]);
+            $this->_stmt->execute([$userID, $start_date, $end_date]);
         
             // Fetch all rows
             $result = $this->_stmt->fetchAll(PDO::FETCH_OBJ);
@@ -475,11 +477,13 @@ class dao
         }
     }
 
-    public function getSprintHours($sprintID) {
+    public function getSprintHours($sprintID, $start_date, $end_date) {
         try {
-            $this->_query = "SELECT DATE_FORMAT(h.logged_on, '%d/%m/%Y') as date, h.hours FROM hours_log h JOIN task t ON h.task_id = t.task_id WHERE t.sprint_ID = ?";
+            $this->_query = "SELECT DATE_FORMAT(h.logged_on, '%d/%m/%Y') as date, h.hours 
+            FROM hours_log h JOIN task t ON h.task_id = t.task_id 
+            WHERE t.sprint_ID = ? and h.logged_on between ? and ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
-            $this->_stmt->execute([$sprintID]);
+            $this->_stmt->execute([$sprintID, $start_date, $end_date]);
     
             // Fetch all rows
             $result = $this->_stmt->fetchAll(PDO::FETCH_OBJ);
