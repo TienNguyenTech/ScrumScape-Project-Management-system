@@ -233,7 +233,7 @@ if (isset($_GET['id'])) {
                     <div style="margin-left: 82px;">
                         <span style="margin-right: 5px">
                         <?php
-                            if($task->priority == "High") {
+                            if($task->priority == "Urgent") {
                         ?>      <img src="/assets/red-f.svg"/>
                         <?php
                             }
@@ -243,6 +243,10 @@ if (isset($_GET['id'])) {
                         }
                         if($task->priority == "Low") {
                             ?>      <img src="/assets/green-f.svg"/>
+                            <?php
+                        }
+                        if($task->priority == "Important") {
+                            ?>      <img src="/assets/yell-f.svg"/>
                             <?php
                         }
                         ?>
