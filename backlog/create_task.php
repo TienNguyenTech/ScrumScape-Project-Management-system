@@ -138,7 +138,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <select name="priority" id="priority" class="form-control font-weight-bold bg-success" onchange="changeBg()" required>
                 <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
-                <option value="High">High</option>
+                <option value="Important">Important</option>
+                <option value="Urgent">Urgent</option>
             </select>
         </div>
 
@@ -162,13 +163,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         const select = document.getElementById("priority");
         const val = select.value;
         select.classList.remove("bg-danger", "bg-warning", "bg-success");
-        if (val === 'High') {
+        if (val === 'Urgent') {
             select.classList.add('bg-danger');
         } else if (val === 'Medium') {
             select.classList.add('bg-warning');
 
         } else if (val === 'Low') {
             select.classList.add('bg-success');
+
+        } else if (val === 'Important') {
+            select.style.backgroundColor = '#FF8C00';
         }
     }
 </script>
