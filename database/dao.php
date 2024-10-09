@@ -438,8 +438,9 @@ class dao
     public function getUserHours($userID, $start_date, $end_date) {
         try {
             // Corrected DATE_FORMAT string
-            $this->_query = "SELECT DATE_FORMAT(logged_on, '%d/%m/%Y') as date, hours FROM hours_log WHERE user_id = ?
-            and logged_on between ? and ?";
+            $this->_query = "SELECT DATE_FORMAT(logged_on, '%d/%m/%Y') as date, sum(hours) as total_hours FROM hours_log WHERE user_id = ?
+            and logged_on between ? and ?
+            group by logged_on";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$userID, $start_date, $end_date]);
         
@@ -505,6 +506,7 @@ class dao
 
 
 
+    // ================================================ CHART METHODS ==================================================
 
 
 
