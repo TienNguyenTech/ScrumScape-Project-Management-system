@@ -199,7 +199,7 @@ class dao
                 echo "More than one row was returned.";
                 return null;
             }
-            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+            return $this->_stmt->fetch(PDO::FETCH_OBJ);
         } catch (Exception $e) {
             $this->_error = $e->getMessage();
             return null;
@@ -277,7 +277,7 @@ class dao
             $this->_query = "SELECT * FROM task WHERE task_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$taskId]);
-            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+            return $this->_stmt->fetch(PDO::FETCH_OBJ);
         } catch (Exception $e) {
             $this->_error = $e->getMessage();
             return null;
