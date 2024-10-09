@@ -381,7 +381,7 @@ class dao
     }
 
 
-    public function getTaskHours($taskID) {
+    public function getTotalTaskHours($taskID) {
         try {
             $this->_query = "SELECT sum(hours) as total_hours FROM hours_log WHERE task_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
@@ -394,9 +394,33 @@ class dao
             return null;
         }
     }
+
+    public function getTaskHours($taskID) {
+        try {
+            $this->_query = "SELECT DATE_FORMAT(logged_on, '%d/%m/%Y') as date, hours FROM hours_log WHERE task_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$taskID]);
+    
+            // Fetch all rows
+            $result = $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+            
+            // Check if result is empty
+            if (empty($result)) {
+                // Optionally log the message, return null or empty array instead of echoing
+                // echo "No rows were returned."; 
+                return null;  // or return []; depending on your use case
+            }
+    
+            return $result;
+        } catch (Exception $e) {
+            // Store error and return null
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
     
 
-    public function getUserHours($userID) {
+    public function getTotalUserHours($userID) {
         try {
             $this->_query = "SELECT sum(hours) as total_hours FROM hours_log WHERE user_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
@@ -409,9 +433,35 @@ class dao
             return null;
         }
     }
+
+    public function getUserHours($userID) {
+        try {
+            // Corrected DATE_FORMAT string
+            $this->_query = "SELECT DATE_FORMAT(logged_on, '%d/%m/%Y') as date, hours FROM hours_log WHERE user_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$userID]);
+        
+            // Fetch all rows
+            $result = $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+            
+            // Check if result is empty
+            if (empty($result)) {
+                // Optionally log the message, return null or empty array instead of echoing
+                // echo "No rows were returned."; 
+                return null;  // or return []; depending on your use case
+            }
+    
+            return $result;
+        } catch (Exception $e) {
+            // Store error and return null
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
+    
     
 
-    public function getSprintHours($sprintID) {
+    public function getTotalSprintHours($sprintID) {
         try {
             $this->_query = "SELECT sum(hours) as total_hours FROM hours_log h JOIN task t ON h.task_id = t.task_id WHERE t.sprint_ID = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
@@ -420,6 +470,30 @@ class dao
             $result = $this->_stmt->fetch(PDO::FETCH_OBJ);
             return $result->total_hours ?? 0;  // Return total_hours or 0 if no result
         } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
+
+    public function getSprintHours($sprintID) {
+        try {
+            $this->_query = "SELECT DATE_FORMAT(h.logged_on, '%d/%m/%Y') as date, h.hours FROM hours_log h JOIN task t ON h.task_id = t.task_id WHERE t.sprint_ID = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$sprintID]);
+    
+            // Fetch all rows
+            $result = $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+            
+            // Check if result is empty
+            if (empty($result)) {
+                // Optionally log the message, return null or empty array instead of echoing
+                // echo "No rows were returned."; 
+                return null;  // or return []; depending on your use case
+            }
+    
+            return $result;
+        } catch (Exception $e) {
+            // Store error and return null
             $this->_error = $e->getMessage();
             return null;
         }
