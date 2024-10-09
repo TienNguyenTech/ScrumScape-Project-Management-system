@@ -12,6 +12,30 @@ if (isset($_GET['id'])) {
 
 }
 
+if (isset($_GET['sprint_id'])) {
+    $row = $dao->getSprint($_GET['sprint_id']);
+    $start_date = $row->start_date;
+    $end_date = $row->end_date;
+    
+    $result = $dao->getCompletedSprintPoints($_GET['sprint_id'], $start_date, $end_date);
+    
+    // Convert the data to JSON for Vega Lite
+    $data = array();
+    foreach ($result as $row) {
+        // Structure the data for Vega Lite
+        $data[] = array(
+            "completion_date" => $row->completion_date,  // This will be the x-axis
+            "tot_story_points" => (int)$row->tot_story_points  // This will be the y-axis
+        );
+    }
+    
+    // Output the JSON data for Vega Lite
+    echo json_encode($data);
+}
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +43,20 @@ if (isset($_GET['id'])) {
 <head>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap">
     <title>Task Board</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+    
+
+    <!-- Import pure.css -->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+    integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -127,12 +165,63 @@ if (isset($_GET['id'])) {
             background-color: #51ad57;
         }
     </style>
+
+    
 </head>
 <body>
 
     <div class="board-header">
         <h1>Project Name</h1>
         <p>Sprint 1, Date: 23/08/24 to 23/09/24</p>
+    </div>
+
+    <div class="pure-g">
+      <div class="pure-u-1-1"> <!-- 24-24 (full width)-->
+        <h1>Burndown Chart</h1> 
+        <div id="vis" class = "vis-container"></div>
+        <script>
+            // Fetch data from the same PHP file
+            fetch(window.location.href + '&fetch_data=true')  // Same PHP file
+                .then(response => response.json())
+                .then(data => {
+                    drawVegaLiteChart(data);
+                });
+
+            // Function to draw Vega Lite chart using fetched data
+            function drawVegaLiteChart(data) {
+                const spec = {
+                    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                    "config": {"view": {"stroke": ""}},
+                    "title": {"text": "Burndown Chart", "subtitle": ""},
+                    "width": "container",
+                    "height": 500,
+                    "data": {
+                        "values": data
+                    },
+                    "mark": {
+                        "type": "line",
+                        "point": true
+                    },
+                    "encoding": {
+                        "x": {
+                            "field": "completion_date",  // Use completion_date for the x-axis
+                            "type": "temporal",         // Treat it as a date field
+                            "title": "Completion Date"
+                        },
+                        "y": {
+                            "field": "tot_story_points", // Use total story points for the y-axis
+                            "type": "quantitative",     // Numeric data
+                            "title": "Completed Story Points"
+                        },
+                        "color": {"field": "category", "type": "nominal", "title": "Categories"}  // Optional: if you have a category field
+                    }
+                };
+
+                vegaEmbed('#vis', spec);  // '#vis' is the container for the chart
+            }
+        </script>
+
+      </div>
     </div>
 
     <div class="board">
@@ -193,5 +282,12 @@ if (isset($_GET['id'])) {
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+    var spec2 = "js/burndown.vg.json";
+    vegaEmbed('#vis', spec2).then(function(result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+
+    </script>
 </body>
 </html>
