@@ -12,27 +12,55 @@ if (isset($_GET['id'])) {
 
 }
 
+
 if (isset($_GET['sprint_id'])) {
-    $row = $dao->getSprint($_GET['sprint_id']);
+    $sprint_id = $_GET['sprint_id'];
+    $row = $dao->getSprint($sprint_id);
     $start_date = $row->start_date;
     $end_date = $row->end_date;
+
+    // Get total story points for the sprint
+    $total_story_points = $dao->getTotalStoryPoints($sprint_id)->total_story_points;
+
+    // Get completed story points grouped by date
+    $result = $dao->getCompleteSprintPoints($sprint_id, $start_date, $end_date);
+
+    // Prepare data for the actual burndown line (remaining points)
+    $actualData = array();
+    $cumulativeCompletedPoints = 0;
     
-    $result = $dao->getCompletedSprintPoints($_GET['sprint_id'], $start_date, $end_date);
-    
-    // Convert the data to JSON for Vega Lite
-    $data = array();
     foreach ($result as $row) {
-        // Structure the data for Vega Lite
-        $data[] = array(
-            "completion_date" => $row->completion_date,  // This will be the x-axis
-            "tot_story_points" => (int)$row->tot_story_points  // This will be the y-axis
+        // Calculate remaining points by subtracting cumulative completed points from total story points
+        $cumulativeCompletedPoints += $row->tot_story_points;
+        $remainingPoints = $total_story_points - $cumulativeCompletedPoints;
+        
+        $actualData[] = array(
+            "completion_date" => $row->completion_date,
+            "remaining_points" => $remainingPoints,
+            "line_type" => "Actual"  // This will differentiate actual vs expected line
         );
     }
-    
+
+    // Prepare data for the expected burndown line
+    $expectedData = array(
+        array(
+            "completion_date" => $start_date,
+            "remaining_points" => (int)$total_story_points,
+            "line_type" => "Expected"
+        ),
+        array(
+            "completion_date" => $end_date,
+            "remaining_points" => 0,
+            "line_type" => "Expected"
+        )
+    );
+
+    // Merge the actual and expected data
+    $data = array_merge($actualData, $expectedData);
+
     // Output the JSON data for Vega Lite
     echo json_encode($data);
 }
-
 
 
 
@@ -181,7 +209,7 @@ if (isset($_GET['sprint_id'])) {
         <div id="vis" class = "vis-container"></div>
         <script>
             // Fetch data from the same PHP file
-            fetch(window.location.href + '&fetch_data=true')  // Same PHP file
+            fetch(window.location.href + '&fetch_data=true')
                 .then(response => response.json())
                 .then(data => {
                     drawVegaLiteChart(data);
@@ -192,36 +220,71 @@ if (isset($_GET['sprint_id'])) {
                 const spec = {
                     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
                     "config": {"view": {"stroke": ""}},
-                    "title": {"text": "Burndown Chart", "subtitle": ""},
+                    "title": {"text": "Sprint Burndown Chart"},
                     "width": "container",
                     "height": 500,
                     "data": {
                         "values": data
                     },
-                    "mark": {
-                        "type": "line",
-                        "point": true
-                    },
-                    "encoding": {
-                        "x": {
-                            "field": "completion_date",  // Use completion_date for the x-axis
-                            "type": "temporal",         // Treat it as a date field
-                            "title": "Completion Date"
+                    "layer": [
+                        {
+                            "mark": {
+                                "type": "line",
+                                "point": true,
+                                "color": "blue"  // Actual burndown line color
+                            },
+                            "encoding": {
+                                "x": {
+                                    "field": "completion_date",
+                                    "type": "temporal",
+                                    "title": "Date"
+                                },
+                                "y": {
+                                    "field": "remaining_points",
+                                    "type": "quantitative",
+                                    "title": "Remaining Story Points"
+                                },
+                                "color": {
+                                    "field": "line_type",
+                                    "type": "nominal",
+                                    "scale": {
+                                        "domain": ["Actual", "Expected"],
+                                        "range": ["blue", "red"]  // Colors for actual and expected lines
+                                    },
+                                    "title": "Line Type"
+                                }
+                            }
                         },
-                        "y": {
-                            "field": "tot_story_points", // Use total story points for the y-axis
-                            "type": "quantitative",     // Numeric data
-                            "title": "Completed Story Points"
-                        },
-                        "color": {"field": "category", "type": "nominal", "title": "Categories"}  // Optional: if you have a category field
-                    }
+                        {
+                            "mark": {
+                                "type": "line",
+                                "strokeDash": [5, 5],  // Dashed line for expected burndown
+                                "color": "red"  // Expected burndown line color
+                            },
+                            "encoding": {
+                                "x": {
+                                    "field": "completion_date",
+                                    "type": "temporal"
+                                },
+                                "y": {
+                                    "field": "remaining_points",
+                                    "type": "quantitative"
+                                },
+                                "color": {
+                                    "field": "line_type",
+                                    "type": "nominal"
+                                }
+                            }
+                        }
+                    ]
                 };
 
                 vegaEmbed('#vis', spec);  // '#vis' is the container for the chart
             }
-        </script>
 
-      </div>
+
+        </script>
+        </div>
     </div>
 
     <div class="board">

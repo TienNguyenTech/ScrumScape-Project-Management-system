@@ -511,7 +511,7 @@ class dao
 
 
 
-    public function getCompletedSprintPoints($sprintID, $start_date, $end_date) {
+    public function getCompleteSprintPoints($sprintID, $start_date, $end_date) {
         try {
             $this->_query = "SELECT completion_date, sum(story_points) as tot_story_points
             FROM task
@@ -523,6 +523,32 @@ class dao
     
             // Fetch all rows
             $result = $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+            
+            // Check if result is empty
+            if (empty($result)) {
+                // Optionally log the message, return null or empty array instead of echoing
+                // echo "No rows were returned."; 
+                return null;  // or return []; depending on your use case
+            }
+    
+            return $result;
+        } catch (Exception $e) {
+            // Store error and return null
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }    
+
+    public function getTotalStoryPoints($sprintID) {
+        try {
+            $this->_query = "SELECT sum(story_points) as total_story_points
+            FROM task
+            WHERE sprint_ID = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$sprintID]);
+    
+            // Fetch all rows
+            $result = $this->_stmt->fetch(PDO::FETCH_OBJ);
             
             // Check if result is empty
             if (empty($result)) {
