@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Task Page</title>
+    <title>Update Task Page</title>
 
     <!-- Boostrap link -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
@@ -120,7 +120,7 @@
 
                 <!-- Button -->
                 <div style="padding: 50px 0px 0px 75%">
-                    <button type="button" class="btn custom-btn">Create Task</button>
+                    <button type="button" class="btn custom-btn">Update Task</button>
                 </div>
             </div>
 
