@@ -342,13 +342,13 @@ class dao
             // Begin transaction to ensure atomicity
             $this->_db_handle->beginTransaction();
     
-            $this->_query = "UPDATE task_assignment SET user_id = ?, assigned_on = CURDATE() WHERE task_id = ?";
+            $this->_query = "UPDATE task_assignment SET user_id = ?, assignment_date = CURDATE() WHERE task_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$userID, $taskID]);
             $rowsAffected = $this->_stmt->rowCount();
 
             if ($rowsAffected === 0) {
-                $this->_query = "INSERT INTO task_assignment (user_id, task_id, assigned_on) VALUES (?, ?, CURDATE())";
+                $this->_query = "INSERT INTO task_assignment (user_id, task_id, assignment_date) VALUES (?, ?, CURDATE())";
                 $this->_stmt = $this->_db_handle->prepare($this->_query);
                 $this->_stmt->execute([$userID, $taskID]);                
             }
@@ -369,7 +369,7 @@ class dao
 
     public function logHours($taskID, $userID, $hours) {
         try {
-            $this->_query = "INSERT into hours_log (task_id, user_id, hours, logged_on) VALUES (?, ?, ?, CURDATE());";
+            $this->_query = "INSERT into hours_log (task_id, user_id, hours, log_date) VALUES (?, ?, ?, CURDATE());";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$taskID, $userID, $hours]);
 
@@ -397,8 +397,8 @@ class dao
 
     public function getTaskHours($taskID, $start_date, $end_date) {
         try {
-            $this->_query = "SELECT DATE_FORMAT(logged_on, '%d/%m/%Y') as date, hours FROM hours_log WHERE task_id = ?
-            and logged_on between ? and ?";
+            $this->_query = "SELECT DATE_FORMAT(log_date, '%d/%m/%Y') as date, hours FROM hours_log WHERE task_id = ?
+            and log_date between ? and ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$taskID, $start_date, $end_date]);
     
@@ -438,9 +438,9 @@ class dao
     public function getUserHours($userID, $start_date, $end_date) {
         try {
             // Corrected DATE_FORMAT string
-            $this->_query = "SELECT DATE_FORMAT(logged_on, '%d/%m/%Y') as date, sum(hours) as total_hours FROM hours_log WHERE user_id = ?
-            and logged_on between ? and ?
-            group by logged_on";
+            $this->_query = "SELECT DATE_FORMAT(log_date, '%d/%m/%Y') as date, sum(hours) as total_hours FROM hours_log WHERE user_id = ?
+            and log_date between ? and ?
+            group by log_date";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$userID, $start_date, $end_date]);
         
@@ -480,9 +480,9 @@ class dao
 
     public function getSprintHours($sprintID, $start_date, $end_date) {
         try {
-            $this->_query = "SELECT DATE_FORMAT(h.logged_on, '%d/%m/%Y') as date, h.hours 
+            $this->_query = "SELECT DATE_FORMAT(h.log_date, '%d/%m/%Y') as date, h.hours 
             FROM hours_log h JOIN task t ON h.task_id = t.task_id 
-            WHERE t.sprint_ID = ? and h.logged_on between ? and ?";
+            WHERE t.sprint_ID = ? and h.log_date between ? and ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$sprintID, $start_date, $end_date]);
     
