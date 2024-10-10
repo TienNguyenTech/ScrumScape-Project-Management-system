@@ -1,71 +1,3 @@
-<?php
-ob_start();
-session_start();
-require('../auth.php');
-
-require_once('../database/dao.php');
-$dao = new DAO();
-$tasks = $dao->getAllTasks();
-
-if (isset($_GET['id'])) {
-    $task_id = $_GET['id'];
-
-}
-
-
-if (isset($_GET['sprint_id'])) {
-    $sprint_id = $_GET['sprint_id'];
-    $row = $dao->getSprint($sprint_id);
-    $start_date = $row->start_date;
-    $end_date = $row->end_date;
-
-    // Get total story points for the sprint
-    $total_story_points = $dao->getTotalStoryPoints($sprint_id)->total_story_points;
-
-    // Get completed story points grouped by date
-    $result = $dao->getCompleteSprintPoints($sprint_id, $start_date, $end_date);
-
-    // Prepare data for the actual burndown line (remaining points)
-    $actualData = array();
-    $cumulativeCompletedPoints = 0;
-    
-    foreach ($result as $row) {
-        // Calculate remaining points by subtracting cumulative completed points from total story points
-        $cumulativeCompletedPoints += $row->tot_story_points;
-        $remainingPoints = $total_story_points - $cumulativeCompletedPoints;
-        
-        $actualData[] = array(
-            "completion_date" => $row->completion_date,
-            "remaining_points" => $remainingPoints,
-            "line_type" => "Actual"  // This will differentiate actual vs expected line
-        );
-    }
-
-    // Prepare data for the expected burndown line
-    $expectedData = array(
-        array(
-            "completion_date" => $start_date,
-            "remaining_points" => (int)$total_story_points,
-            "line_type" => "Expected"
-        ),
-        array(
-            "completion_date" => $end_date,
-            "remaining_points" => 0,
-            "line_type" => "Expected"
-        )
-    );
-
-    // Merge the actual and expected data
-    $data = array_merge($actualData, $expectedData);
-
-    // Output the JSON data for Vega Lite
-    echo json_encode($data);
-}
-
-
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,23 +6,18 @@ if (isset($_GET['sprint_id'])) {
     <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
-    
 
     <!-- Import pure.css -->
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
     integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Google font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Open sans', sans-serif;
+            font-family: 'Open Sans', sans-serif;
         }
 
         body {
@@ -192,9 +119,32 @@ if (isset($_GET['sprint_id'])) {
         .low {
             background-color: #51ad57;
         }
-    </style>
 
-    
+        .vis-container {
+            width: 100%;
+        }
+
+        .page {
+            width: 1200px;
+            background-color: white;
+            margin: auto;
+            padding: 50px;
+            padding-top: 35px;
+        }
+
+        .description h2,
+        h1 {
+            margin-top: 0px;
+        }
+
+        .pure-g {
+            margin-bottom: 40px;
+        }
+
+        .small-font {
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
 
@@ -206,18 +156,30 @@ if (isset($_GET['sprint_id'])) {
     <div class="pure-g">
       <div class="pure-u-1-1"> <!-- 24-24 (full width)-->
         <h1>Burndown Chart</h1> 
-        <div id="vis" class = "vis-container"></div>
-        <script>
-            // Fetch data from the same PHP file
-            fetch(window.location.href + '&fetch_data=true')
+        <div id="vis1" class="vis-container"></div>
+        <script type="text/javascript">
+            // Fetch data from the fetch_data.php file
+            // Assuming the script is located in the same directory
+
+            console.log("Check 1");
+            const url = new URL('backlog/burndown.php?sprint_id=' + <?php echo $_GET['sprint_id']; ?>, window.location.origin);
+
+
+            console.log("Check 2");
+            fetch(url)
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data); // Check the fetched data structure
                     drawVegaLiteChart(data);
-                });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+
+
+            console.log("Check 3");
 
             // Function to draw Vega Lite chart using fetched data
             function drawVegaLiteChart(data) {
-                const spec = {
+                const spec2 = {
                     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
                     "config": {"view": {"stroke": ""}},
                     "title": {"text": "Sprint Burndown Chart"},
@@ -258,7 +220,7 @@ if (isset($_GET['sprint_id'])) {
                         {
                             "mark": {
                                 "type": "line",
-                                "strokeDash": [5, 5],  // Dashed line for expected burndown
+                                "point": true,
                                 "color": "red"  // Expected burndown line color
                             },
                             "encoding": {
@@ -271,86 +233,72 @@ if (isset($_GET['sprint_id'])) {
                                     "type": "quantitative"
                                 },
                                 "color": {
-                                    "field": "line_type",
-                                    "type": "nominal"
+                                    "value": "red"  // Color for expected line
                                 }
-                            }
+                            },
+                            "transform": [
+                                {
+                                    "filter": {
+                                        "field": "line_type",
+                                        "equal": "Expected"
+                                    }
+                                }
+                            ]
                         }
-                    ]
+                    ],
+                    "resolve": {
+                        "scale": {
+                            "y": "independent"
+                        }
+                    }
                 };
 
-                vegaEmbed('#vis', spec);  // '#vis' is the container for the chart
+                // Render the chart in the #vis div
+                vegaEmbed('#vis1', spec2).then(function (result) {
+                    // Access the Vega view instance
+                    console.log(result);
+                }).catch(console.error);
             }
-
-
         </script>
-        </div>
+      </div>
     </div>
 
     <div class="board">
-        <div class="column">
-            <div class="column-header to-do">To-do List</div>
-
+        <div class="column to-do">
+            <div class="column-header">To Do</div>
+            <!-- Add your task cards for To Do here -->
             <div class="task-card">
-                <h4>TASK TITLE</h4>
+                <h4>Task 1</h4>
+                <p>Description of task 1.</p>
                 <span class="priority critical">Critical</span>
             </div>
-
             <div class="task-card">
-                <h4>TASK TITLE</h4>
-                <span class="priority low">Low</span>
-            </div>
-
-            <div class="task-card">
-                <h4>TASK TITLE</h4>
+                <h4>Task 2</h4>
+                <p>Description of task 2.</p>
                 <span class="priority medium">Medium</span>
             </div>
         </div>
-
-        <div class="column">
-            <div class="column-header in-dev">In-Development</div>
-
+        
+        <div class="column in-dev">
+            <div class="column-header">In Development</div>
+            <!-- Add your task cards for In Development here -->
             <div class="task-card">
-                <h4>TASK TITLE</h4>
+                <h4>Task 3</h4>
+                <p>Description of task 3.</p>
                 <span class="priority low">Low</span>
-            </div>
-
-            <div class="task-card">
-                <h4>TASK TITLE</h4>
-                <span class="priority medium">Medium</span>
-            </div>
-
-            <div class="task-card">
-                <h4>TASK TITLE</h4>
-                <span class="priority critical">Critical</span>
             </div>
         </div>
-
-        <div class="column">
-            <div class="column-header closed">Closed/Done</div>
-
+        
+        <div class="column closed">
+            <div class="column-header">Closed</div>
+            <!-- Add your task cards for Closed here -->
             <div class="task-card">
-                <h4>TASK TITLE</h4>
-                <span class="priority medium">Medium</span>
-            </div>
-
-            <div class="task-card">
-                <h4>TASK TITLE</h4>
-                <span class="priority low">Low</span>
-            </div>
-
-            <div class="task-card">
-                <h4>TASK TITLE</h4>
+                <h4>Task 4</h4>
+                <p>Description of task 4.</p>
                 <span class="priority critical">Critical</span>
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-    var spec2 = "js/burndown.vg.json";
-    vegaEmbed('#vis', spec2).then(function(result) {
-      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
-    }).catch(console.error);
-
-    </script>
 </body>
 </html>
+
