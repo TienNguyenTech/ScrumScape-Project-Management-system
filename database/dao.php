@@ -199,7 +199,7 @@ class dao
                 echo "More than one row was returned.";
                 return null;
             }
-            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+            return $this->_stmt->fetch(PDO::FETCH_OBJ);
         } catch (Exception $e) {
             $this->_error = $e->getMessage();
             return null;
@@ -277,7 +277,7 @@ class dao
             $this->_query = "SELECT * FROM task WHERE task_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$taskId]);
-            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+            return $this->_stmt->fetch(PDO::FETCH_OBJ);
         } catch (Exception $e) {
             $this->_error = $e->getMessage();
             return null;
@@ -342,13 +342,13 @@ class dao
             // Begin transaction to ensure atomicity
             $this->_db_handle->beginTransaction();
     
-            $this->_query = "UPDATE task_assignment SET user_id = ?, assigned_on = CURDATE() WHERE task_id = ?";
+            $this->_query = "UPDATE task_assignment SET user_id = ?, assignment_date = CURDATE() WHERE task_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$userID, $taskID]);
             $rowsAffected = $this->_stmt->rowCount();
 
             if ($rowsAffected === 0) {
-                $this->_query = "INSERT INTO task_assignment (user_id, task_id, assigned_on) VALUES (?, ?, CURDATE())";
+                $this->_query = "INSERT INTO task_assignment (user_id, task_id, assignment_date) VALUES (?, ?, CURDATE())";
                 $this->_stmt = $this->_db_handle->prepare($this->_query);
                 $this->_stmt->execute([$userID, $taskID]);                
             }
@@ -369,7 +369,7 @@ class dao
 
     public function logHours($taskID, $userID, $hours) {
         try {
-            $this->_query = "INSERT into hours_log (task_id, user_id, hours, logged_on) VALUES (?, ?, ?, CURDATE());";
+            $this->_query = "INSERT into hours_log (task_id, user_id, hours, log_date) VALUES (?, ?, ?, CURDATE());";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$taskID, $userID, $hours]);
 
@@ -381,7 +381,7 @@ class dao
     }
 
 
-    public function getTaskHours($taskID) {
+    public function getTotalTaskHours($taskID) {
         try {
             $this->_query = "SELECT sum(hours) as total_hours FROM hours_log WHERE task_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
@@ -394,9 +394,34 @@ class dao
             return null;
         }
     }
+
+    public function getTaskHours($taskID, $start_date, $end_date) {
+        try {
+            $this->_query = "SELECT DATE_FORMAT(log_date, '%d/%m/%Y') as date, hours FROM hours_log WHERE task_id = ?
+            and log_date between ? and ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$taskID, $start_date, $end_date]);
+    
+            // Fetch all rows
+            $result = $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+            
+            // Check if result is empty
+            if (empty($result)) {
+                // Optionally log the message, return null or empty array instead of echoing
+                // echo "No rows were returned."; 
+                return null;  // or return []; depending on your use case
+            }
+    
+            return $result;
+        } catch (Exception $e) {
+            // Store error and return null
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
     
 
-    public function getUserHours($userID) {
+    public function getTotalUserHours($userID) {
         try {
             $this->_query = "SELECT sum(hours) as total_hours FROM hours_log WHERE user_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
@@ -409,9 +434,37 @@ class dao
             return null;
         }
     }
+
+    public function getUserHours($userID, $start_date, $end_date) {
+        try {
+            // Corrected DATE_FORMAT string
+            $this->_query = "SELECT DATE_FORMAT(log_date, '%d/%m/%Y') as date, sum(hours) as total_hours FROM hours_log WHERE user_id = ?
+            and log_date between ? and ?
+            group by log_date";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$userID, $start_date, $end_date]);
+        
+            // Fetch all rows
+            $result = $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+            
+            // Check if result is empty
+            if (empty($result)) {
+                // Optionally log the message, return null or empty array instead of echoing
+                // echo "No rows were returned."; 
+                return null;  // or return []; depending on your use case
+            }
+    
+            return $result;
+        } catch (Exception $e) {
+            // Store error and return null
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
+    
     
 
-    public function getSprintHours($sprintID) {
+    public function getTotalSprintHours($sprintID) {
         try {
             $this->_query = "SELECT sum(hours) as total_hours FROM hours_log h JOIN task t ON h.task_id = t.task_id WHERE t.sprint_ID = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
@@ -424,7 +477,95 @@ class dao
             return null;
         }
     }
+
+    public function getSprintHours($sprintID, $start_date, $end_date) {
+        try {
+            $this->_query = "SELECT DATE_FORMAT(h.log_date, '%d/%m/%Y') as date, h.hours 
+            FROM hours_log h JOIN task t ON h.task_id = t.task_id 
+            WHERE t.sprint_ID = ? and h.log_date between ? and ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$sprintID, $start_date, $end_date]);
     
+            // Fetch all rows
+            $result = $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+            
+            // Check if result is empty
+            if (empty($result)) {
+                // Optionally log the message, return null or empty array instead of echoing
+                // echo "No rows were returned."; 
+                return null;  // or return []; depending on your use case
+            }
+    
+            return $result;
+        } catch (Exception $e) {
+            // Store error and return null
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
+
+
+
+    // ================================================ CHART METHODS ==================================================
+
+
+
+
+
+
+    public function getCompleteSprintPoints($sprintID, $start_date, $end_date) {
+        try {
+            $this->_query = "SELECT completion_date, sum(story_points) as tot_story_points
+            FROM task
+            WHERE sprint_ID = ? and status = 'Completed' and completion_date is not null
+            and completion_date between ? and ?
+            GROUP BY completion_date";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$sprintID, $start_date, $end_date]);
+    
+            // Fetch all rows
+            $result = $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+            
+            // Check if result is empty
+            if (empty($result)) {
+                // Optionally log the message, return null or empty array instead of echoing
+                // echo "No rows were returned."; 
+                return null;  // or return []; depending on your use case
+            }
+    
+            return $result;
+        } catch (Exception $e) {
+            // Store error and return null
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }    
+
+    public function getTotalStoryPoints($sprintID) {
+        try {
+            $this->_query = "SELECT sum(story_points) as total_story_points
+            FROM task
+            WHERE sprint_ID = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$sprintID]);
+    
+            // Fetch all rows
+            $result = $this->_stmt->fetch(PDO::FETCH_OBJ);
+            
+            // Check if result is empty
+            if (empty($result)) {
+                // Optionally log the message, return null or empty array instead of echoing
+                // echo "No rows were returned."; 
+                return null;  // or return []; depending on your use case
+            }
+    
+            return $result;
+        } catch (Exception $e) {
+            // Store error and return null
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }    
 
 }
 
