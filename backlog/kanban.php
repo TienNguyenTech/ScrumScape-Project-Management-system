@@ -124,6 +124,7 @@
             width: 100%;
         }
 
+
         .page {
             width: 1200px;
             background-color: white;
@@ -144,6 +145,8 @@
         .small-font {
             font-size: 14px;
         }
+
+
     </style>
 </head>
 <body>
@@ -155,17 +158,13 @@
 
     <div class="pure-g">
       <div class="pure-u-1-2"> <!-- 24-24 (full width)-->
-
         <div id="vis1" class="vis-container"></div>
         <script type="text/javascript">
             // Fetch data from the fetch_data.php file
             // Assuming the script is located in the same directory
 
-            console.log("Check 1");
             const url = new URL('backlog/burndown.php?sprint_id=' + <?php echo $_GET['sprint_id']; ?>, window.location.origin);
 
-
-            console.log("Check 2");
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -173,9 +172,6 @@
                     drawVegaLiteChart(data);
                 })
                 .catch(error => console.error('Error fetching data:', error));
-
-
-            console.log("Check 3");
 
             // Function to draw Vega Lite chart using fetched data
             function drawVegaLiteChart(data) {
