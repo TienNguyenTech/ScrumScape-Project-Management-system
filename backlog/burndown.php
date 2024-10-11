@@ -25,9 +25,17 @@ if (isset($_GET['sprint_id'])) {
     // Get completed story points grouped by date
     $result = $dao->getCompleteSprintPoints($sprint_id, $start_date, $end_date);
 
+    
     // Prepare data for the actual burndown line (remaining points)
     $actualData = [];
     $cumulativeCompletedPoints = 0;
+
+
+    $actualData[] = [
+        "completion_date" => $start_date,
+        "remaining_points" => (int)$total_story_points,
+        "line_type" => "Actual"
+    ];
 
     if (!empty($result)) {
         foreach ($result as $row) {

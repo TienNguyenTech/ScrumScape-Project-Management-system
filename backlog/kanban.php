@@ -154,8 +154,8 @@
     </div>
 
     <div class="pure-g">
-      <div class="pure-u-1-1"> <!-- 24-24 (full width)-->
-        <h1>Burndown Chart</h1> 
+      <div class="pure-u-1-2"> <!-- 24-24 (full width)-->
+
         <div id="vis1" class="vis-container"></div>
         <script type="text/javascript">
             // Fetch data from the fetch_data.php file
@@ -184,7 +184,8 @@
                     "config": {"view": {"stroke": ""}},
                     "title": {"text": "Sprint Burndown Chart"},
                     "width": "container",
-                    "height": 500,
+                    "height": 200,
+                    "background": "transparent", 
                     "data": {
                         "values": data
                     },
@@ -193,25 +194,34 @@
                             "mark": {
                                 "type": "line",
                                 "point": true,
-                                "color": "blue"  // Actual burndown line color
+                                "color": "#6cb3d4"  // Actual burndown line color
                             },
                             "encoding": {
                                 "x": {
                                     "field": "completion_date",
                                     "type": "temporal",
-                                    "title": "Date"
+                                    "title": "Date",
+                                    "axis": {
+                                        "grid": false,  // Removes the X-axis line
+                                        "ticks": false    // Removes the X-axis ticks
+                                    }
                                 },
                                 "y": {
                                     "field": "remaining_points",
                                     "type": "quantitative",
-                                    "title": "Remaining Story Points"
+                                    "title": "Remaining Story Points",
+                                    "axis": {
+                                        "grid": false,  // Removes the Y-axis line
+                                        "ticks": false,   // Removes Y-axis ticks
+                                        "orient": "left"  // Ensures the Y-axis is only on the left
+                                    }
                                 },
                                 "color": {
                                     "field": "line_type",
                                     "type": "nominal",
                                     "scale": {
                                         "domain": ["Actual", "Expected"],
-                                        "range": ["blue", "red"]  // Colors for actual and expected lines
+                                        "range": ["#6cb3d4", "#d46c6c"]  // Colors for actual and expected lines
                                     },
                                     "title": "Line Type"
                                 }
@@ -221,19 +231,24 @@
                             "mark": {
                                 "type": "line",
                                 "point": true,
-                                "color": "red"  // Expected burndown line color
+                                "color": "#d46c6c"  // Expected burndown line color
                             },
                             "encoding": {
                                 "x": {
                                     "field": "completion_date",
-                                    "type": "temporal"
+                                    "type": "temporal",
+                                    "axis": {
+                                        "grid": false,  // Removes the X-axis line
+                                        "ticks": false    // Removes the X-axis ticks
+                                    }
                                 },
                                 "y": {
                                     "field": "remaining_points",
-                                    "type": "quantitative"
+                                    "type": "quantitative",
+                                    "axis": null
                                 },
                                 "color": {
-                                    "value": "red"  // Color for expected line
+                                    "value": "#d46c6c"  // Color for expected line
                                 }
                             },
                             "transform": [
