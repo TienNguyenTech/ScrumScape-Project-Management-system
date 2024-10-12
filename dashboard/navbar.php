@@ -122,11 +122,12 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
     <a href="/sprints/sprints.php">All Sprints</a>
     <a href="/sprints/add.php">Create Sprints</a>
 
+
+    <br>
+    <a href="/user/teammemberpage.php">All Team Members</a>
     <?php
     if ($user->admin == 1) {
     ?>
-    <br>
-    <a href="/user/teammemberpage.php">All Team Members</a>
     <a  href="/user/add.php">Add Team Members</a>
     <br>
         <?php
