@@ -29,9 +29,10 @@ if (isset($_GET['user_id'])) {
 
     if (!empty($result)) {
         foreach ($result as $row) {
+
             $data[] = [
                 "date" => $row->date,
-                "hours" => $row->total_hours,
+                "hours" => (int)$row->total_hours,
             ];
         }
     }
