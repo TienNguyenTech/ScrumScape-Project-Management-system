@@ -11,6 +11,10 @@ $members = $dao->getAllUsers();
 $user = $dao->getUserByUsername($_SESSION['user_id']);
 
 
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -387,13 +391,13 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
                     <td>    
                         <form>
                             <label for="dateInput">Start Date:</label>
-                            <input type="date" id="startDateInput" name="dateInput">
+                            <input type="date" id="startDateInput" name="startDateInput">
                         </form>
                     </td>
                     <td>    
                         <form>
                             <label for="dateInput">End Date:</label>
-                            <input type="date" id="endDateInput" name="dateInput">
+                            <input type="date" id="endDateInput" name="endDateInput">
                         </form>
                     </td>   
                     <td>
@@ -477,8 +481,7 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
                     }
                 </script>
             </div>
-            </div>
-                    
+            </div>                    
         </div>
     </div>
 
@@ -526,6 +529,15 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
             const userId = document.getElementById("myModal").getAttribute("data-user-id");
             const startDate = document.getElementById('startDateInput').value;
             const endDate = document.getElementById('endDateInput').value;
+
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            // Input sanitation: Check if end date is before start date
+            if (end < start) {
+                alert("End date cannot be before start date. Please select valid dates.");
+                return; // Exit the function if the dates are invalid
+            }
 
             const url = new URL('user/member_hours_chart.php', window.location.origin);
             url.searchParams.append('user_id', userId);
