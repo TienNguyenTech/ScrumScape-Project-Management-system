@@ -397,7 +397,7 @@ class dao
 
     public function getTaskHours($taskID, $start_date, $end_date) {
         try {
-            $this->_query = "SELECT DATE_FORMAT(log_date, '%d/%m/%Y') as date, hours FROM hours_log WHERE task_id = ?
+            $this->_query = "SELECT DATE_FORMAT(log_date, '%Y-%m-%d') as date, hours FROM hours_log WHERE task_id = ?
             and log_date between ? and ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$taskID, $start_date, $end_date]);
@@ -438,7 +438,7 @@ class dao
     public function getUserHours($userID, $start_date, $end_date) {
         try {
             // Corrected DATE_FORMAT string
-            $this->_query = "SELECT DATE_FORMAT(log_date, '%d/%m/%Y') as date, sum(hours) as total_hours FROM hours_log WHERE user_id = ?
+            $this->_query = "SELECT DATE_FORMAT(log_date, '%Y-%m-%d') as date, sum(hours) as total_hours FROM hours_log WHERE user_id = ?
             and log_date between ? and ?
             group by log_date";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
@@ -480,7 +480,7 @@ class dao
 
     public function getSprintHours($sprintID, $start_date, $end_date) {
         try {
-            $this->_query = "SELECT DATE_FORMAT(h.log_date, '%d/%m/%Y') as date, h.hours 
+            $this->_query = "SELECT DATE_FORMAT(h.log_date, '%Y-%m-%d') as date, h.hours 
             FROM hours_log h JOIN task t ON h.task_id = t.task_id 
             WHERE t.sprint_ID = ? and h.log_date between ? and ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
