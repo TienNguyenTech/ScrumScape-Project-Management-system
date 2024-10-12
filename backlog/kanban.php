@@ -164,6 +164,7 @@
             // Assuming the script is located in the same directory
 
             const url = new URL('backlog/burndown.php?sprint_id=' + <?php echo $_GET['sprint_id']; ?>, window.location.origin);
+            console.log(url.toString());
 
             fetch(url)
                 .then(response => response.json())

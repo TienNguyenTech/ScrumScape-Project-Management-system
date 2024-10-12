@@ -30,11 +30,10 @@ if (isset($_GET['sprint_id'])) {
     $actualData = [];
     $cumulativeCompletedPoints = 0;
 
-
     $actualData[] = [
-        "completion_date" => $start_date,
-        "remaining_points" => (int)$total_story_points,
-        "line_type" => "Actual"
+    "completion_date" => $start_date,
+    "remaining_points" => (int)$total_story_points,
+    "line_type" => "Actual"
     ];
 
     if (!empty($result)) {
@@ -45,7 +44,7 @@ if (isset($_GET['sprint_id'])) {
 
             $actualData[] = [
                 "completion_date" => $row->completion_date,
-                "remaining_points" => $remainingPoints,
+                "remaining_points" => (int)$remainingPoints,
                 "line_type" => "Actual"
             ];
         }
