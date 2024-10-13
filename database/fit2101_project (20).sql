@@ -7,7 +7,7 @@
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
--- DROP TABLE IF EXISTS `sprint_assignment`, `USER`, `task`, `task_assignment`, `SPRINT`, `hours_log`, `tag`, `task_tag`;
+DROP TABLE IF EXISTS `sprint_assignment`, `USER`, `task`, `task_assignment`, `SPRINT`, `hours_log`, `tag`, `task_tag`;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -389,9 +389,19 @@ ALTER TABLE `user`
 --
 -- Constraints for table `hours_log`
 --
-ALTER TABLE `hours_log`
-  ADD CONSTRAINT `hours_log_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `task_assignment` (`task_id`),
-  ADD CONSTRAINT `hours_log_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `task_assignment` (`user_id`);
+
+ALTER TABLE hours_log
+    ADD CONSTRAINT hours_log_ibfk_2
+        FOREIGN KEY (user_id) REFERENCES task_assignment(user_id)
+            ON DELETE CASCADE;
+
+ALTER TABLE hours_log
+    ADD CONSTRAINT hours_log_ibfk_1
+        FOREIGN KEY (task_id) REFERENCES task_assignment(task_id)
+            ON DELETE CASCADE;
+
+
+
 
 --
 -- Constraints for table `sprint_assignment`
