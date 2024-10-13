@@ -155,7 +155,8 @@ require_once("../dashboard/navbar.php");
             <select name="priority" id="priority" class="form-control font-weight-bold <?php echo $currentPriority === 'Low' ? 'bg-success' : ($currentPriority === 'Medium' ? 'bg-warning' : 'bg-danger'); ?>"" onchange="changeBg()" required>
                 <option value="Low" <?php echo $currentPriority === 'Low' ? 'selected' : ''; ?>>Low</option>
                 <option value="Medium" <?php echo $currentPriority === 'Medium' ? 'selected' : ''; ?>>Medium</option>
-                <option value="High" <?php echo $currentPriority === 'High' ? 'selected' : ''; ?>>High</option>
+                <option value="Important" <?php echo $currentPriority === 'Important' ? 'selected' : ''; ?>>Important</option>
+                <option value="Urgent" <?php echo $currentPriority === 'Urgent' ? 'selected' : ''; ?>>Urgent</option>
             </select>
         </div>
 
@@ -179,13 +180,16 @@ require_once("../dashboard/navbar.php");
         const select = document.getElementById("priority");
         const val = select.value;
         select.classList.remove("bg-danger", "bg-warning", "bg-success");
-        if (val === 'High') {
+        if (val === 'Urgent') {
             select.classList.add('bg-danger');
         } else if (val === 'Medium') {
             select.classList.add('bg-warning');
 
         } else if (val === 'Low') {
             select.classList.add('bg-success');
+
+        } else if (val === 'Important') {
+            select.style.backgroundColor = '#FF8C00';
         }
     }
 </script>

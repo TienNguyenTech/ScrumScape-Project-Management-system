@@ -200,9 +200,6 @@ if (isset($_GET['id'])) {
                     <h4 class="mb-0"><img src="/assets/task_icon.svg" class="header-icons"/>Task Name</h4>
                 </th>
                 <th class="d-flex align-items-center" style="border: none">
-                    <h4 class="mb-0"><img src="/assets/assignee_icon.svg" class="header-icons"/>Assignees</h4>
-                </th>
-                <th class="d-flex align-items-center" style="border: none">
                     <h4 class="mb-0"><img src="/assets/storypt_icon.svg" class="header-icons"/>Story Points</h4>
                 </th>
                 <th class="d-flex align-items-center" style="border: none">
@@ -219,15 +216,7 @@ if (isset($_GET['id'])) {
                 <td class="d-flex align-items-center truncate table-cell task-name" style="border: none;">
                     <?= htmlspecialchars($task->task_name); ?>
                 </td>
-                <td class="d-flex align-items-center table-cell" style="border: none">
-                    <div style="display: flex;  gap: 10px">
-                        <img src="/assets/asgn1.svg" style="width: 35px"/>
-                        <img src="/assets/asgn2.svg" style="width: 35px"/>
-                        <img src="/assets/asgn3.svg" style="width: 35px"/>
-                        <img src="/assets/etc.svg" style="width: 20px"/>
-                    </div>
 
-                </td>
                 <td class="d-flex align-items-center table-cell" style="border: none">
                     <div style="margin-left: 70px;">
                         <?php
@@ -241,10 +230,10 @@ if (isset($_GET['id'])) {
                     </div>
                 </td>
                 <td class="d-flex align-items-center table-cell " style="border: none;">
-                    <div style="margin-left: 52px;">
+                    <div style="margin-left: 82px;">
                         <span style="margin-right: 5px">
                         <?php
-                            if($task->priority == "High") {
+                            if($task->priority == "Urgent") {
                         ?>      <img src="/assets/red-f.svg"/>
                         <?php
                             }
@@ -254,6 +243,10 @@ if (isset($_GET['id'])) {
                         }
                         if($task->priority == "Low") {
                             ?>      <img src="/assets/green-f.svg"/>
+                            <?php
+                        }
+                        if($task->priority == "Important") {
+                            ?>      <img src="/assets/yell-f.svg"/>
                             <?php
                         }
                         ?>
