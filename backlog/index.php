@@ -240,7 +240,7 @@ if (isset($_GET['id'])) {
                         <?php
                             }
                         if($task->priority == "Medium") {
-                            ?>      <img src="/assets/yell-f.svg"/>
+                            ?>      <img src="/assets/yello1-f.svg"/>
                             <?php
                         }
                         if($task->priority == "Low") {
