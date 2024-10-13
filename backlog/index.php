@@ -6,6 +6,8 @@ require('../auth.php');
 require_once('../database/dao.php');
 $dao = new DAO();
 $tasks = $dao->getAllTasks();
+//var_dump(count($tasks));
+
 if (isset($_GET['id'])) {
     $task_id = $_GET['id'];
 
@@ -238,7 +240,7 @@ if (isset($_GET['id'])) {
                         <?php
                             }
                         if($task->priority == "Medium") {
-                            ?>      <img src="/assets/yell-f.svg"/>
+                            ?>      <img src="/assets/yello1-f.svg"/>
                             <?php
                         }
                         if($task->priority == "Low") {

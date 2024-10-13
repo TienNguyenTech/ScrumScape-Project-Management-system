@@ -2,25 +2,32 @@
 ob_start();
 session_start();
 require('../auth.php');
-
 require_once('../database/dao.php');
+
 $dao = new DAO();
-//var_dump($_SERVER['REQUEST_METHOD']);
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $taskName = $_POST['taskName'];
-    $storyPoints = (int)$_POST['storyPoints'];
-    if ($storyPoints == 0) { $storyPoints = NULL; }
+    $description =  $_POST['taskDesc'];
+    $storyPoints = (float)$_POST['storyPoints'];
+    if ($storyPoints == 0) {
+        $storyPoints = NULL;
+    }
+    $type = $_POST['type'];
     $priority = $_POST['priority'];
     $status = "Not Started";
     $sprintId = NULL;
+//    $completionDate = $_POST['completionDate'] ? $_POST['completionDate'] : null;
+    $completionDate = NULL;
     $taskNo = 1;
-//    var_dump($taskNo, $taskName, $storyPoints, $priority, $status, $sprintId);
-    $dao->createTask($taskNo, $taskName, $storyPoints, $priority, $status, $sprintId);
 
+    $dao->createTask($taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate);
+//    var_dump($taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate);
     header("Location: /backlog/index.php");
     exit();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -124,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="column">
             <h4> Task Name </h4>
-            <textarea name="taskName" id="taskName" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="Implement Feature XXX" required></textarea>
+            <textarea name="taskName" id="taskName" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="Implement Feature..." required></textarea>
             <h4> Story Points </h4>
             <select name="storyPoints" id="storyPoints" class="form-control">
                 <option value="NULL">-</option>
@@ -133,6 +140,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
             </select>
             <h4> Priority </h4>
             <select name="priority" id="priority" class="form-control font-weight-bold bg-success" onchange="changeBg()" required>
@@ -144,12 +156,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
         <div class="column">
-            <h4> Assign To</h4>
-            <select class="form-control " required>
-                <option> Jane Doe </option>
-                <option> John Smith </option>
+            <h4> Task Description </h4>
+            <textarea name="taskDesc" id="taskDesc" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="As a user I would like to..."></textarea>
+
+            <h4> Type</h4>
+            <select name="type" id="type" class="form-control" required>
+                <option value="Story">Story</option>
+                <option value="Bug">Bug</option>
             </select>
+
         </div>
+
+
     </div>
 
     <!-- Footer with button-->
