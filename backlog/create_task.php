@@ -2,25 +2,33 @@
 ob_start();
 session_start();
 require('../auth.php');
-
 require_once('../database/dao.php');
+
 $dao = new DAO();
-//var_dump($_SERVER['REQUEST_METHOD']);
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $taskName = $_POST['taskName'];
-    $storyPoints = (int)$_POST['storyPoints'];
-    if ($storyPoints == 0) { $storyPoints = NULL; }
+    $description = "DESCRIPTION";
+    $storyPoints = (float)$_POST['storyPoints'];
+    if ($storyPoints == 0) {
+        $storyPoints = NULL;
+    }
+//    $type = $_POST['type'];
+    $type = "Story";
     $priority = $_POST['priority'];
     $status = "Not Started";
     $sprintId = NULL;
+//    $completionDate = $_POST['completionDate'] ? $_POST['completionDate'] : null;
+    $completionDate = NULL;
     $taskNo = 1;
-//    var_dump($taskNo, $taskName, $storyPoints, $priority, $status, $sprintId);
-    $dao->createTask($taskNo, $taskName, $storyPoints, $priority, $status, $sprintId);
 
+    $dao->createTask($taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate);
+    var_dump($taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate);
     header("Location: /backlog/index.php");
     exit();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

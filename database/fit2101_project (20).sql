@@ -7,6 +7,8 @@
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
+-- DROP TABLE IF EXISTS `sprint_assignment`, `USER`, `task`, `task_assignment`, `SPRINT`, `hours_log`, `tag`, `task_tag`;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -151,7 +153,7 @@ CREATE TABLE `task` (
   `description` varchar(255) DEFAULT NULL,
   `story_points` decimal(5,2) NOT NULL,
   `type` enum('Story','Bug') DEFAULT 'Story',
-  `priority` enum('Low','Medium','High') NOT NULL,
+  `priority` enum('Low','Medium','Urgent', 'Important') NOT NULL,
   `status` enum('Not Started','In Progress','Completed') DEFAULT 'Not Started',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `sprint_id` int(11) DEFAULT NULL,
@@ -170,16 +172,16 @@ INSERT INTO `task` (`task_id`, `task_no`, `task_name`, `description`, `story_poi
 (5, 5, 'Delete Task: Backend DAO function', 'Choose and implement a front-end framework.', 1.00, 'Story', 'Low', 'Completed', '2024-09-17 17:23:07', 2, NULL),
 (6, 6, 'View Product Backlog tasks: Backend DAO function', 'Write and execute test cases for the application.', 3.00, 'Story', 'Medium', 'Completed', '2024-09-17 17:23:07', 2, NULL),
 (7, 7, 'View Product Backlog tasks: UI view table', 'Create a responsive user interface for mobile and desktop.', 2.00, 'Story', 'Low', 'In Progress', '2024-09-17 17:23:07', 2, NULL),
-(8, 8, 'Create Sprint: Backend DAO function', 'Design and improve user experience across the platform.', 4.00, 'Story', 'High', 'Not Started', '2024-09-17 17:23:07', 2, NULL),
+(8, 8, 'Create Sprint: Backend DAO function', 'Design and improve user experience across the platform.', 4.00, 'Story', 'Important', 'Not Started', '2024-09-17 17:23:07', 2, NULL),
 (9, 9, 'Create Sprint: UI sprint registration form', 'Develop a component for the navigation bar.', 3.00, 'Story', 'Medium', 'Not Started', '2024-09-17 17:23:07', 2, NULL),
 (10, 10, 'Delete Sprint: Backend DAO function', 'Optimize API calls for performance and speed.', 1.00, 'Story', 'Low', 'Completed', '2024-09-17 17:23:07', 3, NULL),
-(11, 11, 'Inspect Sprint: Backend DAO function', 'Write documentation for the database structure.', 5.00, 'Story', 'High', 'Completed', '2024-09-17 17:23:07', 3, NULL),
+(11, 11, 'Inspect Sprint: Backend DAO function', 'Write documentation for the database structure.', 5.00, 'Story', 'Important', 'Completed', '2024-09-17 17:23:07', 3, NULL),
 (12, 12, 'Inspect Sprint: UI sprint inspect page', 'Implement user feedback in the next design iteration.', 4.00, 'Story', 'Medium', 'In Progress', '2024-09-17 17:23:07', NULL, NULL),
-(13, 13, 'Update Sprint: Backend DAO function', 'Conduct code reviews to ensure quality and standards.', 4.00, 'Story', 'High', 'Completed', '2024-09-17 17:23:07', NULL, NULL),
+(13, 13, 'Update Sprint: Backend DAO function', 'Conduct code reviews to ensure quality and standards.', 4.00, 'Story', 'Urgent', 'Completed', '2024-09-17 17:23:07', NULL, NULL),
 (14, 14, 'Update Sprint: UI update sprint form', 'Integrate third-party services and APIs.', 3.00, 'Story', 'Medium', 'In Progress', '2024-09-17 17:23:07', NULL, NULL),
 (15, 15, 'View all Sprints: Backend DAO function', 'Prepare and present the project milestones to stakeholders.', 3.00, 'Story', 'Medium', 'Completed', '2024-09-17 17:23:07', NULL, NULL),
 (16, 16, 'View all Sprints: UI view table', 'Conduct user testing sessions for feedback.', 2.00, 'Story', 'Low', 'Not Started', '2024-09-17 17:23:07', NULL, NULL),
-(17, 17, 'Kanban Board: Backend update DAO function for status', 'Create data backup and recovery procedures.', 5.00, 'Story', 'High', 'In Progress', '2024-09-17 17:23:07', NULL, NULL),
+(17, 17, 'Kanban Board: Backend update DAO function for status', 'Create data backup and recovery procedures.', 5.00, 'Story', 'Urgent', 'In Progress', '2024-09-17 17:23:07', NULL, NULL),
 (18, 18, 'Kanban Board: UI board', 'Ensure accessibility standards are met in the UI design.', 4.00, 'Story', 'Medium', 'Not Started', '2024-09-17 17:23:07', NULL, NULL),
 (19, 1, 'Create Task', 'Conduct a performance review and optimization for the application.', 3.00, 'Story', 'Medium', 'Not Started', '2024-09-27 14:00:00', NULL, NULL);
 
