@@ -248,17 +248,19 @@ class dao
 
     // ================================================ TASK METHODS ==================================================
 
-    public function createTask($taskNo, $taskName, $storyPoints, $priority, $status, $sprintId) {
+    public function createTask($taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate = null) {
         try {
-            $this->_query = "INSERT INTO task (task_no, task_name, story_points, priority, status, created_at, sprint_id) VALUES (?, ?, ?, ?, ?, CURDATE(), ?)";
+            $this->_query = "INSERT INTO task (task_no, task_name, description, story_points, type, priority, status, created_at, sprint_id, completion_date) 
+                         VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP(), ?, ?)";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
-            $this->_stmt->execute([$taskNo, $taskName, $storyPoints, $priority, $status, $sprintId]);
+            $this->_stmt->execute([$taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate]);
             return $this->_db_handle->lastInsertId();
         } catch (Exception $e) {
             $this->_error = $e->getMessage();
             return null;
         }
     }
+
 
     public function getAllTasks() {
         try {
@@ -304,18 +306,24 @@ class dao
     }
 
 
-    public function updateTask($taskId, $taskNo, $taskName, $storyPoints, $priority, $status, $sprintId) {
+    public function updateTask($taskId, $taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate) {
         try {
             $this->_query = "UPDATE task 
                          SET task_no = ?, 
                              task_name = ?, 
+                             description = ?, 
                              story_points = ?, 
+                             type = ?, 
                              priority = ?, 
                              status = ?, 
-                             sprint_id = ? 
+                             sprint_id = ?, 
+                             completion_date = ?
                          WHERE task_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
-            $this->_stmt->execute([$taskNo, $taskName, $storyPoints, $priority, $status, $sprintId, $taskId]);
+
+            // Execute the statement with the parameters
+            $this->_stmt->execute([$taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate, $taskId]);
+
             $rowsAffected = $this->_stmt->rowCount();
 
             if ($rowsAffected === 0) {
@@ -333,7 +341,6 @@ class dao
 
 
 
-    
     // ================================================ TASK ASSIGNMENT METHODS ==================================================
 
 
