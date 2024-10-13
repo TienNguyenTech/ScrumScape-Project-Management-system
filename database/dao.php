@@ -306,18 +306,24 @@ class dao
     }
 
 
-    public function updateTask($taskId, $taskNo, $taskName, $storyPoints, $priority, $status, $sprintId) {
+    public function updateTask($taskId, $taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate) {
         try {
             $this->_query = "UPDATE task 
                          SET task_no = ?, 
                              task_name = ?, 
+                             description = ?, 
                              story_points = ?, 
+                             type = ?, 
                              priority = ?, 
                              status = ?, 
-                             sprint_id = ? 
+                             sprint_id = ?, 
+                             completion_date = ?
                          WHERE task_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
-            $this->_stmt->execute([$taskNo, $taskName, $storyPoints, $priority, $status, $sprintId, $taskId]);
+
+            // Execute the statement with the parameters
+            $this->_stmt->execute([$taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate, $taskId]);
+
             $rowsAffected = $this->_stmt->rowCount();
 
             if ($rowsAffected === 0) {
@@ -335,7 +341,6 @@ class dao
 
 
 
-    
     // ================================================ TASK ASSIGNMENT METHODS ==================================================
 
 
