@@ -8,7 +8,7 @@ $dao = new DAO();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $taskName = $_POST['taskName'];
-    $description = "DESCRIPTION";
+    $description =  $_POST['taskDesc'];
     $storyPoints = (float)$_POST['storyPoints'];
     if ($storyPoints == 0) {
         $storyPoints = NULL;
@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="column">
             <h4> Task Name </h4>
-            <textarea name="taskName" id="taskName" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="Implement Feature XXX" required></textarea>
+            <textarea name="taskName" id="taskName" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="Task Name" required></textarea>
             <h4> Story Points </h4>
             <select name="storyPoints" id="storyPoints" class="form-control">
                 <option value="NULL">-</option>
@@ -152,12 +152,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
         <div class="column">
+            <h4> Task Description </h4>
+            <textarea name="taskDesc" id="taskDesc" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="Task Description"></textarea>
+
             <h4> Assign To</h4>
             <select class="form-control " required>
                 <option> Jane Doe </option>
                 <option> John Smith </option>
             </select>
         </div>
+
+
     </div>
 
     <!-- Footer with button-->

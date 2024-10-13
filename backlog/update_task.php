@@ -11,7 +11,7 @@ if (isset($_GET['id'])) {
     $task = $dao->getTask($task_id);
 }
 if ($task) {
-    $taskObj = $task[0];
+    $taskObj = $task;
     $taskId = $taskObj->task_id;
     $taskNo = $taskObj->task_no;
     $taskName = $taskObj->task_name;
