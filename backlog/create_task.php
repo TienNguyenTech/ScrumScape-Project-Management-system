@@ -13,8 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($storyPoints == 0) {
         $storyPoints = NULL;
     }
-//    $type = $_POST['type'];
-    $type = "Story";
+    $type = $_POST['type'];
     $priority = $_POST['priority'];
     $status = "Not Started";
     $sprintId = NULL;
@@ -132,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="column">
             <h4> Task Name </h4>
-            <textarea name="taskName" id="taskName" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="Task Name" required></textarea>
+            <textarea name="taskName" id="taskName" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="Implement Feature..." required></textarea>
             <h4> Story Points </h4>
             <select name="storyPoints" id="storyPoints" class="form-control">
                 <option value="NULL">-</option>
@@ -153,7 +152,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="column">
             <h4> Task Description </h4>
-            <textarea name="taskDesc" id="taskDesc" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="Task Description"></textarea>
+            <textarea name="taskDesc" id="taskDesc" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="As a user I would like to..."></textarea>
+
+            <h4> Type</h4>
+            <select name="type" id="type" class="form-control" required>
+                <option value="Story">Story</option>
+                <option value="Bug">Bug</option>
+            </select>
 
             <h4> Assign To</h4>
             <select class="form-control " required>
