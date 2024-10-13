@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $taskNo = 1;
 
     $dao->createTask($taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate);
-    var_dump($taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate);
+//    var_dump($taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate);
     header("Location: /backlog/index.php");
     exit();
 }
@@ -140,6 +140,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
             </select>
             <h4> Priority </h4>
             <select name="priority" id="priority" class="form-control font-weight-bold bg-success" onchange="changeBg()" required>
@@ -160,11 +165,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <option value="Bug">Bug</option>
             </select>
 
-            <h4> Assign To</h4>
-            <select class="form-control " required>
-                <option> Jane Doe </option>
-                <option> John Smith </option>
-            </select>
         </div>
 
 
