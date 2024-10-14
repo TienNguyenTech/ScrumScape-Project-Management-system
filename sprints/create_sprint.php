@@ -14,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $endDate = date('Y-m-d', strtotime($_POST['endDate']));
     $status = 'Not Started';
 
-    // Use the updated selected tasks from the hidden input
     $selectedTasks = isset($_POST['selectedTasks']) ? explode(',', $_POST['selectedTasks']) : [];
     var_dump($selectedTasks);
     var_dump($startDate, $endDate, $sprintName);
@@ -22,7 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sprintId = $dao->createSprint(1, $sprintName, $startDate, $endDate, $status);
     var_dump($sprintId);
     if ($sprintId) {
-        // Update each selected task with the sprint ID
         foreach ($selectedTasks as $taskId) {
             $dao->assignTaskToSprint($taskId, $sprintId); // Assign each task to the sprint
         }

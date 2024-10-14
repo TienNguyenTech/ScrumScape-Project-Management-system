@@ -15,7 +15,6 @@ if (!$currentSprint) {
     exit();
 }
 
-// Initialize form values
 $sprintName = $currentSprint->sprint_name;
 $currentStartDate = $currentSprint->start_date;
 $currentEndDate = $currentSprint->end_date;
@@ -265,7 +264,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             selectedTasks.push(checkbox.value);
         });
 
-        // Update the hidden input with the selected task IDs
         document.getElementById('selectedTasks').value = selectedTasks.join(',');
     }
 </script>

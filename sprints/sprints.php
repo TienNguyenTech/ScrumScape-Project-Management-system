@@ -8,24 +8,21 @@ $dao = new DAO();
 $sprints = $dao->getAllSprints();
 
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sprint_id'])) {
-    $sprintId = (int)$_POST['sprint_id']; // Get sprint_id from the form submission
+    $sprintId = (int)$_POST['sprint_id'];
     
-    $worked = $dao->deleteSprint($sprintId);        // Call the delete function
+    $worked = $dao->deleteSprint($sprintId);
 
     if (!$worked) {
         echo '<script type="text/javascript">
         window.onload = function () { alert("Delete unsuccessful."); } 
         </script>'; 
     } else {
-        // Refresh the page after a successful deletion
-        header('Location: ' . $_SERVER['PHP_SELF']);  // Reload the current page
+        header('Location: ' . $_SERVER['PHP_SELF']);
 
-        exit();  // Make sure no further code is executed
+        exit();
     }
 
-    // Unset sprint_id from POST data
     unset($_POST['sprint_id']);
 }
 
