@@ -124,7 +124,7 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
 
 
     <br>
-    <a href="/user/teammemberpage.php">All Team Members</a>
+    <a href="/user/index.php">All Team Members</a>
     <?php
     if ($user->admin == 1) {
     ?>
