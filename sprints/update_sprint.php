@@ -3,41 +3,59 @@ ob_start();
 session_start();
 require('../auth.php');
 require_once('../database/dao.php');
-$dao = new DAO();
-$tasks = $dao->getAllTasks();
 
-//var_dump($_SERVER['REQUEST_METHOD']);
+$dao = new DAO();
+
+$sprintId = $_GET['sprintId'];
+$currentSprint = $dao->getSprint($sprintId);
+$tasks = $dao->getTasksBySprintId($sprintId);
+$backlogTasks = $dao->getAllTasks();
+if (!$currentSprint) {
+    echo "Sprint not found.";
+    exit();
+}
+
+// Initialize form values
+$sprintName = $currentSprint->sprint_name;
+$currentStartDate = $currentSprint->start_date;
+$currentEndDate = $currentSprint->end_date;
+$status = $currentSprint->status;
+
+// Handle form submission for updating the sprint
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get the previous sprint number from the database
+    // Get updated values from the form
     $sprintName = $_POST['sprintName'];
     $startDate = date('Y-m-d', strtotime($_POST['startDate']));
     $endDate = date('Y-m-d', strtotime($_POST['endDate']));
-    $status = 'Not Started';
+    $status = $_POST['status'];
 
     // Use the updated selected tasks from the hidden input
     $selectedTasks = isset($_POST['selectedTasks']) ? explode(',', $_POST['selectedTasks']) : [];
     var_dump($selectedTasks);
-    var_dump($startDate, $endDate, $sprintName);
 
-    $sprintId = $dao->createSprint(1, $sprintName, $startDate, $endDate, $status);
-    var_dump($sprintId);
-    if ($sprintId) {
-        // Update each selected task with the sprint ID
-        foreach ($selectedTasks as $taskId) {
-            $dao->assignTaskToSprint($taskId, $sprintId); // Assign each task to the sprint
+    $currentTaskIds = array_column($tasks, 'task_id');
+    var_dump($currentTaskIds);
+    if (!empty($currentTaskIds)) {
+        foreach ($currentTaskIds as $taskId) {
+            $dao->removeTaskFromSprint($taskId);
         }
-        echo "Sprint and task assignments created successfully!";
-    } else {
-        echo "Failed to create sprint. Please try again.";
     }
+    foreach ($selectedTasks as $taskId) {
+        $dao->assignTaskToSprint($taskId, $sprintId);
+    }
+    var_dump($sprintName, $startDate, $endDate, $status);
 
-    // // Redirect after successful creation
-     header("Location: /sprints/sprints.php");
-     exit();
+     if ($dao->updateSprint($sprintId, 1, $sprintName, $startDate, $endDate, $status)) {
+         echo "Sprint updated successfully.";
+     } else {
+         echo "Error updating sprint.";
+     }
+
+    // Redirect after successful update
+    header("Location: /sprints/sprints.php");
+    exit();
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Create Sprint </title>
+    <title> Update Sprint </title>
 
     <!-- Boostrap link -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
@@ -59,8 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet">
     <link
-            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-            rel="stylesheet">
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
@@ -137,7 +155,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             gap: 10px;
         }
 
-        /* Style for individual cards */
         .card {
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -146,103 +163,95 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             transition: background-color 0.3s, border-color 0.3s;
         }
 
-        /* Style for selected cards */
         .card.selected {
             background-color: #4caf50;
             color: white;
             border-color: #4caf50;
         }
     </style>
-
 </head>
 
 <body>
-<?php
-require_once("../dashboard/navbar.php");
-?>
-<form action="create_sprint.php" class="container mt-5" method='POST'>
+<?php require_once("../dashboard/navbar.php"); ?>
+<form action="update_sprint.php?sprintId=<?= htmlspecialchars($sprintId); ?>" class="container mt-5" method='POST'>
 
     <!-- Main body -->
     <div class="content-container mt-5">
-
         <div class="column">
-            <h1> Create Sprint </h1>
-            <p> Create a new sprint and choose tasks. </p>
+            <h1>Update Sprint</h1>
+            <p>Update a sprint and assign tasks.</p>
         </div>
 
         <div class="column">
-            <h4> Sprint Name </h4>
+            <h4>Sprint Name</h4>
             <textarea name="sprintName" id="sprintName" class="form-control form-control-sm"
-                      style="resize: none; font-size: 1rem" rows="4" required></textarea>
+                      style="resize: none; font-size: 1rem" rows="4" required><?= htmlspecialchars($sprintName); ?></textarea>
 
             <h4>Start Date</h4>
             <input type="date" name="startDate" id="startDate" class="form-control"
-                   value="<?php echo $currentStartDate; ?>" required>
+                   value="<?= htmlspecialchars($currentStartDate); ?>" required>
 
             <h4>End Date</h4>
             <input type="date" name="endDate" id="endDate" class="form-control"
-                   value="<?php echo $currentEndDate; ?>" required>
+                   value="<?= htmlspecialchars($currentEndDate); ?>" required>
+
+            <h4>Status</h4>
+            <select name="status" id="status" class="form-control" required>
+                <option value="Not Started" <?php if ($status == 'Not Started') echo 'selected'; ?>>Not Started</option>
+                <option value="In Progress" <?php if ($status == 'In Progress') echo 'selected'; ?>>In Progress</option>
+                <option value="Completed" <?php if ($status == 'Completed') echo 'selected'; ?>>Completed</option>
+            </select>
         </div>
-
-
 
         <div class="column">
-            <h4> Assign Task </h4>
-
+            <h4>Assign Tasks</h4>
             <div class="scrollable-box">
-                <?php foreach ($tasks as $task): ?>
-                    <div class="card" data-task-id="<?= htmlspecialchars($task->task_id); ?>"
-                         style="margin: 0; border: 1px solid #eee; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);">
-                        <label style="cursor: pointer;">
-                            <input type="checkbox" name="task_ids[]" class="task-checkbox" style="margin: 0; opacity: 0; position: absolute;"
-                                   value="<?= htmlspecialchars($task->task_id); ?>" onclick="updateSelectedTasks()">
-                            <?= htmlspecialchars($task->task_name); ?>
-                        </label>
 
-                    </div>
-                <?php endforeach; ?>
-            </div>
+                    <?php foreach ($tasks as $task): ?>
+                        <div class="card <?= in_array($task->task_id, array_column($tasks, 'task_id')) ? 'selected' : ''; ?>"
+                             data-task-id="<?= htmlspecialchars($task->task_id); ?>">
+                            <label style="cursor: pointer;">
+                                <input type="checkbox" name="selectedTasks[]" class="task-checkbox" style="margin: 0; opacity: 0; position: absolute;"
+                                       value="<?= htmlspecialchars($task->task_id); ?>"
+                                    <?= in_array($task->task_id, array_column($tasks, 'task_id')) ? 'checked' : ''; ?>>
+                                <?= htmlspecialchars($task->task_name); ?>
+                            </label>
+                        </div>
+                    <?php endforeach; ?>
+
+                    <?php foreach ($backlogTasks as $task): ?>
+                        <div class="card" data-task-id="<?= htmlspecialchars($task->task_id); ?>"
+                             style="margin: 0; border: 1px solid #eee; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);">
+                            <label style="cursor: pointer;">
+                                <input type="checkbox" name="selectedTasks[]" class="task-checkbox" style="margin: 0; opacity: 0; position: absolute;"
+                                       value="<?= htmlspecialchars($task->task_id); ?>" onclick="updateSelectedTasks()">
+                                <?= htmlspecialchars($task->task_name); ?>
+                            </label>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
             <input type="hidden" name="selectedTasks" id="selectedTasks" value="">
-
         </div>
-
-
     </div>
 
     <!-- Footer with button-->
     <div class="footer">
-        <button type="submit" class="btn custom-btn" id="createButton">Create</button>
+        <button type="submit" class="btn custom-btn" id="updateButton">Update</button>
     </div>
 </form>
-</div>
+
 <script>
-    function changeBg() {
-        const select = document.getElementById("status");
-        const val = select.value;
-        select.classList.remove("bg-danger", "bg-warning", "bg-success");
-        if (val === 'Not Started') {
-            select.classList.add('bg-danger');
-        } else if (val === 'In Progress') {
-            select.classList.add('bg-warning');
-
-        } else if (val === 'Completed') {
-            select.classList.add('bg-success');
-        }
-    }
-
-
-    // Get all card elements
+    // JavaScript code as before to handle task selection
     const cards = document.querySelectorAll('.card');
     const selectedTasksInput = document.getElementById('selectedTasks');
 
-    // Add event listener to each card
     cards.forEach(card => {
         card.addEventListener('click', () => {
             const checkbox = card.querySelector('.task-checkbox');
 
-            // Toggle the checkbox state and update the card selection
             checkbox.checked = !checkbox.checked;
-            card.classList.toggle('selected', checkbox.checked); // Reflect the state in the card
+            card.classList.toggle('selected', checkbox.checked);
 
             updateSelectedTasks();
         });
@@ -259,20 +268,11 @@ require_once("../dashboard/navbar.php");
         // Update the hidden input with the selected task IDs
         document.getElementById('selectedTasks').value = selectedTasks.join(',');
     }
-
-
-
 </script>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6jJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1z3y/8"
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
-
 </html>

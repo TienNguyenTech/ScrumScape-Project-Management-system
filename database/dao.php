@@ -132,22 +132,34 @@ class dao
     }
 
 
-    public function createSprint($no, $name, $start_date, $end_date, $duration) {
+    public function createSprint($sprintNo, $sprintName, $startDate, $endDate, $status = 'Not Started') {
         try {
-            $this->_query = "INSERT INTO sprint
-            (sprint_no, sprint_name, start_date, end_date, status, created_at, duration) 
-            VALUES (?, ?, ?, ?, 'Not Started', CURDATE(), ?)";
+            $this->_query = "INSERT INTO sprint (sprint_no, sprint_name, start_date, end_date, status, created_at) 
+                         VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP())";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
-            $this->_stmt->execute([$no, $name, $start_date, $end_date, $duration]);
-            $sprintId = $this->_db_handle->lastInsertId();
-            return $sprintId;
+            $this->_stmt->execute([$sprintNo, $sprintName, $startDate, $endDate, $status]);
+            return $this->_db_handle->lastInsertId();
         } catch (Exception $e) {
             $this->_error = $e->getMessage();
             return null;
         }
     }
-    
-    
+
+    public function assignTaskToSprint($taskId, $sprintId) {
+        try {
+            $this->_query = "UPDATE task SET sprint_id = ? WHERE task_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$sprintId, $taskId]);
+            return true;
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return false;
+        }
+    }
+
+
+
+
     public function deleteSprint($id) { 
         try {
             // Begin transaction to ensure atomicity
@@ -183,13 +195,30 @@ class dao
             return false;
         }
     }
-    
-        
-    public function getSprint($id) { 
+
+    public function getTasksBySprintId($sprintId) {
+        try {
+            $this->_query = "SELECT * FROM task WHERE sprint_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$sprintId]);
+
+            $rowsAffected = $this->_stmt->rowCount();
+            if ($rowsAffected === 0) {
+                echo "No tasks found for the given sprint ID.";
+                return [];
+            }
+
+            return $this->_stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
+    public function getSprint($id) {
         try {
             $this->_query = "SELECT * FROM sprint WHERE sprint_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
-            $this->_stmt->execute([$id]); 
+            $this->_stmt->execute([$id]);
             $rowsAffected = $this->_stmt->rowCount();
             if ($rowsAffected === 0) {
                 echo "No rows were selected.";
@@ -205,28 +234,39 @@ class dao
             return null;
         }
     }
-        
-        
-    public function updateSprint($col, $val, $id) { 
+
+
+    public function removeTaskFromSprint($taskId) {
         try {
-            $this->_query = "update sprint set ? = ? WHERE sprint_id = ?";
+            $this->_query = "UPDATE task SET sprint_id = NULL WHERE task_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
-            $this->_stmt->execute([$col, $val, $id,]); 
-            $rowsAffected = $this->_stmt->rowCount();
-            if ($rowsAffected === 0) {
-                echo "No rows were updated.";
-                return false;
-            }
-            if ($rowsAffected > 1) {
-                echo "More than one row was returned.";
-                return false;
-            }
+            $this->_stmt->execute([$taskId]);
             return true;
         } catch (Exception $e) {
             $this->_error = $e->getMessage();
             return false;
         }
     }
+
+
+    public function updateSprint($sprintId, $sprintNo, $sprintName, $startDate, $endDate, $status) {
+        try {
+            $this->_query = "UPDATE sprint 
+                         SET sprint_no = ?, 
+                             sprint_name = ?, 
+                             start_date = ?, 
+                             end_date = ?, 
+                             status = ? 
+                         WHERE sprint_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$sprintNo, $sprintName, $startDate, $endDate, $status, $sprintId]);
+            return true; // Return true on successful update
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return false; // Return false on failure
+        }
+    }
+
 
 
     public function inspectSprint($id) { 

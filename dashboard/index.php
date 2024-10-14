@@ -107,6 +107,9 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 300px;
             text-align: center;
+            position: relative;
+            left: -100px;
+            top: -10px;
         }
 
         .tasks h3 {
@@ -183,94 +186,94 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
     require_once("./navbar.php");
     ?>
 
-<div style="display: flex;" class="mt-5 ml-5">
-<div class="maincard">
-    <div class="tasks">
-        <div class="user-info">
-            <table class="team-table">
-                <tr>
+    <div style="display: flex;" class="mt-5 ml-5">
+        <div class="maincard">
+            <div class="tasks">
+                <div class="user-info">
+                    <table class="team-table">
+                        <tr>
 
-                    <td style="width: 60px; padding-bottom: 20px">
-                        <img class="user-icon" src="https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png" alt="user icon">
-                    </td>
-                    <td>
-                        <div class="user-details">
-                            <h2>Welcome, <?=$user->user_fname?>!</h2>
-                            <?php
-                            if ($user->admin == 0) {
+                            <td style="width: 60px; padding-bottom: 20px">
+                                <img class="user-icon" src="https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png" alt="user icon">
+                            </td>
+                            <td>
+                                <div class="user-details">
+                                    <h2>Welcome, <?=$user->user_fname?>!</h2>
+                                    <?php
+                                    if ($user->admin == 0) {
 
-                            ?>
-                                <p>Team Member Dashboard</p>
-                            <?php
-                            }
-                             else {
-                            ?>
-                                <p>Admin Dashboard</p>
-                            <?php
-                            }
-                            ?>
-                        </div>
-                    </td>
-
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <div class="links">
-                            <?php
-                            if ($user->admin == 1) {
-                                ?>
-                                <div class="link-item">
-                                    <a href="/user/add.php">
-                                        <img style="padding-right: 5px" src="../assets/add_team.svg" alt="Add Team Icon" height="18">
-                                        Add Team Members
-                                    </a>
+                                        ?>
+                                        <p>Team Member Dashboard</p>
+                                        <?php
+                                    }
+                                    else {
+                                        ?>
+                                        <p>Admin Dashboard</p>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
-                                <div class="link-item">
-                                    <a href="/user/">
-                                        <img style="padding-right: 3px" src="../assets/view_team.svg" alt="View Team Icon" height="18">
-                                        View Team Members
-                                    </a>
-                                </div>
-                                <?php
-                            }
-                            ?>
+                            </td>
 
-                            <div class="link-item">
-                                <a href="../password_reset.php">
-                                    <img style="padding-right: 5px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Settings-icon-symbol-vector.png/480px-Settings-icon-symbol-vector.png" alt="Settings Icon" height="20">
-                                    Reset Password
-                                </a>
-                            </div>
-                            <div class="link-item">
-                                <a href="../logout.php">
-                                    <img style="padding-right: 5px" src="https://static-00.iconduck.com/assets.00/log-out-icon-2048x2048-cru8zabe.png" alt="Logout Icon" height="20">
-                                    Logout
-                                </a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <div class="links">
+                                    <?php
+                                    if ($user->admin == 1) {
+                                        ?>
+                                        <div class="link-item">
+                                            <a href="/user/add.php">
+                                                <img style="padding-right: 5px" src="../assets/add_team.svg" alt="Add Team Icon" height="18">
+                                                Add Team Members
+                                            </a>
+                                        </div>
+                                        <div class="link-item">
+                                            <a href="/user/">
+                                                <img style="padding-right: 3px" src="../assets/view_team.svg" alt="View Team Icon" height="18">
+                                                View Team Members
+                                            </a>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+
+                                    <div class="link-item">
+                                        <a href="../password_reset.php">
+                                            <img style="padding-right: 5px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Settings-icon-symbol-vector.png/480px-Settings-icon-symbol-vector.png" alt="Settings Icon" height="20">
+                                            Reset Password
+                                        </a>
+                                    </div>
+                                    <div class="link-item">
+                                        <a href="../logout.php">
+                                            <img style="padding-right: 5px" src="https://static-00.iconduck.com/assets.00/log-out-icon-2048x2048-cru8zabe.png" alt="Logout Icon" height="20">
+                                            Logout
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tasks">
+                <h3>MY TASKS TODAY</h3>
+                <p><?php echo date('d M Y'); ?></p>
+                <div class="task-item"></div>
+                <div class="task-item"></div>
+                <div class="task-item"></div>
+            </div>
         </div>
-    </div>
 
-    <div class="tasks">
-        <h3>MY TASKS TODAY</h3>
-        <p><?php echo date('d M Y'); ?></p>
-        <div class="task-item"></div>
-        <div class="task-item"></div>
-        <div class="task-item"></div>
-    </div>
-</div>
-
-<div class="m-5">
-        <?php
+        <div class="m-5">
+            <?php
             require_once("../sprints/table.php");
-        ?>
-</div>
+            ?>
+        </div>
 
-</div>
+    </div>
 </main>
 </body>
 </html>
