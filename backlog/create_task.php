@@ -16,187 +16,257 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $type = $_POST['type'];
     $priority = $_POST['priority'];
     $status = "Not Started";
+
     $sprintId = NULL;
-//    $completionDate = $_POST['completionDate'] ? $_POST['completionDate'] : null;
     $completionDate = NULL;
     $taskNo = 1;
 
-    $dao->createTask($taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate);
-//    var_dump($taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate);
+    $tags = isset($_POST['tag_options']) ? $_POST['tag_options'] : [];
+
+    var_dump($taskName, $description, $storyPoints, $type, $priority, $tags);
+    $taskId = $dao->createTask($taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate, $tags);
+    var_dump($taskId);
     header("Location: /backlog/index.php");
     exit();
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Create Task Page </title>
+    <title>Create Task Page</title>
 
     <!-- Boostrap link -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
     <style>
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            height: 100vh;
+        .body1 {
+            display:flex;
             width: 100%;
+            height:100vh;
         }
 
-        .content-container {
-            display: flex;
-            gap: 30px;
-            width: 100%;
-            height: 50vh;
-            
+        .main-field {
+            background-color: #E5E5E5;
+            /*width: 80%;*/
+            border: none;
+            margin-bottom: 30px;
         }
 
-        .column {
-            flex: 1;
-            margin-top: 40px;
+        .main-field:focus {
+            background-color: #E5E5E5;
+            box-shadow: 0 0 0 0.2rem rgba(111, 116, 130, 0.25);
         }
 
-        .column * {
-            font-family: "IBM Plex Sans";
-            /*font-weight: light;*/
+        .main-header {
             font-size: 18px;
             color: #6F7482;
-            /*font-style: regular;*/
-            margin: 20px;
-            
-        }
-
-        .column h1 {
-            font-family: "Montserrat";
-            font-weight: bold;
-            font-size: 40px;
-            color: #242731;
+            font-family: "Montserrat"
+            margin-bottom: 100px;
         }
 
         .custom-btn {
             background-color:#0888C7;
-            color:white; 
+            color:white;
+            font-size: 12px;
+            font-family: "Montserrat"
         }
 
         .custom-btn:hover {
             background-color: #0A6C9C;
             color:white;
         }
-        
-        .form-control {
-            background-color: #F8FAFC;
-            border:none
+
+        .sub-header {
+            display:flex;
+            gap: 15px;
+            padding: 30px 0px 10px 50px;
         }
 
-        .footer {
+        .sub-header h4 {
+            font-family: "Montserrat";
+            color: #6F7482;
+            font-weight: light;
+            font-size: 15px;
+        }
+
+        .sub-field {
+            /*width: 45%;*/
+        }
+
+        .info-section {
+            height:18%;
+        }
+
+        .tags {
             display: flex;
-            margin-top: 50px;
-            justify-content: flex-end;
+            flex-direction: column;
+            gap:13px;
+            width: 50%;
+            padding: 20px 0px 0px 00px;
         }
 
-
+        .tag {
+            margin-left: 10px;
+            padding: 8px;
+            border-radius: 10px;
+            font-family: "Montserrat";
+            font-weight: 0.9;
+            color: white;
+            font-size: 12px;
+        }
     </style>
 
 </head>
 
 <body>
 <?php
-    require_once("../dashboard/navbar.php");
-        ?>
-<form class="container mt-5" method = 'post'>
+require_once("../dashboard/navbar.php");
+?>
 
-    <!-- Main body -->
-    <div class="content-container mt-5">
-        
-        <div class="column">
-            <h1> Create Task </h1>
-            <p> Add a new task to the product backlog. </p>
-        </div>
+<div>
 
-        <div class="column">
-            <h4> Task Name </h4>
-            <textarea name="taskName" id="taskName" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="Implement Feature..." required></textarea>
-            <h4> Story Points </h4>
-            <select name="storyPoints" id="storyPoints" class="form-control">
-                <option value="NULL">-</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-            </select>
-            <h4> Priority </h4>
-            <select name="priority" id="priority" class="form-control font-weight-bold bg-success" onchange="changeBg()" required>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="Important">Important</option>
-                <option value="Urgent">Urgent</option>
-            </select>
-        </div>
+    <form class="body1" method = 'post'>
 
-        <div class="column">
-            <h4> Task Description </h4>
-            <textarea name="taskDesc" id="taskDesc" class="form-control form-control-sm" style="resize: none; font-size: 1rem" rows="4" placeholder="As a user I would like to..."></textarea>
+        <div style="width:75%;">
 
-            <h4> Type</h4>
-            <select name="type" id="type" class="form-control" required>
-                <option value="Story">Story</option>
-                <option value="Bug">Bug</option>
-            </select>
+            <!-- Fields -->
+            <div class="mt-5" style="padding: 50px 100px 0px 200px;">
+                <h2 class="main-header" > Task Name </h2>
+                <input name="taskName" id="taskName" class="form-control main-field" required type="text" placeholder="Insert task name...">
+
+                <h2 class="main-header mt-5"> Task Description </h2>
+                <textarea name="taskDesc" id="taskDesc" class="form-control main-field" rows="8" style="resize: none;" placeholder="Insert description..."></textarea>
+
+
+                <div class="mt-5" style="text-align: right;">
+                    <button type="submit" class="btn custom-btn">Create Task</button>
+                </div>
+            </div>
 
         </div>
 
+        <!-- Side Panel -->
+        <!-- Note: Don't add background color for dropdowns, otherwise might affect human aspect part of project.-->
+        <div style="background-color: #F4F3F3; width: 25%;">
 
-    </div>
+            <!-- Task Type -->
+            <div class="info-section mt-3">
+                <div class="sub-header">
+                    <img src="../assets/task_icon_grey.svg" style="width:15px; color: #6F7482; padding-bottom: 8px;"/>
+                    <h4> Task Type </h4>
+                </div>
+                <select  name="type" id="type" class="form-control" required class="form-control form-control-sm sub-field main-field" style="width: 75%; margin-left: 13%">
+                    <option value="Story">Story</option>
+                    <option value="Bug">Bug</option>
+                </select>
+                <hr style="border: 1px solid #AEA8A8; width: 50%; margin: 20px auto;">
+            </div>
 
-    <!-- Footer with button-->
-    <div class="footer"> 
-        <button type="submit" class="btn custom-btn">Create</button>
-    </div>
+            <!-- Story Points -->
+            <div class="info-section">
+                <div class="sub-header">
+                    <img src="../assets/storypt_icon_grey.svg" style="width:18px; color: #6F7482; padding-bottom: 8px;"/>
+                    <h4> Story Points </h4>
+                </div>
+                <select name="storyPoints" id="storyPoints" class="form-control form-control-sm sub-field main-field" style="width: 75%; margin-left: 13%">
+                    <option value="NULL">-</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                <hr style="border: 1px solid #AEA8A8; width: 50%; margin: 20px auto;">
+            </div>
+
+            <!-- Priority -->
+            <div class="info-section">
+                <div class="sub-header">
+                    <img src="../assets/priority_icon_grey.svg" style="width:14px; color: #6F7482; padding-bottom: 8px;"/>
+                    <h4> Priority </h4>
+                </div>
+                <select name="priority" id="priority" class="form-control form-control-sm sub-field main-field" style="width: 75%; margin-left: 13%">
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Important">Important</option>
+                    <option value="Urgent">Urgent</option>
+                </select>
+                <hr style="border: 1px solid #AEA8A8; width: 50%; margin: 20px auto;">
+            </div>
+
+            <!-- Tags -->
+            <div class="info-section-tags" style="height: 40%;">
+                <div class="sub-header">
+                    <img src="../assets/tags_icon.svg" style="width:18px; color: #6F7482; padding-bottom: 8px;"/>
+                    <h4> Tags </h4>
+                </div>
+
+                <!-- Don't change colours, picked specifically for colour blind aspect.-->
+                <div class="ml-5" style="display:flex">
+                    <div class="tags">
+                        <div class="form-check">
+                            <input class="form-check-input position-static custom-check" type="checkbox" id="frontendCheckbox" name="tag_options[]" value="1" aria-label="Frontend">
+                            <span class="tag" style="background-color: #7F74F6;"> Frontend </span>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input position-static" type="checkbox" id="backendCheckbox" name="tag_options[]" value="2" aria-label="Backend">
+                            <span class="tag" style="background-color: #7F74F6;"> Backend </span>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input position-static" type="checkbox" id="apiCheckbox" name="tag_options[]" value="3" aria-label="API">
+                            <span class="tag" style="background-color: #E34F9F"> API </span>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input position-static" type="checkbox" id="databaseCheckbox" name="tag_options[]" value="4" aria-label="Database">
+                            <span class="tag" style="background-color: #E34F9F"> Database </span>
+                        </div>
+                    </div>
+
+                    <div class="tags">
+                        <div class="form-check">
+                            <input class="form-check-input position-static" type="checkbox" id="frameworkCheckbox" name="tag_options[]" value="5" aria-label="Framework">
+                            <span class="tag" style="background-color: #E34F9F"> Framework </span>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input position-static" type="checkbox" id="testingCheckbox" name="tag_options[]" value="6" aria-label="Testing">
+                            <span class="tag" style="background-color: #E34F9F"> Testing </span>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input position-static" type="checkbox" id="uiCheckbox" name="tag_options[]" value="7" aria-label="UI">
+                            <span class="tag" style="background-color: #E1982A"> UI </span>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input position-static" type="checkbox" id="uxCheckbox" name="tag_options[]" value="8" aria-label="UX">
+                            <span class="tag" style="background-color: #E1982A"> UX </span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
     </form>
+
+
 </div>
-<script>
-    function changeBg() {
-        const select = document.getElementById("priority");
-        const val = select.value;
-        select.classList.remove("bg-danger", "bg-warning", "bg-success");
-        if (val === 'Urgent') {
-            select.classList.add('bg-danger');
-        } else if (val === 'Medium') {
-            select.classList.add('bg-warning');
 
-        } else if (val === 'Low') {
-            select.classList.add('bg-success');
-
-        } else if (val === 'Important') {
-            select.style.backgroundColor = '#FF8C00';
-        }
-    }
-</script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6jJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
+
 </html>
