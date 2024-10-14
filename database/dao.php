@@ -316,6 +316,18 @@ class dao
         }
     }
 
+    public function getTagsByTaskId($taskId) {
+        try {
+            $this->_query = "SELECT tag_id FROM task_tag WHERE task_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$taskId]);
+            // Fetch all tag IDs
+            return $this->_stmt->fetchAll(PDO::FETCH_COLUMN);
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
 
     public function getAllTasks() {
         try {
@@ -361,36 +373,35 @@ class dao
     }
 
 
-    public function updateTask($taskId, $taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate) {
+    public function updateTask($taskId, $taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate = null, $tags = []) {
         try {
-            $this->_query = "UPDATE task 
-                         SET task_no = ?, 
-                             task_name = ?, 
-                             description = ?, 
-                             story_points = ?, 
-                             type = ?, 
-                             priority = ?, 
-                             status = ?, 
-                             sprint_id = ?, 
-                             completion_date = ?
-                         WHERE task_id = ?";
+            // Update the task in the task table
+            $this->_query = "UPDATE task SET task_no = ?, task_name = ?, description = ?, story_points = ?, type = ?, priority = ?, status = ?, sprint_id = ?, completion_date = ? WHERE task_id = ?";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
-
-            // Execute the statement with the parameters
             $this->_stmt->execute([$taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate, $taskId]);
 
-            $rowsAffected = $this->_stmt->rowCount();
+            // Clear existing tags for the task
+            $this->_query = "DELETE FROM task_tag WHERE task_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$taskId]);
 
-            if ($rowsAffected === 0) {
-                echo "No rows were updated.";
-                return false;
+            // Insert new tags associated with the task
+            if (!empty($tags)) {
+                $this->_query = "INSERT INTO task_tag (task_id, tag_id) VALUES (?, ?)";
+                $this->_stmt = $this->_db_handle->prepare($this->_query);
+
+                foreach ($tags as $tagId) {
+                    $this->_stmt->execute([$taskId, $tagId]);
+                }
             }
-            return true;
+
+            return true; // Indicate success
         } catch (Exception $e) {
             $this->_error = $e->getMessage();
-            return false;
+            return null; // Indicate failure
         }
     }
+
 
 
 
