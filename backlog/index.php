@@ -78,7 +78,7 @@ if (isset($_GET['id'])) {
             justify-content: space-between;
             align-items: center;
             height: 50px;
-            padding-right: 5%;
+            padding-right: 7.5%;
             padding-left: 2.5%;
         }
 
@@ -207,7 +207,7 @@ if (isset($_GET['id'])) {
                 <th class="d-flex align-items-center" style="border: none">
                     <h4 class="mb-0"><img src="/assets/priority_icon.svg" class="header-icons"/>Priority</h4>
                 </th>
-                <th class="d-flex align-items-center" style="border: none">
+                <th class="d-flex align-items-center" style="border: none; ">
                     <h4 class="mb-0"><img src="/assets/actions_task.svg" class="header-icons"/>Actions</h4>
                 </th>
             </tr>
@@ -232,7 +232,7 @@ if (isset($_GET['id'])) {
                     </div>
                 </td>
                 <td class="d-flex align-items-center table-cell " style="border: none;">
-                    <div style="margin-left: 82px;">
+                    <div style="margin-left: 65px;">
                         <span style="margin-right: 5px">
                         <?php
                             if($task->priority == "Urgent") {

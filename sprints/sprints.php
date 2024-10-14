@@ -8,24 +8,21 @@ $dao = new DAO();
 $sprints = $dao->getAllSprints();
 
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sprint_id'])) {
-    $sprintId = (int)$_POST['sprint_id']; // Get sprint_id from the form submission
+    $sprintId = (int)$_POST['sprint_id'];
     
-    $worked = $dao->deleteSprint($sprintId);        // Call the delete function
+    $worked = $dao->deleteSprint($sprintId);
 
     if (!$worked) {
         echo '<script type="text/javascript">
         window.onload = function () { alert("Delete unsuccessful."); } 
         </script>'; 
     } else {
-        // Refresh the page after a successful deletion
-        header('Location: ' . $_SERVER['PHP_SELF']);  // Reload the current page
+        header('Location: ' . $_SERVER['PHP_SELF']);
 
-        exit();  // Make sure no further code is executed
+        exit();
     }
 
-    // Unset sprint_id from POST data
     unset($_POST['sprint_id']);
 }
 
@@ -223,7 +220,7 @@ function formatDate($date) {
         <div class="header-search">
             <h1>Sprints</h1>
             <input class="form-control search-bar col-sm-3" id="sprintSearchInput" type="text" placeholder="Search Sprint" onkeyup="searchSprints()">
-            <a href="createsprint1.php"> <button type="button" class="btn custom-btn">+ Create Sprint</button></a>
+            <a href="create_sprint.php"> <button type="button" class="btn custom-btn">+ Create Sprint</button></a>
         </div>
 
             <!--Task table header-->
@@ -304,7 +301,7 @@ function formatDate($date) {
                 </td>
                 <td class="d-flex align-items-center table-cell justify-content-center" style="border: none; gap: 4px">
                     <!-- Edit button -->
-                    <a href="../backlog/updatesprint.html">
+                    <a href="../sprints/update_sprint.php?sprintId=<?= $sprint->sprint_id ?>">
                         <button type="button" class="btn btn-outline-primary" style="padding:7px; border: none;" onclick="event.stopPropagation();">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
