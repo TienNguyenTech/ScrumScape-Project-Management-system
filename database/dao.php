@@ -288,13 +288,28 @@ class dao
 
     // ================================================ TASK METHODS ==================================================
 
-    public function createTask($taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate = null) {
+    public function createTask($taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate = null, $tags = []) {
         try {
+            // Insert the task into the task table
             $this->_query = "INSERT INTO task (task_no, task_name, description, story_points, type, priority, status, created_at, sprint_id, completion_date) 
                          VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP(), ?, ?)";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$taskNo, $taskName, $description, $storyPoints, $type, $priority, $status, $sprintId, $completionDate]);
-            return $this->_db_handle->lastInsertId();
+
+            // Get the last inserted task ID
+            $taskId = $this->_db_handle->lastInsertId();
+
+            // Insert tags associated with the task
+            if (!empty($tags)) {
+                $this->_query = "INSERT INTO task_tag (task_id, tag_id) VALUES (?, ?)";
+                $this->_stmt = $this->_db_handle->prepare($this->_query);
+
+                foreach ($tags as $tagId) {
+                    $this->_stmt->execute([$taskId, $tagId]);
+                }
+            }
+
+            return $taskId;
         } catch (Exception $e) {
             $this->_error = $e->getMessage();
             return null;

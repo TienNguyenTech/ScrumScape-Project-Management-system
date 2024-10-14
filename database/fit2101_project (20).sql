@@ -151,7 +151,7 @@ CREATE TABLE `task` (
   `task_no` int(11) NOT NULL,
   `task_name` varchar(255) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `story_points` decimal(5,2) NOT NULL,
+  `story_points` decimal(5,2) DEFAULT NULL,
   `type` enum('Story','Bug') DEFAULT 'Story',
   `priority` enum('Low','Medium','Urgent', 'Important') NOT NULL,
   `status` enum('Not Started','In Progress','Completed') DEFAULT 'Not Started',
