@@ -35,17 +35,21 @@ class dao
     // ================================================ USER METHODS ==================================================
 
     // Insert a new user into the USER table
-    public function insertUser($email, $username, $password, $fname, $lname) {
+    public function insertUser($email, $username, $password, $fname, $lname, $isAdmin) {
         try {
-            $this->_query = "INSERT INTO `USER` (`user_email`, `user_name`, `user_password`, `user_fname`, `user_lname`) VALUES (?, ?, SHA2(?, 256), ?, ?)";
+            // Prepare the SQL query to insert a new user
+            $this->_query = "INSERT INTO `user` (`user_email`, `user_name`, `user_password`, `user_fname`, `user_lname`, `admin`) VALUES (?, ?, SHA2(?, 256), ?, ?, ?)";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
-            $result = $this->_stmt->execute([$email, $username, $password, $fname, $lname]);
+
+            $result = $this->_stmt->execute([$email, $username, $password, $fname, $lname, $isAdmin]);
+
             return $result;
         } catch (Exception $e) {
             $this->_error = $e->getMessage();
             return false;
         }
     }
+
 
     public function resetPassword($password, $username) {
         try {
@@ -204,7 +208,7 @@ class dao
 
             $rowsAffected = $this->_stmt->rowCount();
             if ($rowsAffected === 0) {
-                echo "No tasks found for the given sprint ID.";
+//                echo "No tasks found for the given sprint ID.";
                 return [];
             }
 
