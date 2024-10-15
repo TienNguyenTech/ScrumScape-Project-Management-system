@@ -235,10 +235,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 
-    <!-- Footer with button-->
     <div class="footer">
+    <?php if ($status != 'Completed'): ?>
         <button type="submit" class="btn custom-btn" id="updateButton">Update</button>
-    </div>
+    <?php endif; ?>
+</div>
+
 </form>
 
 <script>
