@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // // Redirect after successful creation
-     header("Location: /sprints/sprints.php");
+     header("Location: /sprints/index.php");
      exit();
 }
 ?>

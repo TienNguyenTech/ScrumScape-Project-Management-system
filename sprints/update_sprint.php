@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
      }
 
     // Redirect after successful update
-    header("Location: /sprints/sprints.php");
+    header("Location: /sprints/index.php");
     exit();
 }
 ?>
@@ -208,6 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     <?php foreach ($tasks as $task): ?>
                         <div class="card <?= in_array($task->task_id, array_column($tasks, 'task_id')) ? 'selected' : ''; ?>"
+                             style="margin: 0; border: 1px solid #eee; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);"
                              data-task-id="<?= htmlspecialchars($task->task_id); ?>">
                             <label style="cursor: pointer;">
                                 <input type="checkbox" name="selectedTasks[]" class="task-checkbox" style="margin: 0; opacity: 0; position: absolute;"
