@@ -193,7 +193,7 @@ INSERT INTO `task` (`task_id`, `task_no`, `task_name`, `description`, `story_poi
 
 CREATE TABLE `task_assignment` (
   `task_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `assignment_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -429,6 +429,17 @@ ALTER TABLE `task_assignment`
 ALTER TABLE `task_tag`
   ADD CONSTRAINT `task_tag_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `task` (`task_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `task_tag_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`) ON DELETE CASCADE;
+
+
+ALTER TABLE hours_log
+DROP FOREIGN KEY hours_log_ibfk_2;
+
+ALTER TABLE hours_log
+    ADD CONSTRAINT hours_log_ibfk_2
+        FOREIGN KEY (user_id) REFERENCES task_assignment(user_id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
