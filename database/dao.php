@@ -632,7 +632,8 @@ class dao
             FROM task
             WHERE sprint_ID = ? and status = 'Completed' and completion_date is not null
             and completion_date between ? and ?
-            GROUP BY completion_date";
+            GROUP BY completion_date
+            ORDER BY completion_date";
             $this->_stmt = $this->_db_handle->prepare($this->_query);
             $this->_stmt->execute([$sprintID, $start_date, $end_date]);
     
