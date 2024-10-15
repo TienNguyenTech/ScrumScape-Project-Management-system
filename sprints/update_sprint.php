@@ -172,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
 <?php require_once("../dashboard/navbar.php"); ?>
-<form action="update_sprint.php?sprintId=<?= htmlspecialchars($sprintId); ?>" class="container mt-5" method='POST'>
+<form action="update_sprint.php?sprintId=<?= htmlspecialchars($sprintId); ?>" class="container mt-5" method='POST' style="p-top:-50%;">
 
     <!-- Main body -->
     <div class="content-container mt-5">
@@ -241,7 +241,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="hidden" name="selectedTasks" id="selectedTasks" value="">
         </div>
     </div>
-
+      <br>
+      <br>                  
     <div class="footer">
     <?php if ($status != 'Completed'): ?>
         <button type="submit" class="btn custom-btn" id="updateButton">Update</button>
