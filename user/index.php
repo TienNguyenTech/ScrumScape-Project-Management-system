@@ -329,6 +329,11 @@ require_once("../dashboard/navbar.php");
             </th>
             <th class="d-flex align-items-center " style="border: none">
                 <div class="heading">
+                    <h4 class="mb-0">Username</h4>
+                </div>
+            </th>
+            <th class="d-flex align-items-center " style="border: none">
+                <div class="heading">
                     <h4 class="mb-0">Email</h4>
                 </div>
             </th>
@@ -351,6 +356,11 @@ require_once("../dashboard/navbar.php");
             <tr class="custom-row">
                 <td class="d-flex align-items-center table-cell" style="border: none;">
                     <div class="user-name">
+                        <?= htmlspecialchars($member->user_fname . " " . $member->user_lname); ?>
+                    </div>
+                </td>
+                <td class="d-flex align-items-center table-cell" style="border: none;">
+                    <div class="user-name">
                         <?= htmlspecialchars($member->user_name); ?>
                     </div>
                 </td>
@@ -362,7 +372,7 @@ require_once("../dashboard/navbar.php");
                 <?php
                 if ($user->admin == 1) {
                     ?>
-                    <td class="icon d-flex align-items-center table-cell justify-content-center" onclick="openModal(<?= $member->user_id ?>, '<?= htmlspecialchars($member->user_name, ENT_QUOTES) ?>')">
+                    <td class="icon d-flex align-items-center table-cell justify-content-center" onclick="openModal(<?= $member->user_id ?>, '<?= htmlspecialchars(($member->user_fname . " " . $member->user_lname), ENT_QUOTES) ?>')">
                         <img src="https://static-00.iconduck.com/assets.00/line-chart-icon-2048x1890-dzg7lyvp.png" alt="View Progress" title="View Progress">
                     </td>
                     <?php

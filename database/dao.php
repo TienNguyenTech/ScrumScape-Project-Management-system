@@ -409,10 +409,32 @@ class dao
 
     // ================================================ TASK ASSIGNMENT METHODS ==================================================
 
+    public function searchTaskAssignment($taskID) {
+        try {
+            $this->_query = "SELECT * FROM task_assignment WHERE task_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+
+            // Execute the query with the provided task ID
+            $this->_stmt->execute([$taskID]);
+
+            $results = $this->_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (empty($results)) {
+                return NULL;
+            }
+
+            return $results; // Return the fetched results
+        } catch (Exception $e) {
+            // Log the error for debugging
+            $this->_error = $e->getMessage();
+            error_log("Error searching task assignment: " . $e->getMessage());
+            return $this->_error;
+        }
+    }
+
 
     public function assignTask($userID, $taskID) {
         try {
-            // Begin transaction to ensure atomicity
             $this->_db_handle->beginTransaction();
     
             $this->_query = "UPDATE task_assignment SET user_id = ?, assignment_date = CURDATE() WHERE task_id = ?";
@@ -423,18 +445,18 @@ class dao
             if ($rowsAffected === 0) {
                 $this->_query = "INSERT INTO task_assignment (user_id, task_id, assignment_date) VALUES (?, ?, CURDATE())";
                 $this->_stmt = $this->_db_handle->prepare($this->_query);
-                $this->_stmt->execute([$userID, $taskID]);                
+                $this->_stmt->execute([$userID, $taskID]);
             }
 
             // Commit the transaction if both queries succeed
             $this->_db_handle->commit();
-            return true;
+            return $rowsAffected;
         } catch (Exception $e) {
             // Rollback the transaction in case of any error
             $this->_db_handle->rollBack();
             $this->_error = $e->getMessage();
             error_log("Error assigning task: " . $e->getMessage()); // Log the error for debugging
-            return false;
+            return $this->_error;
         }
     }
 

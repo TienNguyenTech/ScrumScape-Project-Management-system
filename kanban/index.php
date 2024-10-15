@@ -191,7 +191,8 @@ $tasks = $dao->getTasksBySprintId($sprintId);
                 <div class="column-header">To-Do</div>
                 <?php foreach ($tasks as $task) : ?>
                     <?php if ($task->status == 'Not Started') : ?>
-                        <div class="task-card" draggable="true" ondragstart="drag(event)" data-task-id="<?= $task->task_id ?>">
+                        <div class="task-card" draggable="true" ondragstart="drag(event)" data-task-id="<?= $task->task_id ?>"
+                             onclick="if (!event.target.closest('button'))  window.location='/kanban/update_task.php?id=<?= $task->task_id ?>';" >
                             <h4><?= htmlspecialchars($task->task_name) ?></h4>
                             <p><?= htmlspecialchars($task->description) ?></p>
                             <span class="priority <?= strtolower($task->priority) ?>">
@@ -207,7 +208,8 @@ $tasks = $dao->getTasksBySprintId($sprintId);
                 <div class="column-header">In Development</div>
                 <?php foreach ($tasks as $task) : ?>
                     <?php if ($task->status == 'In Progress') : ?>
-                        <div class="task-card" draggable="true" ondragstart="drag(event)" data-task-id="<?= $task->task_id ?>">
+                        <div class="task-card" draggable="true" ondragstart="drag(event)" data-task-id="<?= $task->task_id ?>"
+                             onclick="if (!event.target.closest('button'))  window.location='/kanban/update_task.php?id=<?= $task->task_id ?>';" >
                             <h4><?= htmlspecialchars($task->task_name) ?></h4>
                             <p><?= htmlspecialchars($task->description) ?></p>
                             <span class="priority <?= strtolower($task->priority) ?>">
@@ -223,7 +225,8 @@ $tasks = $dao->getTasksBySprintId($sprintId);
                 <div class="column-header">Closed</div>
                 <?php foreach ($tasks as $task) : ?>
                     <?php if ($task->status == 'Completed') : ?>
-                        <div class="task-card" draggable="true" ondragstart="drag(event)" data-task-id="<?= $task->task_id ?>">
+                        <div class="task-card" draggable="true" ondragstart="drag(event)" data-task-id="<?= $task->task_id ?>"
+                             onclick="if (!event.target.closest('button'))  window.location='/kanban/update_task.php?id=<?= $task->task_id ?>';" >
                             <h4><?= htmlspecialchars($task->task_name) ?></h4>
                             <p><?= htmlspecialchars($task->description) ?></p>
                             <span class="priority <?= strtolower($task->priority) ?>">

@@ -181,7 +181,7 @@ if ($task) {
                         <img src="../assets/task_icon_grey.svg" style="width:15px; color: #6F7482; padding-bottom: 8px;"/>
                         <h4> Task Type </h4>
                     </div>
-                    <select  name="type" id="type" class="form-control" required class="form-control form-control-sm sub-field main-field" style="width: 75%; margin-left: 13%">
+                    <select  name="type" id="type"  required class="form-control form-control-sm sub-field main-field" style="width: 75%; margin-left: 13%">
                         <option value="Story" <?php echo $taskType === 'Story' ? 'selected' : ''; ?>>Story</option>
                         <option value="Bug" <?php echo $taskType === 'Bug' ? 'selected' : ''; ?>>Bug</option>
                     </select>
