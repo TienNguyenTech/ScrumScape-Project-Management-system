@@ -15,10 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isAdmin = isset($_POST['isAdmin']) ? 1 : 0;
 
     $result = $dao->insertUser($email, $username, $password, $fname, $lname, $isAdmin);
-    var_dump($result);
+//    var_dump($result);
     if ($result) {
-//        header('Location: success.php');
-//        exit();
+        header('Location: /user/index.php');
+        exit();
     } else {
         echo "Error: Unable to insert user. Please try again.";
     }

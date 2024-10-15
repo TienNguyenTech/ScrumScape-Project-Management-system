@@ -300,6 +300,10 @@ function formatDate($date) {
             </td>
             <td class="d-flex align-items-center table-cell justify-content-center" style="border: none; gap: 4px">
                 <!-- Edit button -->
+                <?php
+                if ($sprint->status != 'Completed') {
+
+                ?>
                 <a href="../sprints/update_sprint.php?sprintId=<?= $sprint->sprint_id ?>">
                     <button type="button" class="btn btn-outline-primary" style="padding:7px; border: none;" onclick="event.stopPropagation();">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -308,6 +312,13 @@ function formatDate($date) {
                         </svg>
                     </button>
                 </a>
+                    <?php
+                }
+                else{
+                    echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp';
+                }
+                ?>
+
 
                 <!-- Delete button -->
                 <form method="POST" action="">

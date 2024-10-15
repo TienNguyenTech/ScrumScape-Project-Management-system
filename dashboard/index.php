@@ -258,13 +258,7 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
                 </div>
             </div>
 
-            <div class="tasks">
-                <h3>MY TASKS TODAY</h3>
-                <p><?php echo date('d M Y'); ?></p>
-                <div class="task-item"></div>
-                <div class="task-item"></div>
-                <div class="task-item"></div>
-            </div>
+
         </div>
 
         <div class="m-5">
