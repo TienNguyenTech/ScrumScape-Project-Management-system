@@ -294,24 +294,32 @@ if ($task) {
                                 </select>
                             </div>
 
+
                             <div class="mt-4" style="text-align: right;">
-                                <button class="btn custom-btn" onclick="openPopup()">⌛ Log Hours</button>
+                                <a class="btn custom-btn" onclick="openPopup()" style="color: white">⌛ Log Hours</a>
                                 <button type="submit" class="btn custom-btn">Update Task</button>
                             </div>
 
+
                             <!-- Popup Modal -->
-                            <div id="logHoursPopup" class="popup">
+
+                            <div id="logHoursPopup" class="popup" style="display: none">
                                 <div class="popup-content">
                                     <span class="close-btn" onclick="closePopup()">&times;</span>
-                                    <h2>Log Hours</h2>
-                                
+                                    <h2 style="color: white">Log Hours</h2>
 
-                                    <label for="logHours">Hours:</label>
-                                    <input type="number" id="logHours" name="logHours" min="1"><br><br>
-<br>
-                                    <button class="log-btn">Log</button>
+                                        <label for="logHours" style="color: white"><strong>Hours:</strong></label>
+                                        <input type="number" id="logHours" name="logHours" min="1">
+                                    <div id="successMessage" style="color: white; text-align: center; margin-top: 10px; display: none;"></div>
+
+                                        <div class="mt-5" style="text-align: center;">
+                                            <a class="log-btn" onclick="submitLog(<?php echo $currentAssigneeId; ?>, <?php echo $task_id; ?>)">Log</a>
+                                        </div>
                                 </div>
                             </div>
+
+
+
                         </div>
 
                     </div>
@@ -447,14 +455,46 @@ if ($task) {
 
         </div>
         <script>
-            // Function to open the popup
+
+            function submitLog(userId, taskId) {
+                const logHoursValue = document.getElementById('logHours').value;
+
+                const formData = new FormData();
+                formData.append('logHours', logHoursValue);
+                formData.append('userId', userId);
+                formData.append('taskId', taskId);
+
+                fetch('log_hours.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok :( ' + response.statusText);
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        const successMessageDiv = document.getElementById('successMessage');
+                        successMessageDiv.textContent = 'Hours logged successfully!';
+                        successMessageDiv.style.display = 'block';
+                        document.getElementById('logHours').value = '';
+                        // closePopup();
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+            }
+
             function openPopup() {
                 document.getElementById("logHoursPopup").style.display = "flex";
             }
 
-            // Function to close the popup
             function closePopup() {
                 document.getElementById("logHoursPopup").style.display = "none";
+                const successMessageDiv = document.getElementById('successMessage');
+                successMessageDiv.style.display = 'none';
             }
 
 

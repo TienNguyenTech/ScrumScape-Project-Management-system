@@ -5,10 +5,13 @@ require('../auth.php');
 
 require_once('../database/dao.php');
 $dao = new DAO();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $hours = $_POST['logHours'];
+    $userId = $_POST['userId'];
+    $taskId = $_POST['taskId'];
 
-if (isset($_GET['id'])) {
-    $task_id = $_GET['id'];
-    $task = $dao->getTask($task_id);
+
+    $dao->logHours($taskId,$userId,$hours);
 }
 
 ?>
