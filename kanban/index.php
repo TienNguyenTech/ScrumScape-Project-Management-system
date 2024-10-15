@@ -180,7 +180,7 @@ $tasks = $dao->getTasksBySprintId($sprintId);
 
     <div class="board-header mb-5 mt-5">
         <h1><?=$currentSprint->sprint_name?></h1>
-        <p>Date: <?=$currentSprint->start_date?> to <?=$currentSprint->end_date?></p>
+        <p>Date: <?= date('d/m/Y', strtotime($currentSprint->start_date)) ?> to <?= date('d/m/Y', strtotime($currentSprint->end_date)) ?></p>
     </div>
 
 
