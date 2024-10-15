@@ -58,6 +58,7 @@ if ($task) {
         $assigne = $dao->assignTask($userAssignee, $taskId);
         var_dump($assigne);
 
+    
         header("Location: /kanban/index.php?sprint_id=" . $sprintId);
         exit();
     }
@@ -303,12 +304,11 @@ if ($task) {
                                 <div class="popup-content">
                                     <span class="close-btn" onclick="closePopup()">&times;</span>
                                     <h2>Log Hours</h2>
-                                    <label for="logDate">Date:</label>
-                                    <input type="date" id="logDate" name="logDate"><br><br>
+                                
 
                                     <label for="logHours">Hours:</label>
-                                    <input type="number" id="logHours" name="logHours" min="1" max="24"><br><br>
-
+                                    <input type="number" id="logHours" name="logHours" min="1"><br><br>
+<br>
                                     <button class="log-btn">Log</button>
                                 </div>
                             </div>
