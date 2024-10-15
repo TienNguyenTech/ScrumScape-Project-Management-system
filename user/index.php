@@ -315,7 +315,7 @@ require_once("../dashboard/navbar.php");
     <div class="header-search">
         <h1>Team Members</h1>
         <input class="form-control search-bar col-sm-3" id="memberSearchInput" type="text" placeholder="Search Member" onkeyup="searchMembers()">
-        <a href="add.php"> <button type="button" class="btn custom-btn">+ Create New Member</button></a>
+        <a href="add_new_member.php"> <button type="button" class="btn custom-btn">+ Create New Member</button></a>
     </div>
 
     <!--Task table header-->
