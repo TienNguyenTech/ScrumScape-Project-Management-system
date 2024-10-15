@@ -43,7 +43,7 @@ if ($task) {
             $storyPoints = NULL;
         }
         $priority = $_POST['priority'];
-        $status = "Not Started";
+
         $taskNo = 1;
         $newTags = isset($_POST['tag_options']) ? $_POST['tag_options'] : [];
         $userAssignee = $_POST['assignee'];
