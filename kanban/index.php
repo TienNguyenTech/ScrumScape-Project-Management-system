@@ -246,7 +246,7 @@ $tasks = $dao->getTasksBySprintId($sprintId);
                 // Fetch data from the fetch_data.php file
                 // Assuming the script is located in the same directory
 
-                const url = new URL('backlog/burndown.php?sprint_id=' + <?php echo $_GET['sprint_id']; ?>, window.location.origin);
+                const url = new URL('burndown.php?sprint_id=' + <?php echo $_GET['sprint_id']; ?>, window.location.origin);
                 console.log(url.toString());
 
                 fetch(url)
