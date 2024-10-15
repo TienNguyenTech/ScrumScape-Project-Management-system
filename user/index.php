@@ -411,7 +411,7 @@ require_once("../dashboard/navbar.php");
                     </form>
                 </td>
                 <td>
-                    <button type="button" class="btn custom-btn" onclick = "updateChart()">Go</button>
+                    <button type="button" class="btn custom-btn" style="margin-left: 10px; margin-top: 20px;" onclick = "updateChart()">Go</button>
                 </td>
             </tr>
             </tbody>
@@ -546,6 +546,14 @@ require_once("../dashboard/navbar.php");
         // Input sanitation: Check if end date is before start date
         if (end < start) {
             alert("End date cannot be before start date. Please select valid dates.");
+            return; // Exit the function if the dates are invalid
+        }
+
+        const oneWeekInMilliseconds = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+
+        // Input sanitation: Check if end date is before start date
+        if (end - start > oneWeekInMilliseconds) {
+            alert("Start and end date cannot be more than a week apart.");
             return; // Exit the function if the dates are invalid
         }
 
