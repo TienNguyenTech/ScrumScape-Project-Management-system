@@ -466,7 +466,8 @@ require_once("../dashboard/navbar.php");
                                         "title": "Date",
                                         "axis": {
                                             "grid": false,  // Removes the X-axis grid
-                                            "ticks": false  // Removes the X-axis ticks
+                                            "ticks": false,  // Removes the X-axis ticks
+                                            "format": "%d/%m"  // Formats date as dd/mm  
                                         }
                                     },
                                     "y": {

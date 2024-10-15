@@ -283,7 +283,8 @@ $tasks = $dao->getTasksBySprintId($sprintId);
                                         "title": "Date",
                                         "axis": {
                                             "grid": false,  // Removes the X-axis line
-                                            "ticks": false    // Removes the X-axis ticks
+                                            "ticks": false,    // Removes the X-axis ticks,
+                                            "format": "%d/%m"  // Formats date as dd/mm
                                         }
                                     },
                                     "y": {
