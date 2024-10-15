@@ -260,7 +260,7 @@ function formatDate($date) {
         </thead>
         <tbody>
         <?php foreach ($sprints as $sprint): ?>
-            <tr class="custom-row" onclick="if (!event.target.closest('button'))  window.location='../backlog/kanbanphp?sprint_id=<?= $sprint->sprint_id ?>';"">
+            <tr class="custom-row" onclick="if (!event.target.closest('button'))  window.location='../kanban/index.php?sprint_id=<?= $sprint->sprint_id ?>';"">
             <td class="d-flex align-items-center truncate table-cell" style="border: none;">
                 <?= htmlspecialchars($sprint->sprint_id); ?>
             </td>

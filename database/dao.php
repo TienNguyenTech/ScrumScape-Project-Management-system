@@ -638,7 +638,23 @@ class dao
             $this->_error = $e->getMessage();
             return null;
         }
-    }    
+    }
+
+    public function updateTaskStatus($taskId, $newStatus) {
+        try {
+            $this->_query = "UPDATE task SET status = ? WHERE task_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$newStatus, $taskId]);
+
+            return true;
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
+
+
+
 
 }
 
