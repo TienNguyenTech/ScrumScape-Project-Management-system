@@ -64,13 +64,10 @@ if (isset($_GET['sprint_id'])) {
         ]
     ];
 
-    // If actual data is empty, just return the expected data
-    if (empty($actualData)) {
-        $data = $expectedData;
-    } else {
-        // Merge actual and expected data if there is actual data
-        $data = array_merge($actualData, $expectedData);
-    }
+
+    // Merge actual and expected data if there is actual data
+    $data = array_merge($actualData, $expectedData);
+    
 
 
     header('Content-Type: application/json');
