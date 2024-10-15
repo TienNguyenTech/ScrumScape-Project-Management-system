@@ -189,6 +189,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <h4>Start Date</h4>
             <input type="date" name="startDate" id="startDate" class="form-control"
                    value="<?= htmlspecialchars($currentStartDate); ?>" required>
+                <div id="startDateError" class="error-message" style="color: red; display: none;">
+                    <p style="color:red; display: flex; align-items: center; margin: 0;">
+                        <img src="/assets/mark.png" alt="Error icon"
+                            style="width: 16px; height: 16px; margin-right: 4px;">
+                        Start date must be before end date
+                    </p>
+                </div>
 
             <h4>End Date</h4>
             <input type="date" name="endDate" id="endDate" class="form-control"
@@ -269,6 +276,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         document.getElementById('selectedTasks').value = selectedTasks.join(',');
     }
+
+    // Validation checks the date
+    document.querySelector('form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            let isValid = true; // Flag for overall validity
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+
+            // Clear previous error messages
+            document.getElementById('startDateError').style.display = 'none';
+            document.getElementById('startDate').style.borderColor = '';
+            document.getElementById('endDate').style.borderColor = '';
+
+            // Validate dates
+            if (startDate >= endDate) {
+                isValid = false;
+                document.getElementById('startDateError').style.display = 'block';
+                document.getElementById('startDate').style.borderColor = 'red';
+                document.getElementById('endDate').style.borderColor = 'red';
+            }
+
+            // If valid, submit the form
+            if (isValid) {
+                this.submit();
+            }
+        });
 </script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
