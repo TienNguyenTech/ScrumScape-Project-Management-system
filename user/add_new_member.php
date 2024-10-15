@@ -1,10 +1,8 @@
-<input?php
-ob_start();
+<?php ob_start();
 session_start();
 require('../auth.php');
 require_once('../database/dao.php');
-$dao = new DAO();
-
+$dao = new DAO(); 
 ?>
 
 
@@ -142,21 +140,17 @@ $dao = new DAO();
 
             <div class="column">
                 <h4> Name </h4>
-                <input name="sprintName" id="sprintName" class="form-control"
-                     required>
-    </br>
-    
-                <h4> Default Password </h4>
-                <input type="password" class="form-control" id="password" name="user_password" required>  
-            </div>
+                <input name="sprintName" id="sprintName" class="form-control" required>
+                </br>
 
+                <h4> Default Password </h4>
+                <input type="password" class="form-control" id="password" name="user_password" required>
+            </div>
 
             <div class="column" style="margin-left:20px;">
                 <h4> Email </h4>
                 <input type="email" class="form-control" id="email" name="user_email" required>
             </div>
-
-
         </div>
 
         <!-- Footer with button-->
@@ -165,79 +159,7 @@ $dao = new DAO();
         </div>
     </form>
     </div>
-    <script>
-        function changeBg() {
-            const select = document.getElementById("status");
-            const val = select.value;
-            select.classList.remove("bg-danger", "bg-warning", "bg-success");
-            if (val === 'Not Started') {
-                select.classList.add('bg-danger');
-            } else if (val === 'In Progress') {
-                select.classList.add('bg-warning');
 
-            } else if (val === 'Completed') {
-                select.classList.add('bg-success');
-            }
-        }
-
-        // Get all card elements
-        const cards = document.querySelectorAll('.card');
-        const selectedTasksInput = document.getElementById('selectedTasks');
-
-        // Add event listener to each card
-        cards.forEach(card => {
-            card.addEventListener('click', () => {
-                const checkbox = card.querySelector('.task-checkbox');
-
-                // Toggle the checkbox state and update the card selection
-                checkbox.checked = !checkbox.checked;
-                card.classList.toggle('selected', checkbox.checked); // Reflect the state in the card
-
-                updateSelectedTasks();
-            });
-        });
-
-        function updateSelectedTasks() {
-            const selectedTasks = [];
-            const checkboxes = document.querySelectorAll('.task-checkbox:checked');
-
-            checkboxes.forEach(checkbox => {
-                selectedTasks.push(checkbox.value);
-            });
-
-            // Update the hidden input with the selected task IDs
-            document.getElementById('selectedTasks').value = selectedTasks.join(',');
-        }
-
-        // Validation checks the date
-        document.querySelector('form').addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent default form submission
-
-            let isValid = true; // Flag for overall validity
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-
-            // Clear previous error messages
-            document.getElementById('startDateError').style.display = 'none';
-            document.getElementById('startDate').style.borderColor = '';
-            document.getElementById('endDate').style.borderColor = '';
-
-            // Validate dates
-            if (startDate >= endDate) {
-                isValid = false;
-                document.getElementById('startDateError').style.display = 'block';
-                document.getElementById('startDate').style.borderColor = 'red';
-                document.getElementById('endDate').style.borderColor = 'red';
-            }
-
-            // If valid, submit the form
-            if (isValid) {
-                this.submit();
-            }
-        });
-
-
-    </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
