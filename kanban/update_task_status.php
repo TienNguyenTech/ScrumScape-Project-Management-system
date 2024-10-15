@@ -10,6 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $dao = new DAO();
     $dao->updateTaskStatus($taskId, $newStatus);
 
+    if($newStatus == "Completed") {
+        $dao->updateTaskCompletionDate($taskId);
+    }
+
     echo json_encode(['success' => true]);
 } else {
     echo json_encode(['success' => false, 'message' => 'Invalid request']);

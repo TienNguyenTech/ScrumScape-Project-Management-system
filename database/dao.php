@@ -407,6 +407,20 @@ class dao
     }
 
 
+    public function updateTaskCompletionDate($taskId) {
+        try {
+            $currentDate = date('Y-m-d');
+
+            $this->_query = "UPDATE task SET completion_date = ? WHERE task_id = ?";
+            $this->_stmt = $this->_db_handle->prepare($this->_query);
+            $this->_stmt->execute([$currentDate, $taskId]);
+
+            return true; // Indicate success
+        } catch (Exception $e) {
+            $this->_error = $e->getMessage();
+            return null;
+        }
+    }
 
 
 
