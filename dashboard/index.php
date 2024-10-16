@@ -327,7 +327,7 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
                     }
 
                     .pic-blank-space {
-                        background-image: url("assets/login-bg.png"), url("https://www.transparenttextures.com/patterns/water.png");
+                        /* background-image: url("assets/login-bg.png"), url("https://www.transparenttextures.com/patterns/water.png"); */
                         background-size: cover, 200px 200px;
                         /* Main image + water texture */
                         background-position: center, 0% 50%;
@@ -390,6 +390,29 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
                         animation: ripple 10s infinite linear;
                         margin: 10px 20px;
                         z-index: 1;
+                    }
+                </style>
+
+                <style>
+                    body, html {
+            height: 100%; /* Đảm bảo body và html chiếm toàn bộ chiều cao */
+            margin: 0; /* Bỏ margin mặc định */
+        }
+                    /* Main background */
+                    main {
+                        background-image: url("assets/login-bg.png"), url("https://www.transparenttextures.com/patterns/water.png");
+                        background-size: cover, 200px 200px;
+                        /* Make the water texture larger */
+                        background-position: center, 0% 50%;
+                        /* Center the main image, position water texture */
+                        position: relative; 
+                        /* Relative background */
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        z-index: 0;
+                        /* Background below other elements */
                     }
                 </style>
 
