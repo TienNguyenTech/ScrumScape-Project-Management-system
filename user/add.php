@@ -155,27 +155,27 @@ require_once("../dashboard/navbar.php");
 
         <div class="column" style="margin-left:-50px;">
             <h1> Create New Team Member </h1>
-            <p> Add a new team member into a group. </p>
+            <p style="color:black;"> Add a new team member into group. </p>
         </div>
 
         <div class="column">
-            <h4> Username </h4>
+            <h4 style="color:black;"> Username </h4>
             <input name="user_name" id="user_name" class="form-control" required>
-            <h4> Email </h4>
+            <h4 style="color:black;"> Email </h4>
             <input type="email" class="form-control" id="user_email" name="user_email" required>
-            <h4> Default Password </h4>
+            <h4 style="color:black;"> Default Password </h4>
             <input type="password" class="form-control" id="user_password" name="user_password" required>
         </div>
 
         <div class="column" style="margin-left:20px;">
-            <h4> First Name </h4>
+            <h4 style="color:black;"> First Name </h4>
             <input name="fName" id="fName" class="form-control" required>
-            <h4> Last Name </h4>
+            <h4 style="color:black;"> Last Name </h4>
             <input name="lName" id="lName" class="form-control" required>
 
             <div style="display: flex; align-items: center;" class="mt-5">
                 <input type="checkbox" name="isAdmin" id="isAdmin" style="transform: scale(1.5); margin-left: 8px">
-                <h4 style="margin: 0; "> Admin? </h4>
+                <h4 style="margin: 0; color:black; "> Admin? </h4>
             </div>
         </div>
 
