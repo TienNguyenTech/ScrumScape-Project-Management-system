@@ -185,7 +185,8 @@ $tasks = $dao->getTasksBySprintId($sprintId);
         <h1 style="color:black; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"><?= $currentSprint->sprint_name ?></h1>
         <p style="color:black; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);">Date:
             <?= date('d/m/Y', strtotime($currentSprint->start_date)) ?> to
-            <?= date('d/m/Y', strtotime($currentSprint->end_date)) ?></p>
+            <?= date('d/m/Y', strtotime($currentSprint->end_date)) ?>
+        </p>
     </div>
 
 
@@ -242,6 +243,21 @@ $tasks = $dao->getTasksBySprintId($sprintId);
                 <?php endif; ?>
             <?php endforeach; ?>
         </div>
+    </div>
+    <style>
+        .footer {
+            display: flex;
+            margin-top: 50px;
+            justify-content: center;
+        }
+
+        .custom-btn {
+                background-color: #1F6190;
+                color: white;
+            }
+    </style>
+    <div class="footer">
+        <button class="btn custom-btn" onclick="location.reload();">Update Burndown Chart</button>
     </div>
 
     <div class="mt-4">
