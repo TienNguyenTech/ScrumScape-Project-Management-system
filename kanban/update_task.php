@@ -128,7 +128,7 @@ if ($task) {
 
             .sub-header h4 {
                 font-family: "Montserrat";
-                color: #6F7482;
+                color: black;
                 font-weight: light;
                 font-size: 15px;
             }
@@ -264,19 +264,21 @@ if ($task) {
                 <div style="width:75%;">
 
                     <!-- Fields -->
-                    <div class="mt-5" style="padding: 50px 100px 0px 200px;">
-                        <h2 class="main-header"> Task Name </h2>
+                    <div class="mt-5" style="padding: 5px 150px 0px 150px;">
+                    <h1> Update Task </h1>
+                    <br>
+                        <h2 class="main-header" style="color:black;"> Task Name </h2>
                         <input name="taskName" id="taskName" class="form-control main-field" required type="text"
                             placeholder="Insert task name..." value="<?php echo htmlspecialchars($taskName); ?>">
 
-                        <h2 class="main-header mt-5"> Task Description </h2>
+                        <h2 class="main-header mt-5" style="color:black;"> Task Description </h2>
                         <textarea name="taskDesc" id="taskDesc" class="form-control main-field" rows="8"
                             style="resize: none;"
                             placeholder="Insert description..."><?php echo htmlspecialchars($taskDesc); ?></textarea>
 
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <div style="width: 25%">
-                                <h2 class="main-header">Assign To</h2>
+                                <h2 class="main-header" style="color:black;">Assign To</h2>
                                 <select name="assignee" id="assignee" class="form-control form-control-sm assign-to"
                                     style="margin-top: 5px">
                                     <option value="<?= NULL ?>" <?= $currentAssigneeId === NULL ? 'selected' : '' ?>>None
