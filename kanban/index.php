@@ -306,7 +306,6 @@ $tasks = $dao->getTasksBySprintId($sprintId);
                                             "field": "completion_date",
                                             "type": "temporal",
                                             "title": "Date",
-                                            "timeUnit": "day",   // Ensures daily increments
                                             "axis": {
                                                 "grid": false,  // Removes the X-axis line
                                                 "ticks": false,    // Removes the X-axis ticks,
