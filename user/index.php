@@ -464,10 +464,12 @@ require_once("../dashboard/navbar.php");
                                         "field": "date",
                                         "type": "temporal",
                                         "title": "Date",
+                                        "timeUnit": "day",   // Ensures daily increments
                                         "axis": {
                                             "grid": false,  // Removes the X-axis grid
                                             "ticks": false,  // Removes the X-axis ticks
-                                            "format": "%d/%m"  // Formats date as dd/mm  
+                                            "format": "%d/%m",  // Formats date as dd/mm 
+                                            "tickCount": "day" // Increments by one day 
                                         }
                                     },
                                     "y": {
