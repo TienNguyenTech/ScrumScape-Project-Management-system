@@ -267,137 +267,14 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
                         </table>
                     </div>
                 </div>
-                <!-- 
-                <style>
-                    /* Add white space and center the image with a fade-in animation */
-                    .pic-blank-space {
-                        background-image: url("assets/login-bg.png");
-                        background-size: cover;
-                        /* Ensures the image covers the entire div */
-                        background-position: center;
-                        padding: 20px;
-                        /* White space around the image */
-                        background-color: white;
-                        /* The white background */
-                        border-radius: 15px;
-                        /* Rounded corners */
-                        width: 300px;
-                        height: 200px;
-                        margin: 20px auto;
-                        /* Center the div */
-                        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-                        /* Subtle shadow */
-
-                        /* Animation */
-                        opacity: 0;
-                        animation: fadeIn 2s forwards;
-                    }
-
-                    /* Fade-in animation */
-                    @keyframes fadeIn {
-                        to {
-                            opacity: 1;
-                        }
-                    }
-
-                    /* Add hover animation for a zoom-in effect */
-                    .pic-blank-space:hover {
-                        transform: scale(1.05);
-                        /* Slight zoom-in on hover */
-                        transition: transform 0.3s ease;
-                    }
-                </style>
-
-                <div class="tasks pic-blank-space"></div> -->
 
                 <style>
-                    /* Create the water ripple effect */
-                    @keyframes ripple {
-                        0% {
-                            background-position: 0% 50%;
-                        }
-
-                        50% {
-                            background-position: 100% 50%;
-                        }
-
-                        100% {
-                            background-position: 0% 50%;
-                        }
+                    body,
+                    html {
+                        height: 100%;
+                        margin: 0;
                     }
 
-                    .pic-blank-space {
-                        /* background-image: url("assets/login-bg.png"), url("https://www.transparenttextures.com/patterns/water.png"); */
-                        background-size: cover, 200px 200px;
-                        /* Main image + water texture */
-                        background-position: center, 0% 50%;
-                        /* Position of water texture */
-                        padding: 20px;
-                        background-color: white;
-                        border-radius: 15px;
-                        width: 300px;
-                        height: 200px;
-                        /* margin: 20px auto; */
-                        margin-left: -200px;
-                        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-
-                        /* Water animation */
-                        animation: ripple 10s infinite linear;
-                    }
-
-                    /* Add a tilt effect for 3D-like perspective */
-                    .pic-blank-space:hover {
-                        transform: perspective(1000px) rotateX(5deg) rotateY(5deg);
-                        transition: transform 0.5s ease;
-                    }
-
-                    /* .pic-blank-space::before {
-                        content: '';
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        right: 0;
-                        bottom: 0;
-                        background-image: url("assets/login-bg.png");
-                        background-size: cover;
-                        background-position: center;
-                        filter: blur(8px); */
-                    /* Adjust blur strength here */
-                    /* border-radius: 15px; */
-                    /* Match the border-radius of the parent */
-                    /* z-index: 0; */
-                    /* Keep it behind the text */
-                    /* opacity: 0.5; */
-                    /* Adjust the opacity for effect */
-                    /* } */
-
-                    #date-time {
-                        color: #333;
-                        /* Text color */
-                        font-size: 18px;
-                        font-family: 'Lexend', sans-serif;
-                        text-align: center;
-                        position: absolute;
-                        top: 40px;
-                        /* Adjust this based on where you want the date-time to appear */
-                        left: 0;
-                        right: 0;
-                        /* Add a frame with color #1f6190 */
-                        border: 8px solid #1f6190;
-                        /* Frame with the specified color */
-                        position: relative;
-                        /* For absolute positioning inside */
-                        animation: ripple 10s infinite linear;
-                        margin: 10px 20px;
-                        z-index: 1;
-                    }
-                </style>
-
-                <style>
-                    body, html {
-            height: 100%; /* Đảm bảo body và html chiếm toàn bộ chiều cao */
-            margin: 0; /* Bỏ margin mặc định */
-        }
                     /* Main background */
                     main {
                         background-image: url("assets/login-bg.png"), url("https://www.transparenttextures.com/patterns/water.png");
@@ -405,7 +282,7 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
                         /* Make the water texture larger */
                         background-position: center, 0% 50%;
                         /* Center the main image, position water texture */
-                        position: relative; 
+                        position: relative;
                         /* Relative background */
                         top: 0;
                         left: 0;
@@ -416,10 +293,89 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
                     }
                 </style>
 
-                <div class="pic-blank-space">
-                    <div id="date-time"></div> <!-- Placeholder for dynamic date and time -->
+                <style>
+                    /* Basic styles for the calendar */
+                    .calendar {
+                        display: inline-block;
+                        font-family: 'Lexend', sans-serif;
+                        background-color: white;
+                        padding: 20px;
+                        border-radius: 12px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                        width: 310px;
+                        text-align: center;
+                        position: relative;
+                        left: -100px;
+                        top: -10px;
+                    }
+
+                    .calendar h3 {
+                        text-align: center;
+                        margin: 0;
+                        padding: 5px;
+                    }
+
+                    .calendar .day {
+                        display: inline-block;
+                        width: 30px;
+                        height: 30px;
+                        line-height: 30px;
+                        text-align: center;
+                        margin: 2px;
+                        border-radius: 50%;
+                        color: #333;
+                    }
+
+                    .calendar .today {
+                        background-color: #007bff;
+                        color: white;
+                    }
+
+                    .calendar .day-name {
+                        font-weight: bold;
+                        width: 40px;
+                        display: inline-block;
+                        text-align: center;
+                        margin: 0;
+                        padding: 0;
+                    }
+                </style>
+                <div class="calendar">
+                    <h3 id="calendar-title"></h3>
+                    <div id="calendar-days"></div>
+                    <div class="button-container">
+                        <button onclick="previousMonth()" class="custom-btn1">Previous</button>
+                        <button onclick="nextMonth()" class="custom-btn1">Next</button>
+                    </div>
                 </div>
 
+                <style>
+        .custom-btn1 {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50; /* Green background */
+            color: white; /* White text */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+        }
+
+        .custom-btn1:hover {
+            background-color: #45a049; /* Darker green on hover */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+
+        .button-container {
+            display: flex; /* Align buttons inline */
+            justify-content: center; /* Center align the buttons */
+            margin-top: 20px; /* Space above the buttons */
+        }
+        #calendar-title {
+    padding-bottom: 20px; /* Adjust the value as needed */
+}
+
+    </style>
             </div>
 
             <div class="m-5">
@@ -431,22 +387,74 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
         </div>
     </main>
     <script>
-        function updateTime() {
-            const now = new Date();
+        const calendarTitle = document.getElementById('calendar-title');
+        const calendarDays = document.getElementById('calendar-days');
 
-            // Format the date to dd/mm/YY
-            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-            const date = now.toLocaleDateString('en-GB', options); // Use 'en-GB' for dd/mm/YY format
-            const time = now.toLocaleTimeString(); // Keeps the default time format
+        let currentDate = new Date();
 
-            document.getElementById('date-time').innerHTML = `${date} <br> ${time}`;
+        function generateCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+
+            // First day of the month
+            const firstDayOfMonth = new Date(year, month, 1);
+            // Last day of the month
+            const lastDayOfMonth = new Date(year, month + 1, 0);
+            // Last day of the previous month
+            const lastDayOfPrevMonth = new Date(year, month, 0);
+
+            // Set the calendar title
+            calendarTitle.innerText = `${firstDayOfMonth.toLocaleString('default', { month: 'long' })} ${year}`;
+
+            // Clear previous calendar days
+            calendarDays.innerHTML = '';
+
+            // Calculate leading spaces
+            const leadingSpaces = firstDayOfMonth.getDay();
+
+            // Add days from the previous month
+            for (let i = leadingSpaces; i > 0; i--) {
+                const day = lastDayOfPrevMonth.getDate() - i + 1;
+                const dayElement = document.createElement('div');
+                dayElement.className = 'day';
+                dayElement.innerText = day;
+                dayElement.style.color = 'lightgray'; // Style for previous month days
+                calendarDays.appendChild(dayElement);
+            }
+
+            // Add days of the current month
+            for (let day = 1; day <= lastDayOfMonth.getDate(); day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'day';
+                if (day === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()) {
+                    dayElement.classList.add('today'); // Highlight today
+                }
+                dayElement.innerText = day;
+                calendarDays.appendChild(dayElement);
+            }
+
+            // Calculate trailing spaces
+            const trailingSpaces = 42 - (leadingSpaces + lastDayOfMonth.getDate());
+            for (let i = 0; i < trailingSpaces; i++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'day';
+                dayElement.style.color = 'lightgray'; // Style for next month days
+                calendarDays.appendChild(dayElement);
+            }
         }
 
+        function previousMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            generateCalendar();
+        }
 
-        // Call the function immediately to avoid waiting for the first interval
-        updateTime();
-        // Update the date and time every second (1000 milliseconds)
-        setInterval(updateTime, 1000);
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            generateCalendar();
+        }
+
+        // Initial call to generate the calendar
+        generateCalendar();
     </script>
 
 </body>
