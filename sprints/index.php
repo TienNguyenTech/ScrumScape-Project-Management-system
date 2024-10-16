@@ -26,12 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sprint_id'])) {
     unset($_POST['sprint_id']);
 }
 
-
-
-
-
-
-
 function formatDate($date) {
     $datetime = new DateTime($date);
     return $datetime->format('d/m/Y');
