@@ -92,7 +92,7 @@ $tasks = $dao->getTasksBySprintId($sprintId);
         }
 
         .closed {
-            background-color: #78e08f;
+            background-color: #66b8d9;
             margin-left:-100px;
         }
 
