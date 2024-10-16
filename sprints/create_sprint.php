@@ -218,6 +218,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="footer">
             <button type="submit" class="btn custom-btn" id="createButton" style="position:relative; left:-20px;">Create</button>
         </div>
+        
     </form>
     </div>
     <script>
