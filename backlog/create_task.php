@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .main-header {
             font-size: 18px;
-            color: #6F7482;
+            color: black;
             font-family: "Montserrat"
             margin-bottom: 100px;
         }
@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .sub-header h4 {
             font-family: "Montserrat";
-            color: #6F7482;
+            color: black;
             font-weight: light;
             font-size: 15px;
         }
@@ -140,7 +140,7 @@ require_once("../dashboard/navbar.php");
         <div style="width:75%;">
 
             <!-- Fields -->
-            <div class="mt-5" style="padding: 50px 100px 0px 200px;">
+            <div class="mt-5" style="padding: 50px 150px 0px 150px;">
                 <h2 class="main-header" > Task Name </h2>
                 <input name="taskName" id="taskName" class="form-control main-field" required type="text" placeholder="Insert task name...">
 
