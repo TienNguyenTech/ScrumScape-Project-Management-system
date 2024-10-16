@@ -67,9 +67,9 @@ $tasks = $dao->getTasksBySprintId($sprintId);
 
         .column {
             background-color: #ffffff;
-            padding: 10px;
+            padding: 0 20px;
             border-radius: 8px;
-            width: 30%;
+            width: 25%;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
 
@@ -84,6 +84,7 @@ $tasks = $dao->getTasksBySprintId($sprintId);
 
         .to-do {
             background-color: #f57c7c;
+            margin-right: -100px;
         }
 
         .in-dev {
@@ -92,6 +93,7 @@ $tasks = $dao->getTasksBySprintId($sprintId);
 
         .closed {
             background-color: #78e08f;
+            margin-left:-100px;
         }
 
         .task-card {
