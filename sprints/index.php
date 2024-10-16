@@ -278,7 +278,7 @@ require_once("../dashboard/navbar.php");
                     $color = '';
                     switch (strtolower($sprint->status)) {
                         case 'completed':
-                            $color = '#28a745'; // Green
+                            $color = '#5598d4'; // Blue
                             break;
                         case 'in progress':
                             $color = '#ffc107'; // Yellow
