@@ -158,22 +158,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php
     require_once("../dashboard/navbar.php");
     ?>
-    <form action="create_sprint.php" class="container mt-5" method='POST'>
+    
+    <form action="create_sprint.php" class="container mt-5" method='POST' style="position:relative; top:-70px;">
 
         <!-- Main body -->
         <div class="content-container mt-5">
 
             <div class="column">
                 <h1> Create Sprint </h1>
-                <p> Create a new sprint and choose tasks. </p>
+                <p style="color:black;"> Create a new sprint and choose tasks. </p>
             </div>
 
             <div class="column">
-                <h4> Sprint Name </h4>
+                <h4 style="color:black;"> Sprint Name </h4>
                 <textarea name="sprintName" id="sprintName" class="form-control form-control-sm"
                     style="resize: none; font-size: 1rem" rows="4" required></textarea>
 
-                <h4>Start Date</h4>
+                <h4 style="color:black;">Start Date</h4>
                 <input type="date" name="startDate" id="startDate" class="form-control" required>
                 <div id="startDateError" class="error-message" style="color: red; display: none;">
                     <p style="color:red; display: flex; align-items: center; margin: 0;">
@@ -183,16 +184,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </p>
                 </div>
 
-                <h4>End Date</h4>
+                <h4 style="color:black;">End Date</h4>
                 <input type="date" name="endDate" id="endDate" class="form-control" required>
             </div>
 
 
 
             <div class="column">
-                <h4> Assign Task </h4>
+                <h4 style="color:black;"> Assign Task </h4>
 
-                <div class="scrollable-box">
+                <div class="scrollable-box" style="background-color:white;">
                     <?php foreach ($tasks as $task): ?>
                         <div class="card" data-task-id="<?= htmlspecialchars($task->task_id); ?>"
                             style="margin: 0; border: 1px solid #eee; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);">
@@ -212,10 +213,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
         </div>
-
+<br>
         <!-- Footer with button-->
         <div class="footer">
-            <button type="submit" class="btn custom-btn" id="createButton">Create</button>
+            <button type="submit" class="btn custom-btn" id="createButton" style="position:relative; left:-20px;">Create</button>
         </div>
     </form>
     </div>

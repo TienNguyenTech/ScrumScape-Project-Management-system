@@ -138,9 +138,13 @@ require_once("../dashboard/navbar.php");
     <form class="body1" method = 'post'>
 
         <div style="width:75%;">
+        
 
+            
             <!-- Fields -->
-            <div class="mt-5" style="padding: 50px 150px 0px 150px;">
+            <div class="mt-5" style="padding: 5px 150px 0px 150px;">
+            <h1> Create Sprint </h1>
+            <br>
                 <h2 class="main-header" > Task Name </h2>
                 <input name="taskName" id="taskName" class="form-control main-field" required type="text" placeholder="Insert task name...">
 
