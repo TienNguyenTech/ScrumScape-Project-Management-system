@@ -277,7 +277,7 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
 
                     /* Main background */
                     main {
-                        background-image: url("assets/login-bg.png"), url("https://www.transparenttextures.com/patterns/water.png");
+                        /* background-image: url(), url("https://www.transparenttextures.com/patterns/water.png"); */
                         background-size: cover, 200px 200px;
                         /* Make the water texture larger */
                         background-position: center, 0% 50%;

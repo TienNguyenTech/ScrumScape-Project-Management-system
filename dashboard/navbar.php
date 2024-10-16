@@ -28,13 +28,13 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
 
     <style>
         body {
-            background-image: url("../assets/login-bg.png"), url("https://www.transparenttextures.com/patterns/water.png");
+            /* background-image: url("../assets/login-bg.png"), url("https://www.transparenttextures.com/patterns/water.png");
             background-size: cover, 200px 200px;
             /* Make the water texture larger */
             background-position: center, 0% 50%;
             /* Center the main image, position water texture */
             position: relative;
-            /* Relative background */
+            Relative background */
             top: 0;
             left: 0;
             right: 0;
