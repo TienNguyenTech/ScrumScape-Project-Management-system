@@ -362,13 +362,13 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
                         background-size: cover;
                         background-position: center;
                         filter: blur(8px); */
-                        /* Adjust blur strength here */
-                        /* border-radius: 15px; */
-                        /* Match the border-radius of the parent */
-                        /* z-index: 0; */
-                        /* Keep it behind the text */
-                        /* opacity: 0.5; */
-                        /* Adjust the opacity for effect */
+                    /* Adjust blur strength here */
+                    /* border-radius: 15px; */
+                    /* Match the border-radius of the parent */
+                    /* z-index: 0; */
+                    /* Keep it behind the text */
+                    /* opacity: 0.5; */
+                    /* Adjust the opacity for effect */
                     /* } */
 
                     #date-time {
@@ -410,11 +410,15 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
     <script>
         function updateTime() {
             const now = new Date();
-            const date = now.toLocaleDateString();
-            const time = now.toLocaleTimeString();
+
+            // Format the date to dd/mm/YY
+            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            const date = now.toLocaleDateString('en-GB', options); // Use 'en-GB' for dd/mm/YY format
+            const time = now.toLocaleTimeString(); // Keeps the default time format
 
             document.getElementById('date-time').innerHTML = `${date} <br> ${time}`;
         }
+
 
         // Call the function immediately to avoid waiting for the first interval
         updateTime();
