@@ -267,7 +267,7 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
                         </table>
                     </div>
                 </div>
-
+                <!-- 
                 <style>
                     /* Add white space and center the image with a fade-in animation */
                     .pic-blank-space {
@@ -308,7 +308,94 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
                     }
                 </style>
 
-                <div class="tasks pic-blank-space"></div>
+                <div class="tasks pic-blank-space"></div> -->
+
+                <style>
+                    /* Create the water ripple effect */
+                    @keyframes ripple {
+                        0% {
+                            background-position: 0% 50%;
+                        }
+
+                        50% {
+                            background-position: 100% 50%;
+                        }
+
+                        100% {
+                            background-position: 0% 50%;
+                        }
+                    }
+
+                    .pic-blank-space {
+                        background-image: url("assets/login-bg.png"), url("https://www.transparenttextures.com/patterns/water.png");
+                        background-size: cover, 200px 200px;
+                        /* Main image + water texture */
+                        background-position: center, 0% 50%;
+                        /* Position of water texture */
+                        padding: 20px;
+                        background-color: white;
+                        border-radius: 15px;
+                        width: 300px;
+                        height: 200px;
+                        /* margin: 20px auto; */
+                        margin-left: -200px;
+                        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+
+                        /* Water animation */
+                        animation: ripple 10s infinite linear;
+                    }
+
+                    /* Add a tilt effect for 3D-like perspective */
+                    .pic-blank-space:hover {
+                        transform: perspective(1000px) rotateX(5deg) rotateY(5deg);
+                        transition: transform 0.5s ease;
+                    }
+
+                    /* .pic-blank-space::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background-image: url("assets/login-bg.png");
+                        background-size: cover;
+                        background-position: center;
+                        filter: blur(8px); */
+                        /* Adjust blur strength here */
+                        /* border-radius: 15px; */
+                        /* Match the border-radius of the parent */
+                        /* z-index: 0; */
+                        /* Keep it behind the text */
+                        /* opacity: 0.5; */
+                        /* Adjust the opacity for effect */
+                    /* } */
+
+                    #date-time {
+                        color: #333;
+                        /* Text color */
+                        font-size: 18px;
+                        font-family: 'Lexend', sans-serif;
+                        text-align: center;
+                        position: absolute;
+                        top: 40px;
+                        /* Adjust this based on where you want the date-time to appear */
+                        left: 0;
+                        right: 0;
+                        /* Add a frame with color #1f6190 */
+                        border: 8px solid #1f6190;
+                        /* Frame with the specified color */
+                        position: relative;
+                        /* For absolute positioning inside */
+                        animation: ripple 10s infinite linear;
+                        margin: 10px 20px;
+                        z-index: 1;
+                    }
+                </style>
+
+                <div class="pic-blank-space">
+                    <div id="date-time"></div> <!-- Placeholder for dynamic date and time -->
+                </div>
 
             </div>
 
@@ -320,6 +407,21 @@ $user = $dao->getUserByUsername($_SESSION['user_id']);
 
         </div>
     </main>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const date = now.toLocaleDateString();
+            const time = now.toLocaleTimeString();
+
+            document.getElementById('date-time').innerHTML = `${date} <br> ${time}`;
+        }
+
+        // Call the function immediately to avoid waiting for the first interval
+        updateTime();
+        // Update the date and time every second (1000 milliseconds)
+        setInterval(updateTime, 1000);
+    </script>
+
 </body>
 
 </html>
