@@ -53,7 +53,4 @@ Before you can run this project, ensure that you have the following installed on
 
 ## Contact
 
-If you encounter any issues or have questions, please reach out to:
-
-**Aditya Patel** - Full Stack Developer  
-[apat0080@student.monash.edu](mailto:apat0080@student.monash.edu)
+If you encounter any issues or have questions, please reach out to Developement Team
