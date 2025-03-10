@@ -1,6 +1,6 @@
 # PHP Project Setup Guide
 
-## Prerequisites hello as
+## Prerequisites
 
 Before you can run this project, ensure that you have the following installed on your system:
 
@@ -45,6 +45,10 @@ Before you can run this project, ensure that you have the following installed on
 
 5. **Using the App**:
     - You should now see the application running in your browser. Follow the on-screen instructions to use the app.
+
+## Authentication:
+- Admin Login: admin, pass: admin12345
+- Team member Login: tien, pass: tien12345
 
 ## Troubleshooting
 
